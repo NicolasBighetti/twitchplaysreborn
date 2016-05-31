@@ -1,5 +1,4 @@
-#include "Networking.h"
-
+#include "TwitchTest.h"
 #include "TwitchTestGameMode.generated.h"
 
 UCLASS()
@@ -7,21 +6,13 @@ class TWITCHTEST_API ATwitchTestGameMode : public AGameMode
 {
 	GENERATED_BODY()
 
+private:
+	FRunnableThread* TwitchThread = NULL;
+
 public:
 	virtual void BeginPlay() override;
-
-private:
-	FSocket* ListenerSocket;
-	FSocket* ConnectionSocket;
-	FTimerHandle timerHandle;
-
-	void SocketListener();
-
-	void SendLogin();
-
-	bool SendString(FString msg);
-
-	void ParseMessage(FString msg);
-
-	void ReceivedChatMessage(FString UserName, FString message);
+	virtual void BeginDestroy() override;
 };
+
+// Callback when message received
+void ReceivedChatMessage(FString userName, FString message);
