@@ -10,10 +10,11 @@ class TWITCHTEST_API Commande
 public:
 
 	Commande(FString Cmd, void(*fct)());
+	void execute();
 
 private:
 
 	FString Cmd;
-	void *Fct;
+	void (*Fct)();
 
 };

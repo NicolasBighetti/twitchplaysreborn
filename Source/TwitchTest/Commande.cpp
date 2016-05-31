@@ -9,3 +9,9 @@ Commande::Commande(FString cmd, void (*fct)()) {
 	Fct = fct;
 }
 
+void Commande::execute() {
+
+	(*Fct)();
+}
+
+
