@@ -3,11 +3,20 @@
 
 #include "TwitchTestGameMode.h"
 
-#define _SERVER "irc.chat.twitch.tv"
-
 void ATwitchTestGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+
+	FIPv4Endpoint Endpoint(FIPv4Address(127, 0, 0, 1), 6667);
+	FSocket* ListenerSocket = FTcpSocketBuilder(TEXT("TwitchListener"))
+		.AsReusable()
+		.BoundToEndpoint(Endpoint)
+		.Listening(8);
+
+	int32 NewSize = 0;
+	ListenerSocket->SetReceiveBufferSize(2 * 1024 * 1024, NewSize);
+
+	GetWorldTimerManager().SetTimer(timerHandle, this, &ATwitchTestGameMode::SocketListener, 0.01, true);
 
 	SendLogin();
 }
@@ -36,7 +45,6 @@ void ATwitchTestGameMode::SocketListener()
 
 void ATwitchTestGameMode::ParseMessage(FString msg)
 {
-
 	TArray<FString> lines;
 	msg.ParseIntoArrayLines(lines);
 	for (FString fs : lines)
@@ -75,25 +83,20 @@ void ATwitchTestGameMode::ParseMessage(FString msg)
 void ATwitchTestGameMode::ReceivedChatMessage(FString UserName, FString message)
 {
 	UE_LOG(LogTemp, Warning, TEXT("%s: %s"), *UserName, *message);
-	SendString(TEXT("PRIVMSG #drymfr :Stop speak Kappa"));
 }
 
 void ATwitchTestGameMode::SendLogin()
 {
-	//On recupere les informations du serveur
-	auto ResolveInfo = ISocketSubsystem::Get()->GetHostByName(_SERVER);
-	
-	//while (!ResolveInfo->IsComplete());
-
+	auto ResolveInfo = ISocketSubsystem::Get()->GetHostByName("irc.twitch.tv");
+	while (!ResolveInfo->IsComplete());
 	if (ResolveInfo->GetErrorCode() != 0)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Couldn't resolve hostname."));
 		return;
 	}
 
-	//On recupere l'adresse IP
 	const FInternetAddr* Addr = &ResolveInfo->GetResolvedAddress();
-	uint32 OutIP;
+	uint32 OutIP = 0;
 	Addr->GetIp(OutIP);
 	int32 port = 6667;
 
@@ -101,22 +104,20 @@ void ATwitchTestGameMode::SendLogin()
 	addr->SetIp(OutIP);
 	addr->SetPort(port);
 
-	//On configure la socket
 	ListenerSocket = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->CreateSocket(NAME_Stream, TEXT("default"), false);
 
-	//On se connecte
 	bool connected = ListenerSocket->Connect(*addr);
-	if (connected)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Connected."));
+	if (connected) {
+		UE_LOG(LogTemp, Warning, TEXT("Connected"));
 	}
-	else {
+	else
+	{
 		UE_LOG(LogTemp, Warning, TEXT("Failed to connect."));
 		if (ListenerSocket)
 			ListenerSocket->Close();
 		return;
 	}
-	
+
 	//On active le bot et on rejoint un channel
 	SendString(TEXT("PASS oauth:22jwdnv3dqhmuc9t4wf6du0qq9q2td"));
 	SendString(TEXT("NICK drym_tv"));
@@ -128,11 +129,10 @@ void ATwitchTestGameMode::SendLogin()
 
 bool ATwitchTestGameMode::SendString(FString msg)
 {
-	
 	FString serialized = msg + TEXT("\r\n");
 	TCHAR *serializedChar = serialized.GetCharArray().GetData();
 	int32 size = FCString::Strlen(serializedChar);
 	int32 sent = 0;
-	
+
 	return ListenerSocket->Send((uint8*)TCHAR_TO_UTF8(serializedChar), size, sent);
 }

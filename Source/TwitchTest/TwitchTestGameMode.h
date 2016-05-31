@@ -1,13 +1,7 @@
-#pragma once
-
-#include "GameFramework/GameMode.h"
-#include "Runtime/Networking/Public/Networking.h"
+#include "Networking.h"
 
 #include "TwitchTestGameMode.generated.h"
 
-/**
-*
-*/
 UCLASS()
 class TWITCHTEST_API ATwitchTestGameMode : public AGameMode
 {
