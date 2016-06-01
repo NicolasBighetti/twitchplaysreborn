@@ -8,6 +8,9 @@
 #define SOCKET_HOST "irc.twitch.tv"
 #define SOCKET_PORT 6667
 
+// Initialize queue
+TQueue<FString> FTwitchMessageReceiver::MessagesQueue;
+
 bool FTwitchMessageReceiver::Init()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Twitch receiver: Init"));
@@ -177,4 +180,5 @@ bool FTwitchMessageReceiver::SendMessage(FString msg)
 void FTwitchMessageReceiver::ReceivedChatMessage(FString userName, FString message)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Chat message received-> %s: %s"), *userName, *message);
+	MessagesQueue.Enqueue(message);
 }

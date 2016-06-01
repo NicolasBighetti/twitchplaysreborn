@@ -20,6 +20,8 @@ private:
 	void ParseMessage(FString msg);
 
 public:
+	static TQueue<FString> MessagesQueue;
+
 	// Constructor
 	FTwitchMessageReceiver(FString _oAuth, FString _nickname, FString _channel)
 		: oAuth(_oAuth), nickname(_nickname), channel(_channel)
