@@ -17,11 +17,13 @@ private:
 
 	void SocketListener();
 
-	void SendLogin();
+	void SendLogin(FString oauth, FString UserName, FString channel);
 
 	bool SendString(FString msg);
 
 	void ParseMessage(FString msg);
 
 	void ReceivedChatMessage(FString UserName, FString message);
+
+	void ParseCommande(FString message);
 };

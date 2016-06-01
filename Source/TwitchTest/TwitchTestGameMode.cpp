@@ -2,6 +2,7 @@
 #include <string>
 
 #include "TwitchTestGameMode.h"
+#include "Camps.h"
 
 void ATwitchTestGameMode::BeginPlay()
 {
@@ -17,8 +18,8 @@ void ATwitchTestGameMode::BeginPlay()
 	ListenerSocket->SetReceiveBufferSize(2 * 1024 * 1024, NewSize);
 
 	GetWorldTimerManager().SetTimer(timerHandle, this, &ATwitchTestGameMode::SocketListener, 0.01, true);
-
-	SendLogin();
+	
+	SendLogin("oauth:22jwdnv3dqhmuc9t4wf6du0qq9q2td", "drym_tv", "#drymfr");
 }
 
 void ATwitchTestGameMode::SocketListener()
@@ -70,9 +71,12 @@ void ATwitchTestGameMode::ParseMessage(FString msg)
 					}
 				}
 				FString username;
-				FString tmp;
-				meta[0].Split(TEXT("!"), &username, &tmp);
+				//FString tmp;
+				//meta[0].Split(TEXT("!"), &username, &tmp);
 				ReceivedChatMessage(username, message);
+
+				ParseCommande(message);
+
 				continue;
 			}
 		}
@@ -85,7 +89,7 @@ void ATwitchTestGameMode::ReceivedChatMessage(FString UserName, FString message)
 	UE_LOG(LogTemp, Warning, TEXT("%s: %s"), *UserName, *message);
 }
 
-void ATwitchTestGameMode::SendLogin()
+void ATwitchTestGameMode::SendLogin(FString oauth, FString UserName, FString channel)
 {
 	auto ResolveInfo = ISocketSubsystem::Get()->GetHostByName("irc.twitch.tv");
 	while (!ResolveInfo->IsComplete());
@@ -119,12 +123,12 @@ void ATwitchTestGameMode::SendLogin()
 	}
 
 	//On active le bot et on rejoint un channel
-	SendString(TEXT("PASS oauth:22jwdnv3dqhmuc9t4wf6du0qq9q2td"));
-	SendString(TEXT("NICK drym_tv"));
-	SendString(TEXT("JOIN #drymfr"));
+	SendString(TEXT("PASS ")+oauth);
+	SendString(TEXT("NICK ")+UserName);
+	SendString(TEXT("JOIN ")+channel);
 
 	//On affiche dans le channel que le bot est bien active
-	SendString(TEXT("PRIVMSG #drymfr :Bot activated"));
+	SendString(TEXT("PRIVMSG "+channel+" :Bot activated"));
 }
 
 bool ATwitchTestGameMode::SendString(FString msg)
@@ -135,4 +139,13 @@ bool ATwitchTestGameMode::SendString(FString msg)
 	int32 sent = 0;
 
 	return ListenerSocket->Send((uint8*)TCHAR_TO_UTF8(serializedChar), size, sent);
+}
+
+void ATwitchTestGameMode::ParseCommande(FString msg) {
+
+	TArray<FString> parts;
+	msg.ParseIntoArray(parts, TEXT(" "));
+
+	FString cmd = parts[0];
+	UE_LOG(LogTemp, Warning, TEXT("Parsing : %s"), *cmd);
 }
