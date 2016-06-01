@@ -12,7 +12,6 @@ using namespace std;
 class TWITCHTEST_API Camps
 {
 public:
-	
 	void SetKeyword(Commande keyword);
 	void SetPseudo(FString pseudo);
 	void SetCommande(Commande commande);

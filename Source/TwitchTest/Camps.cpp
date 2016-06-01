@@ -3,6 +3,8 @@
 #include "TwitchTest.h"
 #include "Camps.h"
 
+
+
 void Camps::SetCommande(Commande cmd) {
 	commande = cmd;
 }
@@ -24,7 +26,7 @@ Commande Camps::GetCommandByKeyword(FString keyword)
 			return c;
 	}
 
-	return NULL;
+	return Commande("null", NULL);
 }
 
 void Camps::ExecuteCommand(FString keyword)
