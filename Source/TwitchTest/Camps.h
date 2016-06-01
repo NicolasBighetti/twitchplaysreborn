@@ -16,6 +16,8 @@ public:
 	void SetKeyword(Commande keyword);
 	void SetPseudo(FString pseudo);
 	void SetCommande(Commande commande);
+	Commande GetCommandByKeyword(FString keyword);
+	void ExecuteCommand(FString keyword);
 	
 private:
 
