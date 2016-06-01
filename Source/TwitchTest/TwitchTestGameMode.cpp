@@ -3,6 +3,7 @@
 
 #include "TwitchTestGameMode.h"
 #include "Camps.h"
+#include "ThreadRead.h"
 
 void ATwitchTestGameMode::BeginPlay()
 {
@@ -18,12 +19,17 @@ void ATwitchTestGameMode::BeginPlay()
 	ListenerSocket->SetReceiveBufferSize(2 * 1024 * 1024, NewSize);
 
 	GetWorldTimerManager().SetTimer(timerHandle, this, &ATwitchTestGameMode::SocketListener, 0.01, true);
-	
+	//lancement du thread qui lie la queue
+	FRunnable* thread = new ThreadRead(queue);
+	FRunnableThread* Thread = FRunnableThread::Create(thread, TEXT("FPrimeNumberWorker"), 0, TPri_BelowNormal);
 	SendLogin("oauth:22jwdnv3dqhmuc9t4wf6du0qq9q2td", "drym_tv", "#drymfr");
 }
 
 void ATwitchTestGameMode::SocketListener()
 {
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, "envoie de salut");
+	queue->push("salut");
 	TArray<uint8> ReceivedData;
 	uint32 Size;
 	bool Received = false;
@@ -123,12 +129,12 @@ void ATwitchTestGameMode::SendLogin(FString oauth, FString UserName, FString cha
 	}
 
 	//On active le bot et on rejoint un channel
-	SendString(TEXT("PASS ")+oauth);
-	SendString(TEXT("NICK ")+UserName);
-	SendString(TEXT("JOIN ")+channel);
+	SendString(TEXT("PASS ") + oauth);
+	SendString(TEXT("NICK ") + UserName);
+	SendString(TEXT("JOIN ") + channel);
 
 	//On affiche dans le channel que le bot est bien active
-	SendString(TEXT("PRIVMSG "+channel+" :Bot activated"));
+	SendString(TEXT("PRIVMSG " + channel + " :Bot activated"));
 }
 
 bool ATwitchTestGameMode::SendString(FString msg)
