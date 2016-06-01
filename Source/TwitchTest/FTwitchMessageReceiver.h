@@ -11,6 +11,7 @@ class TWITCHTEST_API FTwitchMessageReceiver : public FRunnable
 private:
 	FSocket* ListenerSocket;
 	FString oAuth, nickname, channel;
+	bool receiveMessage = true;
 	//ReceivedTwitchMessageCallback* receivedMessageCallback = NULL;
 
 	// Twitch Connection/Reading
@@ -24,8 +25,9 @@ public:
 		: oAuth(_oAuth), nickname(_nickname), channel(_channel)
 	{}
 
-	// Send message in channel
+	// Send and receive message in channel
 	bool SendMessage(FString msg);
+	void ReceivedChatMessage(FString userName, FString message);
 
 	// Runnable interface
 	virtual bool Init() override;

@@ -4,41 +4,39 @@
 #include "Networking.h"
 #include "FTwitchMessageReceiver.h"
 
+#define SOCKET_NAME "TwitchListener"
+#define SOCKET_HOST "irc.twitch.tv"
+#define SOCKET_PORT 6667
+
 bool FTwitchMessageReceiver::Init()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Twitch thread: Init"));
+	UE_LOG(LogTemp, Warning, TEXT("Twitch receiver: Init"));
 
-	// Initialize listener socket
-	FIPv4Endpoint Endpoint(FIPv4Address(127, 0, 0, 1), 6667);
-	ListenerSocket = FTcpSocketBuilder(TEXT("TwitchListener"))
-		.AsReusable()
-		.BoundToEndpoint(Endpoint)
-		.Listening(8);
-
-	// Configure receiver socket
-	int32 NewSize = 0;
-	ListenerSocket->SetReceiveBufferSize(2 * 1024 * 1024, NewSize);
+	// Nothing to do
 
 	return true;
 }
 
 uint32 FTwitchMessageReceiver::Run()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Twitch thread: Run"));
+	UE_LOG(LogTemp, Warning, TEXT("Twitch receiver: Run"));
 
 	// Connect to twitch
 	Connect();
 
 	// Permanently receive messages
-	while (true)
+	while (receiveMessage)
 		ReceiveMessage();
+
+	return EXIT_SUCCESS;
 }
 
 void FTwitchMessageReceiver::Stop()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Twitch thread: Stop"));
+	UE_LOG(LogTemp, Warning, TEXT("Twitch receiver: Stop"));
 
 	// Close and destroy socket
+	receiveMessage = false;
 	ListenerSocket->Close();
 	ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->DestroySocket(ListenerSocket);
 }
@@ -48,7 +46,7 @@ void FTwitchMessageReceiver::Stop()
 void FTwitchMessageReceiver::Connect()
 {
 	// Resolve Twitch hostname
-	auto ResolveInfo = ISocketSubsystem::Get()->GetHostByName("irc.twitch.tv");
+	auto ResolveInfo = ISocketSubsystem::Get()->GetHostByName(SOCKET_HOST);
 	while (!ResolveInfo->IsComplete());
 
 	// Check host result
@@ -62,13 +60,13 @@ void FTwitchMessageReceiver::Connect()
 	const FInternetAddr* Addr = &ResolveInfo->GetResolvedAddress();
 	uint32 OutIP = 0;
 	Addr->GetIp(OutIP);
-	int32 port = 6667;
+	int32 port = SOCKET_PORT;
 
 	// Configure and create socket
 	TSharedRef<FInternetAddr> addr = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->CreateInternetAddr();
 	addr->SetIp(OutIP);
-	addr->SetPort(port);
-	ListenerSocket = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->CreateSocket(NAME_Stream, TEXT("default"), false);
+	addr->SetPort(SOCKET_PORT);
+	ListenerSocket = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->CreateSocket(NAME_Stream, TEXT(SOCKET_NAME), false);
 
 	// Try socket connection
 	bool connected = ListenerSocket->Connect(*addr);
@@ -90,8 +88,8 @@ void FTwitchMessageReceiver::Connect()
 	SendMessage(TEXT("NICK ") + nickname);
 	SendMessage(TEXT("JOIN ") + channel);
 
-	//On affiche dans le channel que le bot est bien active
-	//SendString(TEXT("PRIVMSG #drymfr :Bot activated"));
+	// Display a message to check the bot is online
+	SendMessage(TEXT("PRIVMSG ") + channel + TEXT(" :Bot activated <3"));
 }
 
 void FTwitchMessageReceiver::ReceiveMessage()
@@ -151,9 +149,15 @@ void FTwitchMessageReceiver::ParseMessage(FString msg)
 				meta[0].Split(TEXT("!"), &username, &tmp);
 
 				// Callback when message received
-				//receivedMessageCallback(username, message);
+				ReceivedChatMessage(username, message);
 				continue;
 			}
+			/*
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Unknown message received: %s"), *msg);
+			}
+			*/
 		}
 	}
 }
@@ -168,4 +172,9 @@ bool FTwitchMessageReceiver::SendMessage(FString msg)
 	int32 sent = 0;
 
 	return ListenerSocket->Send((uint8*)TCHAR_TO_UTF8(serializedChar), size, sent);
+}
+
+void FTwitchMessageReceiver::ReceivedChatMessage(FString userName, FString message)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Chat message received-> %s: %s"), *userName, *message);
 }
