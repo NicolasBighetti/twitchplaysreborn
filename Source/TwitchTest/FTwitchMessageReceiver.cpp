@@ -6,9 +6,11 @@
 
 bool FTwitchMessageReceiver::Init()
 {
+	UE_LOG(LogTemp, Warning, TEXT("Twitch thread: Init"));
+
 	// Initialize listener socket
 	FIPv4Endpoint Endpoint(FIPv4Address(127, 0, 0, 1), 6667);
-	FSocket* ListenerSocket = FTcpSocketBuilder(TEXT("TwitchListener"))
+	ListenerSocket = FTcpSocketBuilder(TEXT("TwitchListener"))
 		.AsReusable()
 		.BoundToEndpoint(Endpoint)
 		.Listening(8);
@@ -22,6 +24,11 @@ bool FTwitchMessageReceiver::Init()
 
 uint32 FTwitchMessageReceiver::Run()
 {
+	UE_LOG(LogTemp, Warning, TEXT("Twitch thread: Run"));
+
+	// Connect to twitch
+	Connect();
+
 	// Permanently receive messages
 	while (true)
 		ReceiveMessage();
@@ -29,6 +36,8 @@ uint32 FTwitchMessageReceiver::Run()
 
 void FTwitchMessageReceiver::Stop()
 {
+	UE_LOG(LogTemp, Warning, TEXT("Twitch thread: Stop"));
+
 	// Close and destroy socket
 	ListenerSocket->Close();
 	ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->DestroySocket(ListenerSocket);

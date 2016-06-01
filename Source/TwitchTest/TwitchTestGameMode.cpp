@@ -11,18 +11,22 @@ void ATwitchTestGameMode::BeginPlay()
 	Super::BeginPlay();
 
 	// Create Twitch runnable
-	FTwitchMessageReceiver TwitchRunnable = FTwitchMessageReceiver(
+	UE_LOG(LogTemp, Warning, TEXT("Game mode: Creating the runnable"));
+	FTwitchMessageReceiver TwitchRunnable(
 		TEXT(OAUTH),    // Authentication token
 		TEXT(NICKNAME), // Bot nickname
 		TEXT(CHANNEL)   // Channel to join
 	);
 
 	// Create thread and run thread
+	UE_LOG(LogTemp, Warning, TEXT("Game mode: Starting the thread"));
 	TwitchThread = FRunnableThread::Create(&TwitchRunnable, TEXT("FTwitchMessageReceiver"), 0, TPri_BelowNormal);
 }
 
 void ATwitchTestGameMode::BeginDestroy()
 {
+	UE_LOG(LogTemp, Warning, TEXT("Game mode: BeginDestroy"));
+
 	// Kill the thread
 	if(TwitchThread != NULL)
 		TwitchThread->Kill(true);
