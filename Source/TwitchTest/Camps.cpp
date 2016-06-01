@@ -23,6 +23,8 @@ Commande Camps::GetCommandByKeyword(FString keyword)
 		if (c.GetKeyword().Equals(keyword, ESearchCase::IgnoreCase))
 			return c;
 	}
+
+	return NULL;
 }
 
 void Camps::ExecuteCommand(FString keyword)
