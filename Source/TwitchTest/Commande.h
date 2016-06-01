@@ -11,6 +11,7 @@ public:
 
 	Commande(FString Cmd, void(*fct)());
 	void execute();
+	FString GetKeyword();
 
 private:
 

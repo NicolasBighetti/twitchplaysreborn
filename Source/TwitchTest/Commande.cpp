@@ -14,4 +14,9 @@ void Commande::execute() {
 	(*Fct)();
 }
 
+FString Commande::GetKeyword()
+{
+	return Cmd;
+}
+
 
