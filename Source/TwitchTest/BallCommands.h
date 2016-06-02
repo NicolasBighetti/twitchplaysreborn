@@ -35,3 +35,23 @@ public:
 	FBallRightCommand(ABall* _ball) : FBallCommand(TEXT("right"), _ball) {}
 	virtual void Execute();
 };
+
+/**
+* Command moving ball Forward.
+*/
+class TWITCHTEST_API FBallForwardCommand : public FBallCommand
+{
+public:
+	FBallForwardCommand(ABall* _ball) : FBallCommand(TEXT("front"), _ball) {}
+	virtual void Execute();
+};
+
+/**
+* Command moving ball backward.
+*/
+class TWITCHTEST_API FBallBackwardCommand : public FBallCommand
+{
+public:
+	FBallBackwardCommand(ABall* _ball) : FBallCommand(TEXT("back"), _ball) {}
+	virtual void Execute();
+};

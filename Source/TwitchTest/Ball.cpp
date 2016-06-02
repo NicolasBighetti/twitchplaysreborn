@@ -23,6 +23,10 @@ ABall::ABall() : ATwitchPawn()
 	// Register commands
 	CommandsRegistry.Register(new FBallLeftCommand(this));
 	CommandsRegistry.Register(new FBallRightCommand(this));
+	CommandsRegistry.Register(new FBallBackwardCommand(this));
+	CommandsRegistry.Register(new FBallForwardCommand(this));
+
+	OurVisibleComponent->SetSimulatePhysics(true);
 }
 
 // Called every frame

@@ -15,7 +15,7 @@ protected:
 	FVector CurrentVelocity;
 
 	UPROPERTY(EditAnywhere)
-	USceneComponent* OurVisibleComponent;
+	UStaticMeshComponent* OurVisibleComponent;
 
 public:
 	// Sets default values for this pawn's properties
@@ -23,6 +23,8 @@ public:
 
 	FVector GetCurrentVelocity() { return CurrentVelocity; }
 	void SetCurrentVelocity(FVector velocity) { CurrentVelocity = velocity; }
+
+	UStaticMeshComponent* GetOurVisibleComponent() { return OurVisibleComponent; }
 
 	// Called every frame
 	virtual void Tick(float DeltaSeconds) override;
