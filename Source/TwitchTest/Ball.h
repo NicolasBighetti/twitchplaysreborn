@@ -4,6 +4,8 @@
 
 #include "GameFramework/Pawn.h"
 #include "FTwitchMessageReceiver.h"
+#include "Camps.h"
+#include "Commande.h"
 #include "Ball.generated.h"
 
 UCLASS()
@@ -13,6 +15,12 @@ class TWITCHTEST_API ABall : public APawn
 
 private:
 	TQueue<FString>& CommandsQueue = FTwitchMessageReceiver::MessagesQueue;
+protected:
+
+	FVector CurrentVelocity;
+	//Camps camps;
+	UPROPERTY(EditAnywhere)
+	USceneComponent* OurVisibleComponent;
 
 public:
 	// Sets default values for this pawn's properties
@@ -27,6 +35,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
-	
+	void Go_right();
+	void Go_left();
 	
 };

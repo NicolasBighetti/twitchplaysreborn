@@ -9,7 +9,6 @@ void Camps::SetCommande(Commande cmd) {
 	commande = cmd;
 }
 
-
 void Camps::SetKeyword(Commande keyword) {
 	Keyword.Add(keyword);
 }
