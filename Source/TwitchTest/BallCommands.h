@@ -55,3 +55,11 @@ public:
 	FBallBackwardCommand(ABall* _ball) : FBallCommand(TEXT("back"), _ball) {}
 	virtual void Execute();
 };
+
+
+class TWITCHTEST_API FBallJumpCommand : public FBallCommand
+{
+public:
+	FBallJumpCommand(ABall* _ball) : FBallCommand(TEXT("jump"), _ball) {}
+	virtual void Execute();
+};

@@ -25,6 +25,7 @@ ABall::ABall() : ATwitchPawn()
 	CommandsRegistry.Register(new FBallRightCommand(this));
 	CommandsRegistry.Register(new FBallBackwardCommand(this));
 	CommandsRegistry.Register(new FBallForwardCommand(this));
+	//CommandsRegistry.Register(new FBallJumpCommand(this));
 
 	OurVisibleComponent->SetSimulatePhysics(true);
 }

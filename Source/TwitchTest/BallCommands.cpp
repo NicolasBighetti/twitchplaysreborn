@@ -52,3 +52,9 @@ void FBallBackwardCommand::Execute()
 	const FVector Torque = FVector(0.f, 1.f * Val * 500000.0f, 0.f);
 	(Ball->GetOurVisibleComponent())->AddTorque(Torque);
 }
+
+void FBallJumpCommand::Execute()
+{
+	const FVector Impulse = FVector(0.f, 0.f, 9000.0f);
+	(Ball->GetOurVisibleComponent())->AddImpulse(Impulse);
+}
