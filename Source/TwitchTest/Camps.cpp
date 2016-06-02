@@ -3,20 +3,18 @@
 #include "TwitchTest.h"
 #include "Camps.h"
 
-
-
-void Camps::SetCommande(Commande cmd) {
-	commande = cmd;
-}
-
-void Camps::SetKeyword(Commande keyword) {
-	Keyword.Add(keyword);
-}
-
 void Camps::SetPseudo(FString pseudo) {
 	Pseudo.Add(pseudo);
 }
 
+/*
+void Camps::SetKeyword(Commande keyword) {
+Keyword.Add(keyword);
+}
+
+void Camps::SetCommande(Commande cmd) {
+commande = cmd;
+}
 Commande Camps::GetCommandByKeyword(FString keyword)
 {
 	for (Commande c : this->Keyword)
@@ -32,3 +30,4 @@ void Camps::ExecuteCommand(FString keyword)
 {
 	(this->GetCommandByKeyword(keyword)).execute();
 }
+*/

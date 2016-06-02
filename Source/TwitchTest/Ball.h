@@ -3,22 +3,17 @@
 #pragma once
 
 #include "GameFramework/Pawn.h"
-#include "FTwitchMessageReceiver.h"
-#include "Camps.h"
-#include "Commande.h"
+#include "TwitchPawn.h"
 #include "Ball.generated.h"
 
 UCLASS()
-class TWITCHTEST_API ABall : public APawn
+class TWITCHTEST_API ABall : public ATwitchPawn
 {
 	GENERATED_BODY()
 
-private:
-	TQueue<FString>& CommandsQueue = FTwitchMessageReceiver::MessagesQueue;
 protected:
-
 	FVector CurrentVelocity;
-	//Camps camps;
+
 	UPROPERTY(EditAnywhere)
 	USceneComponent* OurVisibleComponent;
 
@@ -26,16 +21,9 @@ public:
 	// Sets default values for this pawn's properties
 	ABall();
 
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-	
+	FVector GetCurrentVelocity() { return CurrentVelocity; }
+	void SetCurrentVelocity(FVector velocity) { CurrentVelocity = velocity; }
+
 	// Called every frame
-	virtual void Tick( float DeltaSeconds ) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
-
-	void Go_right();
-	void Go_left();
-	
+	virtual void Tick(float DeltaSeconds) override;
 };

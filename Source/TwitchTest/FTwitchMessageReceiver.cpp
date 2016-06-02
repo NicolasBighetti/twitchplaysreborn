@@ -28,7 +28,7 @@ uint32 FTwitchMessageReceiver::Run()
 	Connect();
 
 	// Permanently receive messages
-	while (receiveMessage)
+	while (KeepReceivingMessage)
 		ReceiveMessage();
 
 	return EXIT_SUCCESS;
@@ -39,7 +39,7 @@ void FTwitchMessageReceiver::Stop()
 	UE_LOG(LogTemp, Warning, TEXT("Twitch receiver: Stop"));
 
 	// Close and destroy socket
-	receiveMessage = false;
+	KeepReceivingMessage = false;
 	ListenerSocket->Close();
 	ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->DestroySocket(ListenerSocket);
 }
@@ -49,30 +49,30 @@ void FTwitchMessageReceiver::Stop()
 void FTwitchMessageReceiver::Connect()
 {
 	// Resolve Twitch hostname
-	auto ResolveInfo = ISocketSubsystem::Get()->GetHostByName(SOCKET_HOST);
-	while (!ResolveInfo->IsComplete());
+	auto resolveInfo = ISocketSubsystem::Get()->GetHostByName(SOCKET_HOST);
+	while (!resolveInfo->IsComplete());
 
 	// Check host result
-	if (ResolveInfo->GetErrorCode() != 0)
+	if (resolveInfo->GetErrorCode() != 0)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Couldn't resolve hostname."));
 		return;
 	}
 
 	// Get host IP
-	const FInternetAddr* Addr = &ResolveInfo->GetResolvedAddress();
+	const FInternetAddr* addr = &resolveInfo->GetResolvedAddress();
 	uint32 OutIP = 0;
-	Addr->GetIp(OutIP);
+	addr->GetIp(OutIP);
 	int32 port = SOCKET_PORT;
 
 	// Configure and create socket
-	TSharedRef<FInternetAddr> addr = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->CreateInternetAddr();
-	addr->SetIp(OutIP);
-	addr->SetPort(SOCKET_PORT);
+	TSharedRef<FInternetAddr> iaddr = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->CreateInternetAddr();
+	iaddr->SetIp(OutIP);
+	iaddr->SetPort(SOCKET_PORT);
 	ListenerSocket = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->CreateSocket(NAME_Stream, TEXT(SOCKET_NAME), false);
 
 	// Try socket connection
-	bool connected = ListenerSocket->Connect(*addr);
+	bool connected = ListenerSocket->Connect(*iaddr);
 	if (connected) {
 		UE_LOG(LogTemp, Warning, TEXT("Connected"));
 	}
@@ -85,14 +85,14 @@ void FTwitchMessageReceiver::Connect()
 	}
 
 	// Send OAuth authentication token
-	SendMessage(TEXT("PASS oauth:") + oAuth);
+	SendMessage(TEXT("PASS oauth:") + OAuth);
 
 	// Configure bot and make it joins
-	SendMessage(TEXT("NICK ") + nickname);
-	SendMessage(TEXT("JOIN ") + channel);
+	SendMessage(TEXT("NICK ") + Nickname);
+	SendMessage(TEXT("JOIN ") + Channel);
 
 	// Display a message to check the bot is online
-	SendMessage(TEXT("PRIVMSG ") + channel + TEXT(" :Bot activated <3"));
+	SendMessage(TEXT("PRIVMSG ") + Channel + TEXT(" :Bot activated <3"));
 }
 
 void FTwitchMessageReceiver::ReceiveMessage()

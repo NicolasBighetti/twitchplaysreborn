@@ -10,9 +10,8 @@ class TWITCHTEST_API FTwitchMessageReceiver : public FRunnable
 {
 private:
 	FSocket* ListenerSocket;
-	FString oAuth, nickname, channel;
-	bool receiveMessage = true;
-	//ReceivedTwitchMessageCallback* receivedMessageCallback = NULL;
+	FString OAuth, Nickname, Channel;
+	bool KeepReceivingMessage = true;
 
 	// Twitch Connection/Reading
 	void Connect();
@@ -24,7 +23,7 @@ public:
 
 	// Constructor
 	FTwitchMessageReceiver(FString _oAuth, FString _nickname, FString _channel)
-		: oAuth(_oAuth), nickname(_nickname), channel(_channel)
+		: OAuth(_oAuth), Nickname(_nickname), Channel(_channel)
 	{}
 
 	// Send and receive message in channel
