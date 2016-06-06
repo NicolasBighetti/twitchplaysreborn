@@ -7,6 +7,10 @@ void Camps::SetPseudo(FString pseudo) {
 	Pseudo.Add(pseudo);
 }
 
+bool Camps::IsInTeam(FString pseudo) {
+	return Pseudo.Contains(pseudo);
+}
+
 /*
 void Camps::SetKeyword(Commande keyword) {
 Keyword.Add(keyword);

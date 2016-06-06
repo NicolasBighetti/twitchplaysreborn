@@ -19,11 +19,13 @@ public:
 	Commande GetCommandByKeyword(FString keyword);
 	void ExecuteCommand(FString keyword);
 	*/
-	
+	bool IsInTeam(FString pseudo);
+
 private:
 
 	// TArray<Commande> Keyword;
 	TArray<FString> Pseudo;
+	uint32 Total_player;
 	//Commande commande;
 };
 
