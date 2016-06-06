@@ -6,15 +6,39 @@
 
 
 
+
 // Sets default values
 AHole::AHole()
 {
+
+	//RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	UHoleHitBox* hitbox = CreateDefaultSubobject<UHoleHitBox>(TEXT("hitbox"));
-	hitbox->AttachTo(RootComponent);
-	hitbox->OnComponentBeginOverlap.AddDynamic(this, &AHole::hit);
+	hitbox = CreateDefaultSubobject<UBoxComponent>(TEXT("hitbox"));
+	hitbox->bGenerateOverlapEvents = true;
+	hitbox->SetRelativeScale3D(FVector(2, 2, 5));
+	RootComponent = hitbox;
+	//hitbox->AttachTo(RootComponent);
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("test"));
+	hitbox->OnComponentBeginOverlap.AddDynamic(this, &AHole::OnBeginOverlap);
 
+	OurParticleSystem = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("MovementParticles"));
+	OurParticleSystem->AttachTo(RootComponent);
+	OurParticleSystem->bAutoActivate = false;
+	OurParticleSystem->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
+	static ConstructorHelpers::FObjectFinder<UParticleSystem> ParticleAsset(TEXT("/Game/StarterContent/Particles/P_Explosion.P_Explosion"));
+	if (ParticleAsset.Succeeded())
+	{
+		OurParticleSystem->SetTemplate(ParticleAsset.Object);
+	}
+
+
+	AudioComp = CreateDefaultSubobject<UAudioComponent>(TEXT("Sound"));
+	if (AudioComp)
+	{
+		AudioComp->AttachParent = RootComponent;
+		AudioComp->bAutoActivate = false; // with this true the sounds play at spawn (game starts)
+	}
 }
 
 // Called when the game starts or when spawned
@@ -31,7 +55,10 @@ void AHole::Tick( float DeltaTime )
 
 }
 
-void AHole::hit(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult) {
+void AHole::OnBeginOverlap(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult) {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Balle dans le trou"));
 	UE_LOG(LogTemp, Warning, TEXT("boom"));
+	OurParticleSystem->Activate(false);
+	AudioComp->Activate(false);
+
 }

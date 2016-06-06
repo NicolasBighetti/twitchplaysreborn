@@ -41,4 +41,13 @@ public:
 		return rc;
 		*/
 	}
+
+	void clear() {
+		d_mutex.lock();
+		while (!Queue.IsEmpty()) {
+			T item;
+			Queue.Dequeue(item);
+		}
+		d_mutex.unlock();
+	}
 };
