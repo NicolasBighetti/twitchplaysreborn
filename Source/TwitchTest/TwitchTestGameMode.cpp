@@ -1,21 +1,26 @@
 #include "TwitchTest.h"
 #include "TwitchTestGameMode.h"
 #include "FTwitchMessageReceiver.h"
+#include "CoreMisc.h"
 
-#define OAUTH	 "22jwdnv3dqhmuc9t4wf6du0qq9q2td"
-#define NICKNAME "drym_tv"
-#define CHANNEL	 "#drymfr"
+FString oautch;
+FString nickname;
+FString channel;
 
 void ATwitchTestGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
+	//config file
+	FString Path = "Source/config.txt";
+	ConfigFile(Path);
+
 	// Create Twitch runnable
 	UE_LOG(LogTemp, Warning, TEXT("Game mode: Creating the runnable"));
 	TwitchRunnable = new FTwitchMessageReceiver(
-		TEXT(OAUTH),    // Authentication token
-		TEXT(NICKNAME), // Bot nickname
-		TEXT(CHANNEL)   // Channel to join
+		oautch,    // Authentication token
+		nickname, // Bot nickname
+		channel   // Channel to join
 	);
 
 	// Create thread and run thread
@@ -35,4 +40,51 @@ void ATwitchTestGameMode::BeginDestroy()
 		TwitchThread->WaitForCompletion();
 		delete TwitchRunnable;
 	}
+}
+
+void ATwitchTestGameMode::ConfigFile(FString FilPath) {
+
+	TArray<FString> Array;
+	FString Config = FPaths::GameDir();
+	Config += FilPath;
+
+	//Read file
+	if (FFileHelper::LoadANSITextFileToStrings(*Config, NULL, Array)) {
+		UE_LOG(LogTemp, Warning, TEXT("Config file open"));
+
+		//Parse file from a key
+		oautch = Parse(Array, "oautch");
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *oautch);
+		nickname = Parse(Array, "nickname");
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *nickname);
+		channel = Parse(Array, "channel");
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *channel);
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("Could not open config file"));
+	}
+
+}
+
+FString ATwitchTestGameMode::Parse(TArray<FString> Array, FString key) {
+
+	int max = Array.Num();
+
+	for (int i = 0; i < max; i++) {
+
+		TArray<FString> parts;
+		Array[i].ParseIntoArray(parts, TEXT(": "));
+		TArray<FString> value;
+		parts[0].ParseIntoArrayWS(value);
+
+		if (value[0] == key) {
+			parts[1].ParseIntoArrayWS(value);
+			return value[0];
+		}
+	}
+
+	//Fatal error
+	UE_LOG(LogTemp, Fatal, TEXT("Key %s does not match"), *key);
+
+	return "";
 }
