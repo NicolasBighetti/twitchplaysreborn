@@ -1,0 +1,10 @@
+out/
+out/*
+
+.clover/
+.clover/*
+
+.idea/
+.idea/*
+
+*.iml
