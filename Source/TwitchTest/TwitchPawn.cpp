@@ -13,12 +13,22 @@ ATwitchPawn::ATwitchPawn()
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 }
 
-// Called every frame
-void ATwitchPawn::Tick( float DeltaTime )
+
+void ATwitchPawn::BeginPlay()
 {
-	Super::Tick( DeltaTime );
+	Super::BeginPlay();
+	UE_LOG(LogTemp, Warning, TEXT("Ball beguin play"));
+	_run = new ThreadRead(&CommandsRegistry);
+	_thread = FRunnableThread::Create(_run, TEXT("FThreadRead"), 0, TPri_BelowNormal);
+}
+
+// Called every frame
+void ATwitchPawn::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
 
 	// Check if queue is not empty and execute command
+	/*
 	if (!CommandsQueue.IsEmpty())
 	{
 		// Get twitch command
@@ -32,4 +42,20 @@ void ATwitchPawn::Tick( float DeltaTime )
 			// Command not found
 			UE_LOG(LogTemp, Warning, TEXT("Ball-> Unknown command: %s"), *cmd);
 	}
+	*/
 }
+
+void ATwitchPawn::BeginDestroy()
+{
+	Super::BeginDestroy();
+	UE_LOG(LogTemp, Warning, TEXT("Ball: BeginDestroy"));
+
+	//Kill the thread
+	if (_thread)
+	{
+		_run->Stop();
+		_thread->WaitForCompletion();
+		delete _thread;
+	}
+}
+

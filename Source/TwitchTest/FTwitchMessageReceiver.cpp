@@ -10,6 +10,7 @@
 
 // Initialize queue
 TQueue<FString> FTwitchMessageReceiver::MessagesQueue;
+BlockingQueue<FString>FTwitchMessageReceiver::Queue;
 
 bool FTwitchMessageReceiver::Init()
 {
@@ -180,5 +181,6 @@ bool FTwitchMessageReceiver::SendMessage(FString msg)
 void FTwitchMessageReceiver::ReceivedChatMessage(FString userName, FString message)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Chat message received-> %s: %s"), *userName, *message);
-	MessagesQueue.Enqueue(message);
+	//MessagesQueue.Enqueue(message);
+	Queue.push(message);
 }

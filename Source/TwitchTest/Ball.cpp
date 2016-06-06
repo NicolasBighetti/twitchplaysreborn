@@ -5,8 +5,9 @@
 #include "BallCommands.h"
 
 // Sets default values
-ABall::ABall() : ATwitchPawn()
+ABall::ABall()
 {
+	PrimaryActorTick.bCanEverTick = true;
 	// Create a dummy root component we can attach things to.
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 
@@ -27,11 +28,20 @@ ABall::ABall() : ATwitchPawn()
 	CommandsRegistry.Register(new FBallForwardCommand(this));
 
 	OurVisibleComponent->SetSimulatePhysics(true);
+
+	
+
 }
 
+void ABall::BeginPlay()
+{
+	Super::BeginPlay();
+}
 // Called every frame
 void ABall::Tick( float DeltaTime )
 {
+
+	Super::Tick(DeltaTime);
 	// Velocity computing
 	if (!CurrentVelocity.IsZero())
 	{
@@ -40,5 +50,10 @@ void ABall::Tick( float DeltaTime )
 	}
 
 	// Call tick from twitch pawn
-	Super::Tick(DeltaTime);
+}
+
+void ABall::BeginDestroy()
+{
+	Super::BeginDestroy();
+	UE_LOG(LogTemp, Warning, TEXT("Ball: BeginDestroy"));
 }
