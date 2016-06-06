@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #pragma once
 #include "TwitchTest.h"
+#include "BlockingQueue.h"
 
 //typedef void(*ReceivedTwitchMessageCallback)(FString, FString);
 /**
@@ -20,6 +21,7 @@ private:
 
 public:
 	static TQueue<FString> MessagesQueue;
+	static BlockingQueue<FString>Queue;
 
 	// Constructor
 	FTwitchMessageReceiver(FString _oAuth, FString _nickname, FString _channel)

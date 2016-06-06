@@ -13,24 +13,24 @@ class TWITCHTEST_API BlockingQueue
 private:
 	std::mutex d_mutex;
 	Semaphore empty;
-	std::deque<T> d_queue;
+	TQueue<T> Queue;
 public:
 	void push(T const& value) {
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, "push");
 		d_mutex.lock();
-		d_queue.push_front(value);
+		Queue.Enqueue(value);
 		empty.post();
 		d_mutex.unlock();
 	}
 
 	T pop() {
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, "pop");
+		T cmd;
 		empty.wait();
-		T rc(std::move(this->d_queue.back()));
 		d_mutex.lock();
-		this->d_queue.pop_back();
+		Queue.Dequeue(cmd);
 		d_mutex.unlock();
-		return rc;
+		return cmd;
 
 
 		/*

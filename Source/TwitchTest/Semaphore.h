@@ -12,32 +12,38 @@ class TWITCHTEST_API Semaphore
 private:
 	std::mutex mutex;
 	std::mutex mtx;
+	//std::unique_lock<std::mutex> lck(mtx);
 	std::condition_variable condition;
 	unsigned long count;
 	bool ready = false;
 
 public:
 	Semaphore()
-		: count()
-	{}
+		: count(0)
+	{
+	
+	}
 
 	void post()
 	{
 		mutex.lock();
 		++count;
-		ready = true;
+		if (count > 0) {
+			ready = true;
+		}
 		mutex.unlock();
-		condition.notify_one();
+		if (ready) {
+			condition.notify_one();
+		}
 	}
 
 	void wait()
 	{ 
-		mutex.lock();
-		if (count == 0) {
+		std::unique_lock<std::mutex> lck(mtx);
+		if (count <= 0) {
 			ready = false;
 		}
-		mutex.unlock();
-		std::unique_lock<std::mutex> lck(mtx);
+		//std::unique_lock<std::mutex> lck(mtx);
 		while (!ready) condition.wait(lck);
 		mutex.lock();
 		--count;
