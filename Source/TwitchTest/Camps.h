@@ -12,20 +12,24 @@ using namespace std;
 class TWITCHTEST_API Camps
 {
 public:
-	//void SetKeyword(Commande keyword);
-	void SetPseudo(FString pseudo);
-	/*
-	void SetCommande(Commande commande);
-	Commande GetCommandByKeyword(FString keyword);
-	void ExecuteCommand(FString keyword);
-	*/
+
+	bool AddPlayer(FString pseudo);
+
+	int RemovePlayer(FString pseudo);
 	bool IsInTeam(FString pseudo);
+
+	uint32 GetTotalPlayer() {
+		return TotalPlayer;
+	}
+	TArray<FString> GetPlayerList() {
+		return Pseudo;
+	}
 
 private:
 
-	// TArray<Commande> Keyword;
 	TArray<FString> Pseudo;
-	uint32 Total_player;
-	//Commande commande;
+	uint32 TotalPlayer;
+
+	
 };
 

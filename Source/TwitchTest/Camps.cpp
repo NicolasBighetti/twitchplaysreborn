@@ -3,8 +3,25 @@
 #include "TwitchTest.h"
 #include "Camps.h"
 
-void Camps::SetPseudo(FString pseudo) {
-	Pseudo.Add(pseudo);
+bool Camps::AddPlayer(FString pseudo) {
+
+	if (!Pseudo.Contains(pseudo)) {
+		Pseudo.Add(pseudo);
+		TotalPlayer++;
+
+		return true;
+	}
+
+	return false;
+}
+
+int Camps::RemovePlayer(FString pseudo)
+{
+	int res = Pseudo.Remove(pseudo);
+	if (res != 0)
+		TotalPlayer--;
+
+	return res;
 }
 
 bool Camps::IsInTeam(FString pseudo) {
