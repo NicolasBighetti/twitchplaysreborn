@@ -118,7 +118,11 @@ public class ChatServer extends Thread implements IMessagesSenderListener, IMess
         System.out.println("Sending message : " + message);
 
         // Send message
-        output.println("PRIVMSG " + message + "\r\n");
+        output.println(Config.PRIVMSG_FORMAT // Replace values in format
+                .replace("$CHANNEL$", Config.CHANNEL) // Channel
+                .replace("$NICK$", message.getNickname().toLowerCase()) // Nickname
+                .replace("$MESSAGE$", message.getMessage()) // Message
+        );
     }
 
     @Override

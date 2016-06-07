@@ -77,7 +77,9 @@ public class ChatParser {
             String[] values = line.split("\\s+");
 
             // Add messages to chat
-            chat.addMessages(values[0], // Message
+            chat.addMessages( // Parse message
+                    (values[0].substring(0, values[0].indexOf(':'))), // Nickname
+                    (values[0].substring(values[0].indexOf(':') + 1, values[0].length())), // Message
                     (values.length > 1 ? Long.parseLong(values[1]) : 0), // Delay
                     (values.length > 2 ? Integer.parseInt(values[2]) : 1) // Count
             );
@@ -85,7 +87,7 @@ public class ChatParser {
         catch (Exception e)
         {
             // Parsing error
-            e.printStackTrace();
+            System.err.println("ChatParser: Chat parsing error for line: " + line);
             return false;
         }
 

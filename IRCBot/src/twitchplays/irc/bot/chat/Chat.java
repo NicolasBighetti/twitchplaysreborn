@@ -20,15 +20,17 @@ public class Chat {
     /**
      * Adds a message.
      *
+     * @param nickname
+     *            the nickname
      * @param message
      *            message to add
      * @param delay
      *            delay between messages
      */
-    public void addMessage(String message, long delay)
+    public void addMessage(String nickname, String message, long delay)
     {
         // Add message to list
-        this.messages.add(new Message(message, this.nextMessageTime));
+        this.messages.add(new Message(nickname, message, this.nextMessageTime));
 
         // Increase messages delay
         this.nextMessageTime += delay;
@@ -37,6 +39,8 @@ public class Chat {
     /**
      * Adds a message N times.
      *
+     * @param nickname
+     *            the nickname
      * @param message
      *            message to add
      * @param delay
@@ -44,11 +48,11 @@ public class Chat {
      * @param count
      *            number of messages to add
      */
-    public void addMessages(String message, long delay, int count)
+    public void addMessages(String nickname, String message, long delay, int count)
     {
         // Add the message N times
         while (count-- > 0)
-            this.addMessage(message, delay);
+            this.addMessage(nickname, message, delay);
     }
 
     /**
@@ -79,13 +83,13 @@ public class Chat {
      */
     public boolean hasMessagesAfter(long time)
     {
-        return !messages.isEmpty() && messages.getLast().getTime() > time;
+        return !messages.isEmpty() && messages.getLast().getTime() >= time;
     }
 
     /**
      * Gets messages.
      *
-     * @return messages
+     * @return messages messages
      */
     public List<Message> getMessages()
     {
