@@ -11,6 +11,7 @@ private:
 	FRunnableThread* TwitchThread = NULL;
 
 public:
+
 	virtual void BeginPlay() override;
 	virtual void BeginDestroy() override;
 	void ATwitchTestGameMode::ConfigFile(FString FilPath);

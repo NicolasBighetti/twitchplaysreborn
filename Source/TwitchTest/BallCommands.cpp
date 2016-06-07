@@ -53,8 +53,12 @@ void FBallBackwardCommand::Execute()
 	(Ball->GetOurVisibleComponent())->AddTorque(Torque);
 }
 
+/**
+* Command jump.
+*/
 void FBallJumpCommand::Execute()
 {
+	//jump
 	const FVector Impulse = FVector(0.f, 0.f, 9000.0f);
 	(Ball->GetOurVisibleComponent())->AddImpulse(Impulse);
 }

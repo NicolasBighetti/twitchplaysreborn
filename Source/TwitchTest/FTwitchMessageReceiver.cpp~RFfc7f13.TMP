@@ -199,17 +199,18 @@ void FTwitchMessageReceiver::ManagedChat(FString userName, FString message, FStr
 		message.ParseIntoArray(parts, TEXT(" "));
 		parts[0];
 
-		int max = Array.Num();
+		for (int i = 0; i < parts.Num(); i++) {
 
-		//Boucle sur le parsing du message
-		for (int y = 0; y < parts.Num(); y++) {
-			//Boucle sur la liste des mots
+			int max = Array.Num();
 			for (int i = 0; i < max; i++) {
-				//Si on trouve le mot
-				if (Array[i] == parts[y]) {
+
+
+
+				if (Array[0] == message) {
 					SendMessage(TEXT("PRIVMSG ") + Channel + TEXT(" :") + command + TEXT(" ") + userName);
 				}
 			}
 		}
+
 	}
 }

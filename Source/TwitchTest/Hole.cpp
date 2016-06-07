@@ -55,8 +55,7 @@ void AHole::Tick( float DeltaTime )
 }
 
 void AHole::OnBeginOverlap(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult) {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Balle dans le trou"));
-	UE_LOG(LogTemp, Warning, TEXT("boom"));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Well play !"));
 	OurParticleSystem->Activate(false);
 	AudioComp->Activate(false);
 

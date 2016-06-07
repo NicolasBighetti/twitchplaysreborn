@@ -41,9 +41,6 @@ uint32 ThreadRead::Run()
 			if (!CommandsRegistry->Execute(cmd))
 				// Command not found
 				UE_LOG(LogTemp, Warning, TEXT("Ball-> Unknown command: %s"), *cmd);
-		
-		FPlatformProcess::Sleep(1);
-		UE_LOG(LogTemp, Warning, TEXT("it"));
 	}
 	return EXIT_SUCCESS;
 }

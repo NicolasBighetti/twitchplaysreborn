@@ -2,6 +2,7 @@
 #include "TwitchTestGameMode.h"
 #include "FTwitchMessageReceiver.h"
 #include "CoreMisc.h"
+#include "Anarchy.h"
 
 FString oautch;
 FString nickname;
@@ -16,11 +17,13 @@ void ATwitchTestGameMode::BeginPlay()
 	ConfigFile(Path);
 
 	// Create Twitch runnable
-	UE_LOG(LogTemp, Warning, TEXT("Game mode: Creating the runnable"));
+	UE_LOG(LogTemp, Warning, TEXT("Game mode: Creating the runnable"));	
+
 	TwitchRunnable = new FTwitchMessageReceiver(
 		oautch,    // Authentication token
 		nickname, // Bot nickname
-		channel   // Channel to join
+		channel,   // Channel to join
+		GetWorld()
 	);
 
 	// Create thread and run thread
@@ -50,15 +53,15 @@ void ATwitchTestGameMode::ConfigFile(FString FilPath) {
 
 	//Read file
 	if (FFileHelper::LoadANSITextFileToStrings(*Config, NULL, Array)) {
-		UE_LOG(LogTemp, Warning, TEXT("Config file open"));
+		//UE_LOG(LogTemp, Warning, TEXT("Config file open"));
 
 		//Parse file from a key
 		oautch = Parse(Array, "oautch");
-		UE_LOG(LogTemp, Warning, TEXT("%s"), *oautch);
+		//UE_LOG(LogTemp, Warning, TEXT("%s"), *oautch);
 		nickname = Parse(Array, "nickname");
-		UE_LOG(LogTemp, Warning, TEXT("%s"), *nickname);
+		//UE_LOG(LogTemp, Warning, TEXT("%s"), *nickname);
 		channel = Parse(Array, "channel");
-		UE_LOG(LogTemp, Warning, TEXT("%s"), *channel);
+		//UE_LOG(LogTemp, Warning, TEXT("%s"), *channel);
 	}
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("Could not open config file"));
