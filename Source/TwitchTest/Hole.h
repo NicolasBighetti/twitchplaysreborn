@@ -3,7 +3,6 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
-#include "HoleHitBox.h"
 #include "Hole.generated.h"
 
 UCLASS()
