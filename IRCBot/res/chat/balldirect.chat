@@ -1,0 +1,4 @@
+# Example file, usage :
+# <Message>    <Delay=0>  <Count=1>
+
+Mino:left    0  5  # Full left
