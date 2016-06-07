@@ -25,26 +25,32 @@ public class Config {
     /**
      * Chat file to parse.
      */
-    public static String CHAT_FILE = "./res/chat/bilboquet.chat";
+    public static String CHAT_FILE = "./res/chat/ballslow.chat";
+
+    /**
+     * Chat private message format.
+     */
+    public static String PRIVMSG_FORMAT = ":$NICK$!$NICK$@$NICK$.tmi.twitch.tv PRIVMSG $CHANNEL$ :$MESSAGE$";
+
+    /**
+     * Chat channel.
+     */
+    public static String CHANNEL = "#drymfr";
 
     /**
      * Initialize configuration (from system properties).
      */
     public static void init()
     {
-        // Server port
+        // Read configuration from system properties (-Dconfig=X)
         Config.SERVER_PORT = Integer
                 .parseInt(System.getProperty("serverPort", String.valueOf(SERVER_PORT)));
-
-        // Wait for pass
         Config.WAIT_FOR_PASS = Boolean
                 .parseBoolean(System.getProperty("waitForPass", String.valueOf(WAIT_FOR_PASS)));
-
-        // Messages delay
         Config.MESSAGES_DELAY = Long
                 .parseLong(System.getProperty("messagesDelay", String.valueOf(MESSAGES_DELAY)));
-
-        // Chat file
         Config.CHAT_FILE = System.getProperty("chatFile", CHAT_FILE);
+        Config.PRIVMSG_FORMAT = System.getProperty("privmsgFormat", PRIVMSG_FORMAT);
+        Config.CHANNEL = System.getProperty("channel", CHANNEL);
     }
 }
