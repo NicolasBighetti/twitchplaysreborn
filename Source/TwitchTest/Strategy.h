@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-
+#include "CampsManager.h"
 #include "BlockingQueue.h"
 
 /**
@@ -11,12 +11,14 @@ class TWITCHTEST_API Strategy
 {
 public:
 
-	Strategy(BlockingQueue<FString>* q, TMap<FString, FString>* m);
-
+	bool multicamps = true;
+	Strategy(BlockingQueue<FString>* q,CampsManager* campsmanager);
+	CampsManager* camps;
 	BlockingQueue<FString>* queue;
-	TMap<FString, FString>* Messages;
+	TArray<TMap<FString, FString>> Messages;
 
 	virtual void Receive(FString userName, FString message);
 	virtual void OnTick();
+
 
 };

@@ -12,7 +12,7 @@ CampsManager::CampsManager(int nbCamps) {
 
 	if (nbCamps <= 0)
 		nbCamps = 1;
-
+	nb_camps = nbCamps;
 	for (int i = 0; i < nbCamps; i++)
 		CampsList.Add(Camps());
 }
@@ -150,15 +150,18 @@ bool CampsManager::IsBalanced()
 	return false;
 }
 
-BlockingQueue<FString>* CampsManager::getQueue()
+BlockingQueue<FString>* CampsManager::getQueueInit()
 {
 	BlockingQueue<FString>* bq;
 
-	for (Camps cmp : CampsList)
+	for (int i = 0; i < CampsList.Num(); i++)
 	{
-		bq = cmp.GetQueue();
+		bq = CampsList[i].GetQueueInit();
 		if (bq != NULL)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, "NOTNULL");
 			return bq;
+		}
 	}
 	return NULL;
 }

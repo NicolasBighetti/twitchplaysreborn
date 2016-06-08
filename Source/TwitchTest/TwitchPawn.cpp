@@ -17,9 +17,10 @@ ATwitchPawn::ATwitchPawn()
 void ATwitchPawn::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Warning, TEXT("Ball begin play"));
+	/*
 	_run = new ThreadRead(&CommandsRegistry);
 	_thread = FRunnableThread::Create(_run, TEXT("FThreadRead"), 0, TPri_BelowNormal);
+	*/
 }
 
 // Called every frame
@@ -59,3 +60,13 @@ void ATwitchPawn::BeginDestroy()
 	}
 }
 
+void ATwitchPawn::setQueue(BlockingQueue<FString>* queue)
+{
+	_run = new ThreadRead(&CommandsRegistry);
+	_run->setQueue(queue);
+}
+void ATwitchPawn::launch()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Launch Thread read"));
+	_thread = FRunnableThread::Create(_run, TEXT("FThreadRead"), 0, TPri_BelowNormal);
+}

@@ -10,7 +10,7 @@ class TWITCHTEST_API Anarchy : public Strategy
 {
 public:
 	 
-	Anarchy(UWorld* w, BlockingQueue<FString>* q, TMap<FString, FString>* m, int32 time) : Strategy(q, m) {
+	Anarchy(UWorld* w, BlockingQueue<FString>* q, int32 time, CampsManager* c) : Strategy(q, c) {
 		world = w;
 		FTimerDelegate del;
 		del.BindLambda([this] {

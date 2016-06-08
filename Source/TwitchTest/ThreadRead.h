@@ -17,7 +17,7 @@ public:
 
 protected:
 	// Twitch messages queue
-	TQueue<FString>& CommandsQueue = FTwitchMessageReceiver::MessagesQueue;
+	TQueue<FString>* CommandsQueue = &FTwitchMessageReceiver::MessagesQueue;
 
 	// Commands registry
 	FCommandRegistry<>* CommandsRegistry;
@@ -27,5 +27,5 @@ public:
 	virtual bool Init();
 	virtual uint32 Run();
 	virtual void Stop();
-
+	virtual void setQueue(BlockingQueue<FString>* queue);
 };

@@ -3,9 +3,10 @@
 
 
 ThreadRead::ThreadRead(FCommandRegistry<>* Commands) {
-	CommandsRegistry = Commands;
-}
 
+	CommandsRegistry = Commands;
+
+}
 bool ThreadRead::Init()
 {
 	UE_LOG(LogTemp, Warning, TEXT("init thread read"));
@@ -15,44 +16,48 @@ bool ThreadRead::Init()
 }
 uint32 ThreadRead::Run()
 {
-	// Infinite loop
-	while (running)
-	{
-		// Get command from blocking queue
-		FString cmd = queue->pop();
 
-		// Check "stop" command
-		if (cmd.Equals(TEXT("stop")) && running == false)
+	FString message;
+	/*
+	queue->push(TEXT("salut"));
+	UE_LOG(LogTemp, Warning, TEXT("Ball-> test queue: %s"), *queue->pop());
+	*/
+	while (running) {
+		FString cmd;
+		cmd = queue->pop();
+		/*
+		if (!CommandsQueue.IsEmpty())
 		{
-			queue->clear();
-			break;
-		}
-
-		// Check if the text is an actual command
-		UE_LOG(LogTemp, Warning, TEXT("Ball-> Checking command: %s"), *cmd);
-		if (!FCommandRegistry<>::ExistsCommand(cmd))
-		{
-			UE_LOG(LogTemp, Warning, TEXT("Ball-> Unknown command: %s"), *cmd);
-			continue;
-		}
-
-		// Execute command in game thread
-		FFunctionGraphTask::CreateAndDispatchWhenReady([this,cmd]() {
+			// Get twitch command
+			FString cmd;
+			CommandsQueue.Dequeue(cmd);
+			*/
 			UE_LOG(LogTemp, Warning, TEXT("Ball-> Executing command: %s"), *cmd);
-
-			// Execute command
-			if (!CommandsRegistry->Execute(cmd))
+			if (cmd.Equals(TEXT("stop")) && running==false) {
+				queue->clear();
+				break;
+			}
+			if (!FCommandRegistry<>::ExistsCommand(cmd))
+			{
 				UE_LOG(LogTemp, Warning, TEXT("Ball-> Unknown command: %s"), *cmd);
-		}
-		, TStatId(), nullptr, ENamedThreads::GameThread);
+				continue;
+			}
+			FFunctionGraphTask::CreateAndDispatchWhenReady([this,cmd]() {
+				if (!CommandsRegistry->Execute(cmd))
+					UE_LOG(LogTemp, Warning, TEXT("Ball-> Unknown command: %s"), *cmd);
 
-		// Debug message
-		UE_LOG(LogTemp, Warning, TEXT("ThreadRead iteration!"));
+			}
+			, TStatId(), nullptr, ENamedThreads::GameThread);
+			// Execute command
+			/*
+			if (!CommandsRegistry->Execute(cmd))
+				// Command not found
+				UE_LOG(LogTemp, Warning, TEXT("Ball-> Unknown command: %s"), *cmd);
+		*/
+		//UE_LOG(LogTemp, Warning, TEXT("it"));
 	}
-
 	return EXIT_SUCCESS;
 }
-
 void ThreadRead::Stop()
 {
 	running = false;
@@ -60,3 +65,9 @@ void ThreadRead::Stop()
 	UE_LOG(LogTemp, Warning, TEXT("Twitch Read: Stop"));
 	//delete(queue);
 }
+
+void ThreadRead::setQueue(BlockingQueue<FString>* Bqueue)
+{
+	queue = Bqueue;
+}
+

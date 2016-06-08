@@ -1,19 +1,18 @@
 #include "TwitchTest.h"
 #include "TwitchTestGameMode.h"
+#include "TwitchPawn.h"
 #include "FTwitchMessageReceiver.h"
 #include "CoreMisc.h"
 #include "Anarchy.h"
-#include "CampsManager.h"
 
 FString oautch;
 FString nickname;
 FString channel;
+int32 strategy;
 
 void ATwitchTestGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-
-	CampsManager cmpM = CampsManager(2);
 
 	//config file
 	FString Path = "Source/config.txt";
@@ -21,19 +20,26 @@ void ATwitchTestGameMode::BeginPlay()
 
 	// Create Twitch runnable
 	UE_LOG(LogTemp, Warning, TEXT("Game mode: Creating the runnable"));	
-
+	campsManager = CampsManager(1);
 	TwitchRunnable = new FTwitchMessageReceiver(
 		oautch,    // Authentication token
 		nickname, // Bot nickname
 		channel,   // Channel to join
-		GetWorld()
+		GetWorld(),
+		&campsManager
 		//ANARCHY
 	);
-
+	for (TActorIterator<ATwitchPawn> ActorItr(GetWorld()); ActorItr; ++ActorItr)
+	{
+		// Same as with the Object Iterator, access the subclass instance with the * or -> operators.
+		ATwitchPawn *actor = *ActorItr;
+		UE_LOG(LogTemp, Warning, TEXT("%s"),*(ActorItr->GetName()));
+		ActorItr->setQueue(campsManager.getQueueInit());
+		ActorItr->launch();
+	}
 	// Create thread and run thread
 	UE_LOG(LogTemp, Warning, TEXT("Game mode: Starting the thread"));
 	TwitchThread = FRunnableThread::Create(TwitchRunnable, TEXT("FTwitchMessageReceiver"), 0, TPri_BelowNormal);
-
 }
 
 void ATwitchTestGameMode::BeginDestroy()
@@ -67,12 +73,15 @@ void ATwitchTestGameMode::ConfigFile(FString FilPath) {
 		//UE_LOG(LogTemp, Warning, TEXT("%s"), *nickname);
 		channel = Parse(Array, "channel");
 		//UE_LOG(LogTemp, Warning, TEXT("%s"), *channel);
+		FString strategyName = Parse(Array, "strategy");
+		strategy = FindStrategy(strategyName);
 	}
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("Could not open config file"));
 	}
 
 }
+
 
 FString ATwitchTestGameMode::Parse(TArray<FString> Array, FString key) {
 
@@ -96,3 +105,16 @@ FString ATwitchTestGameMode::Parse(TArray<FString> Array, FString key) {
 
 	return "";
 }
+
+int32 ATwitchTestGameMode::FindStrategy(FString strategyName) {
+
+	TMap<FString, int32> StrategyMap;
+	StrategyMap.Add(TEXT("basic"), BASIC);
+	StrategyMap.Add(TEXT("anarchy"), ANARCHY);
+
+	int32 strat = 0;
+	strat = StrategyMap.FindRef(strategyName);
+
+	return strat;
+}
+

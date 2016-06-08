@@ -8,8 +8,7 @@ class TWITCHTEST_API CampsManager {
 
 public:
 
-	CampsManager(int nbCamps);
-
+	CampsManager(int nbCamps=0);
 	static const int AUTO_STRICT;
 	static const int AUTO_LAX;
 	static const int MANUAL;
@@ -21,13 +20,20 @@ public:
 	void BalanceTeam();
 	bool IsBalanced();
 
-	BlockingQueue<FString>* getQueue();
-
+	BlockingQueue<FString>* getQueueInit();
+	int GetNbCamps() {
+		return CampsList.Num();
+	}
 	int GetCampByPseudo(FString pseudo);
+
+	Camps* getCamps(int nb) {
+		return &CampsList[nb - 1];
+	}
+
 private:
 		TArray<Camps> CampsList;
 		uint32 AveragePlayers = 0;
-
+		uint32 nb_camps = 0;
 		void setAverage(uint32 avrg) { AveragePlayers = avrg; };
 		uint32 getAverage() { return AveragePlayers; };
 

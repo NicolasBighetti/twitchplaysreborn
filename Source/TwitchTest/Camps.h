@@ -42,9 +42,9 @@ public:
 			return Queue;
 		}
 	}
-
 	BlockingQueue<FString>* GetQueue()
 	{
+
 		return Queue;
 	}
 
@@ -54,7 +54,13 @@ public:
 
 	TQueue<FString>* GetTQueue()
 	{
+		if (isAssigned())
+			return NULL;
+
+		else {
+			IsAssigned = true;
 			return MessagesQueue;
+		}
 	}
 
 	void DisplayTeam();
