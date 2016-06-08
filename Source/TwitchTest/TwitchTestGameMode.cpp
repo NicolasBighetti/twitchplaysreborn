@@ -8,6 +8,7 @@
 FString oautch;
 FString nickname;
 FString channel;
+int32 strategy;
 
 void ATwitchTestGameMode::BeginPlay()
 {
@@ -26,8 +27,8 @@ void ATwitchTestGameMode::BeginPlay()
 		oautch,    // Authentication token
 		nickname, // Bot nickname
 		channel,   // Channel to join
-		GetWorld()
-		//ANARCHY
+		GetWorld(),
+		strategy
 	);
 
 	// Create thread and run thread
@@ -67,6 +68,9 @@ void ATwitchTestGameMode::ConfigFile(FString FilPath) {
 		//UE_LOG(LogTemp, Warning, TEXT("%s"), *nickname);
 		channel = Parse(Array, "channel");
 		//UE_LOG(LogTemp, Warning, TEXT("%s"), *channel);
+		FString strategyName = Parse(Array, "strategy");
+		strategy = FindStrategy(strategyName);
+
 	}
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("Could not open config file"));
@@ -95,4 +99,16 @@ FString ATwitchTestGameMode::Parse(TArray<FString> Array, FString key) {
 	UE_LOG(LogTemp, Fatal, TEXT("Key %s does not match"), *key);
 
 	return "";
+}
+
+int32 ATwitchTestGameMode::FindStrategy(FString strategyName) {
+
+	TMap<FString, int32> StrategyMap;
+	StrategyMap.Add(TEXT("basic"), BASIC);
+	StrategyMap.Add(TEXT("anarchy"), ANARCHY);
+
+	int32 strat = 0;
+	strat = StrategyMap.FindRef(strategyName);
+
+	return strat;
 }

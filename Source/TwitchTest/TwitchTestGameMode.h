@@ -16,4 +16,5 @@ public:
 	virtual void BeginDestroy() override;
 	void ATwitchTestGameMode::ConfigFile(FString FilPath);
 	FString ATwitchTestGameMode::Parse(TArray<FString> Array, FString key);
+	int32 ATwitchTestGameMode::FindStrategy(FString strategyName);
 };
