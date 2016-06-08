@@ -20,10 +20,10 @@ protected:
 	TQueue<FString>& CommandsQueue = FTwitchMessageReceiver::MessagesQueue;
 
 	// Commands registry
-	FCommandRegistry* CommandsRegistry;
+	FCommandRegistry<>* CommandsRegistry;
 
 public:
-	ThreadRead(FCommandRegistry* Commandes);
+	ThreadRead(FCommandRegistry<>* Commandes);
 	virtual bool Init();
 	virtual uint32 Run();
 	virtual void Stop();
