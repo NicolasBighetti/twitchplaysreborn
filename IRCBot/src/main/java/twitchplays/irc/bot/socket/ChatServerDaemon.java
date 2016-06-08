@@ -28,6 +28,7 @@ public class ChatServerDaemon {
         // Create socket
         ServerSocket serverSocket = new ServerSocket(Config.SERVER_PORT);
         System.out.println("Server started on port " + Config.SERVER_PORT);
+        System.out.println("\t-> Ctrl+C to stop the server");
 
         // Never stop handle clients
         do
