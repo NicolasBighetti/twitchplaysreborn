@@ -4,4 +4,5 @@
 
 #include "Engine.h"
 
+#define BASIC 0
 #define ANARCHY 1

@@ -26,8 +26,8 @@ void ATwitchTestGameMode::BeginPlay()
 		nickname, // Bot nickname
 		channel,   // Channel to join
 		GetWorld(),
-		&campsManager
-		//ANARCHY
+		&campsManager,
+		strategy
 	);
 	for (TActorIterator<ATwitchPawn> ActorItr(GetWorld()); ActorItr; ++ActorItr)
 	{
