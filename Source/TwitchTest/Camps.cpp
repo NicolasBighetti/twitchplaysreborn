@@ -2,6 +2,7 @@
 
 #include "TwitchTest.h"
 #include "Camps.h"
+#include "CoreMisc.h"
 
 bool Camps::AddPlayer(FString pseudo) {
 
@@ -17,15 +18,27 @@ bool Camps::AddPlayer(FString pseudo) {
 
 int Camps::RemovePlayer(FString pseudo)
 {
+
+	DisplayTeam();
+
 	int res = Pseudo.Remove(pseudo);
+
 	if (res != 0)
 		TotalPlayer--;
+
+	DisplayTeam();
 
 	return res;
 }
 
 bool Camps::IsInTeam(FString pseudo) {
 	return Pseudo.Contains(pseudo);
+}
+
+void Camps::DisplayTeam()
+{
+	for(FString pseudo : Pseudo)
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *pseudo);
 }
 
 /*

@@ -13,6 +13,8 @@ class TWITCHTEST_API Camps
 {
 public:
 
+
+
 	bool AddPlayer(FString pseudo);
 
 	int RemovePlayer(FString pseudo);
@@ -25,10 +27,13 @@ public:
 		return Pseudo;
 	}
 
+	void DisplayTeam();
+
 private:
 
 	TArray<FString> Pseudo;
-	uint32 TotalPlayer;
+	uint32 TotalPlayer = 0;
+	//ATwitchPawn CampsPawn;
 
 	
 };
