@@ -3,24 +3,31 @@
 #include "TwitchTest.h"
 #include "CommandRegistry.h"
 
-void FCommandRegistry::Register(FCommand* command)
+// ===== Commands =====
+
+template<class CMD = FCommand>
+void FCommandRegistry<CMD>::Register(CMD* command)
 {
+	//if (!CMD::Execute) return;
+
 	// Add command to list
 	Commands.Add(command->GetName(), command);
 }
 
-FCommand* FCommandRegistry::Get(FString name)
+template<class CMD = FCommand>
+CMD* FCommandRegistry<CMD>::Get(FString name)
 {
 	// Check if command exists
-	if (!Commands.Contains(name)) return NULL;
+	if (!IsCommand(name)) return NULL;
 
 	// Get command from list
 	return Commands[name];
 }
 
-bool FCommandRegistry::Execute(FString name)
+template<class CMD = FCommand>
+bool FCommandRegistry<CMD>::Execute(FString name)
 {
-	FCommand* command = Get(name);
+	CMD* command = Get(name);
 
 	// Execute command
 	if (command)
@@ -33,7 +40,14 @@ bool FCommandRegistry::Execute(FString name)
 	return false;
 }
 
-FCommandRegistry::~FCommandRegistry()
+template<class CMD = FCommand>
+bool FCommandRegistry<CMD>::IsCommand(FString name)
+{
+	return Commands.Contains(name);
+}
+
+template<class CMD = FCommand>
+FCommandRegistry<CMD>::~FCommandRegistry()
 {
 	// Free registered commands
 	for (auto& cmd : Commands)
