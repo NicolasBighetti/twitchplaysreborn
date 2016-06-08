@@ -33,7 +33,7 @@ uint32 ThreadRead::Run()
 			CommandsQueue.Dequeue(cmd);
 			*/
 			UE_LOG(LogTemp, Warning, TEXT("Ball-> Executing command: %s"), *cmd);
-			if (cmd.Equals(TEXT("stop") && running==false)) {
+			if (cmd.Equals(TEXT("stop")) && running==false) {
 				queue->clear();
 				break;
 			}
