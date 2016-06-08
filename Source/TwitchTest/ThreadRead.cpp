@@ -33,14 +33,24 @@ uint32 ThreadRead::Run()
 			CommandsQueue.Dequeue(cmd);
 			*/
 			UE_LOG(LogTemp, Warning, TEXT("Ball-> Executing command: %s"), *cmd);
-			if (cmd.Equals(TEXT("stop"))) {
+			if (cmd.Equals(TEXT("stop")) && running==false) {
 				queue->clear();
 				break;
 			}
+
+			FFunctionGraphTask::CreateAndDispatchWhenReady([this,cmd]() {
+				if (!CommandsRegistry->Execute(cmd))
+					UE_LOG(LogTemp, Warning, TEXT("Ball-> Unknown command: %s"), *cmd);
+
+			}
+			, TStatId(), nullptr, ENamedThreads::GameThread);
 			// Execute command
+			/*
 			if (!CommandsRegistry->Execute(cmd))
 				// Command not found
 				UE_LOG(LogTemp, Warning, TEXT("Ball-> Unknown command: %s"), *cmd);
+		*/
+		UE_LOG(LogTemp, Warning, TEXT("it"));
 	}
 	return EXIT_SUCCESS;
 }
