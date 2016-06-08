@@ -19,45 +19,20 @@ void ATwitchTestGameMode::BeginPlay()
 	FString Path = "Source/config.txt";
 	ConfigFile(Path);
 
-
-	cmpM.AddPlayer("Yolo", CampsManager::MANUAL, 1);
-
-	UE_LOG(LogTemp, Warning, TEXT("Added Yolo : %s"), *FString::FromInt(cmpM.GetCampByPseudo("Yolo")));
-
-	cmpM.RemovePlayer("Yolo", 1);
-
-	UE_LOG(LogTemp, Warning, TEXT("Removed yolo : %s"), *FString::FromInt(cmpM.GetCampByPseudo("Yolo")));
-
-	cmpM.AddPlayer("Yolo", CampsManager::AUTO_STRICT, 2);
-
-	UE_LOG(LogTemp, Warning, TEXT("Added Yolo : %s"), *FString::FromInt(cmpM.GetCampByPseudo("Yolo")));
-
-	cmpM.AddPlayer("Test", CampsManager::AUTO_STRICT, 1);
-	cmpM.AddPlayer("Tost", CampsManager::AUTO_STRICT, 1);
-	cmpM.AddPlayer("Tast", CampsManager::AUTO_STRICT, 1);
-
-	UE_LOG(LogTemp, Warning, TEXT("Added lot of shit : %s"), *FString::FromInt(cmpM.GetCampByPseudo("Yolo")));
-
-	cmpM.RemovePlayer("Tost", 1);
-
-	UE_LOG(LogTemp, Warning, TEXT("Removed shit : %s"), *FString::FromInt(cmpM.GetCampByPseudo("Tast")));
-	UE_LOG(LogTemp, Warning, TEXT("This shit still here: %s"), *FString::FromInt(cmpM.GetCampByPseudo("Tost")));
-
 	// Create Twitch runnable
-	/*UE_LOG(LogTemp, Warning, TEXT("Game mode: Creating the runnable"));	
+	UE_LOG(LogTemp, Warning, TEXT("Game mode: Creating the runnable"));	
 
 	TwitchRunnable = new FTwitchMessageReceiver(
 		oautch,    // Authentication token
 		nickname, // Bot nickname
 		channel,   // Channel to join
-		GetWorld(),
-		ANARCHY
+		GetWorld()
+		//ANARCHY
 	);
 
 	// Create thread and run thread
 	UE_LOG(LogTemp, Warning, TEXT("Game mode: Starting the thread"));
-	TwitchThread = FRunnableThread::Create(TwitchRunnable, TEXT("FTwitchMessageReceiver"), 0, TPri_BelowNormal);*/
-
+	TwitchThread = FRunnableThread::Create(TwitchRunnable, TEXT("FTwitchMessageReceiver"), 0, TPri_BelowNormal);
 
 }
 

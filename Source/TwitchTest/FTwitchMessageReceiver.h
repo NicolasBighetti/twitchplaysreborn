@@ -31,13 +31,12 @@ public:
 	FTwitchMessageReceiver(FString _oAuth, FString _nickname, FString _channel, UWorld* _pointer, int32 _flag = 0)
 		: OAuth(_oAuth), Nickname(_nickname), Channel(_channel)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("%d , %d"), _flag, ANARCHY);
 		if (_flag == ANARCHY) {
-			UE_LOG(LogTemp, Warning, TEXT("Anarchy"));
+			UE_LOG(LogTemp, Warning, TEXT("Mode : Anarchy"));
 			Strat = new Anarchy(_pointer, &Queue, &Messages, 2);
 		}
 		else {
-			UE_LOG(LogTemp, Warning, TEXT("Basic"));
+			UE_LOG(LogTemp, Warning, TEXT("Mode : Basic"));
 			Strat = new Strategy(&Queue, &Messages);
 		}
 	}

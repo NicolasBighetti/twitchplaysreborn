@@ -17,7 +17,7 @@ ATwitchPawn::ATwitchPawn()
 void ATwitchPawn::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Warning, TEXT("Ball beguin play"));
+	UE_LOG(LogTemp, Warning, TEXT("Ball begin play"));
 	_run = new ThreadRead(&CommandsRegistry);
 	_thread = FRunnableThread::Create(_run, TEXT("FThreadRead"), 0, TPri_BelowNormal);
 }
