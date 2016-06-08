@@ -2,11 +2,10 @@
 #include "ThreadRead.h"
 
 
-ThreadRead::ThreadRead(FCommandRegistry* Commands) {
-
+ThreadRead::ThreadRead(FCommandRegistry<>* Commands) {
 	CommandsRegistry = Commands;
-
 }
+
 bool ThreadRead::Init()
 {
 	UE_LOG(LogTemp, Warning, TEXT("init thread read"));
