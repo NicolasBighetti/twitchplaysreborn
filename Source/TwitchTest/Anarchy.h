@@ -6,21 +6,24 @@
 /**
  * 
  */
-//class TWITCHTEST_API Anarchy : public Strategy, public UObject
 class TWITCHTEST_API Anarchy : public Strategy
 {
 public:
 	 
-	//Anarchy(FTimerManager* w, BlockingQueue<FString>* q) : Strategy(q), UObject() {
-	Anarchy(UWorld* w, BlockingQueue<FString>* q) : Strategy(q) {
+	Anarchy(UWorld* w, BlockingQueue<FString>* q, TMap<FString, FString>* m, int32 time) : Strategy(q, m) {
 		world = w;
-		//world->GetTimerManager().SetTimer(TimerHandle, this, &Anarchy::OnTick, 2, false);
+		FTimerDelegate del;
+		del.BindLambda([this] {
+			OnTick();
+		});
+		world->GetTimerManager().SetTimer(TimerHandle, del, time, true);
 	};
+
 
 	FTimerHandle TimerHandle;
 	UWorld* world;
 
-	void Receive() override;
+	void Receive(FString userName, FString message) override;
 	void OnTick() override;
 
 };

@@ -25,13 +25,21 @@ private:
 public:
 	static TQueue<FString> MessagesQueue;
 	static BlockingQueue<FString>Queue;
+	TMap<FString, FString> Messages;
 
 	// Constructor
-	FTwitchMessageReceiver(FString _oAuth, FString _nickname, FString _channel, UWorld* _pointer)
+	FTwitchMessageReceiver(FString _oAuth, FString _nickname, FString _channel, UWorld* _pointer, int32 _flag = 0)
 		: OAuth(_oAuth), Nickname(_nickname), Channel(_channel)
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("Avant l'anarchy"));
-		Strat = new Anarchy(_pointer, &Queue);
+		UE_LOG(LogTemp, Warning, TEXT("%d , %d"), _flag, ANARCHY);
+		if (_flag == ANARCHY) {
+			UE_LOG(LogTemp, Warning, TEXT("Anarchy"));
+			Strat = new Anarchy(_pointer, &Queue, &Messages, 2);
+		}
+		else {
+			UE_LOG(LogTemp, Warning, TEXT("Basic"));
+			Strat = new Strategy(&Queue, &Messages);
+		}
 	}
 
 	// Send and receive message in channel

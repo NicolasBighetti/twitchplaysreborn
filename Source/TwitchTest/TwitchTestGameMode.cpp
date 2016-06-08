@@ -23,7 +23,8 @@ void ATwitchTestGameMode::BeginPlay()
 		oautch,    // Authentication token
 		nickname, // Bot nickname
 		channel,   // Channel to join
-		GetWorld()
+		GetWorld(),
+		ANARCHY
 	);
 
 	// Create thread and run thread

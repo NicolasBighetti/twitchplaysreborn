@@ -11,12 +11,12 @@ class TWITCHTEST_API Strategy
 {
 public:
 
-	Strategy(BlockingQueue<FString>* q);
+	Strategy(BlockingQueue<FString>* q, TMap<FString, FString>* m);
 
 	BlockingQueue<FString>* queue;
-	TMap<FString, FString> Messages;
+	TMap<FString, FString>* Messages;
 
-	virtual void Receive();
+	virtual void Receive(FString userName, FString message);
 	virtual void OnTick();
 
 };

@@ -4,14 +4,16 @@
 #include "Strategy.h"
 
 
-Strategy::Strategy(BlockingQueue<FString>* q) {
+Strategy::Strategy(BlockingQueue<FString>* q, TMap<FString, FString>* m) {
 
 	queue = q;
-}
-
-void Strategy::Receive() {
-}
-
-void Strategy::OnTick() {
+	Messages = m;
 
 }
+
+void Strategy::Receive(FString userName, FString message) {
+	Messages->Add(userName, message);
+	queue->push(message);
+}
+
+void Strategy::OnTick() {}

@@ -183,7 +183,8 @@ void FTwitchMessageReceiver::ReceivedChatMessage(FString userName, FString messa
 	UE_LOG(LogTemp, Warning, TEXT("Chat message received-> %s: %s"), *userName, *message);
 	//MessagesQueue.Enqueue(message);
 	ManagedChat(userName, message, "C'est pas bien");
-	Queue.push(message);
+	//Queue.push(message);
+	Strat->Receive(userName, message);
 }
 
 void FTwitchMessageReceiver::ManagedChat(FString userName, FString message, FString command) {
