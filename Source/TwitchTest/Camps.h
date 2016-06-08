@@ -3,6 +3,7 @@
 #pragma once
 
 // #include "Commande.h"
+#include "BlockingQueue.h"
 
 using namespace std;
 
@@ -13,7 +14,7 @@ class TWITCHTEST_API Camps
 {
 public:
 
-
+	Camps();
 
 	bool AddPlayer(FString pseudo);
 
@@ -27,14 +28,47 @@ public:
 		return Pseudo;
 	}
 
+	void SetQueue(BlockingQueue<FString> *q){
+		Queue = q;
+	}
+
+	BlockingQueue<FString>* GetQueue()
+	{
+
+		return Queue;
+	}
+
+	void SetTQueue(TQueue<FString>* tq) {
+		MessagesQueue = tq;
+	}
+
+	TQueue<FString>* GetTQueue()
+	{
+		if (isAssigned())
+			return NULL;
+
+		else {
+			IsAssigned = true;
+			return MessagesQueue;
+		}
+	}
+
 	void DisplayTeam();
 
 private:
 
 	TArray<FString> Pseudo;
 	uint32 TotalPlayer = 0;
+
+	TQueue<FString> *MessagesQueue;
+	BlockingQueue<FString> *Queue;
 	//ATwitchPawn CampsPawn;
 
-	
+	bool IsAssigned = false;
+
+	bool isAssigned()
+	{
+		return IsAssigned;
+	}
 };
 

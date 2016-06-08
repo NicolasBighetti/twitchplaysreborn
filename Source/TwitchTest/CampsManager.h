@@ -2,6 +2,7 @@
 
 #include "TwitchTest.h"
 #include "Camps.h"
+#include "BlockingQueue.h"
 
 class TWITCHTEST_API CampsManager {
 
@@ -19,6 +20,8 @@ public:
 	bool AddPlayerToTeam(FString pseudo, int team);
 	void BalanceTeam();
 	bool IsBalanced();
+
+	BlockingQueue<FString>* getQueue();
 
 	int GetCampByPseudo(FString pseudo);
 private:

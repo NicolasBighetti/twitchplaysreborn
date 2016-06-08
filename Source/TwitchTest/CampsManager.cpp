@@ -149,3 +149,16 @@ bool CampsManager::IsBalanced()
 {
 	return false;
 }
+
+BlockingQueue<FString>* CampsManager::getQueue()
+{
+	BlockingQueue<FString>* bq;
+
+	for (Camps cmp : CampsList)
+	{
+		bq = cmp.GetQueue();
+		if (bq != NULL)
+			return bq;
+	}
+	return NULL;
+}

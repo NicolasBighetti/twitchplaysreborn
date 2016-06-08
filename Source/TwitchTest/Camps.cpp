@@ -4,6 +4,12 @@
 #include "Camps.h"
 #include "CoreMisc.h"
 
+Camps::Camps()
+{
+	MessagesQueue = new TQueue<FString>();
+	Queue = new BlockingQueue<FString>();
+}
+
 bool Camps::AddPlayer(FString pseudo) {
 
 	if (!Pseudo.Contains(pseudo)) {
