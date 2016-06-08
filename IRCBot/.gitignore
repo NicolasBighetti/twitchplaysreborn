@@ -1,10 +1,21 @@
+# IntelliJ
+*.iml
+.idea/
+.idea/*
+
+# Compiled files
 out/
 out/*
+*.class
+
+# Maven
+target/
+target/*
+
+# Others
 
 .clover/
 .clover/*
 
-.idea/
-.idea/*
 
-*.iml
+
