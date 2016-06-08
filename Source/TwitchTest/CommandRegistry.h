@@ -13,7 +13,13 @@ class TWITCHTEST_API FCommandRegistry
 private:
 	// Commands list
 	TMap<FString, CMD*> Commands;
+
+	// Contains every keywords registered
+	static TSet<FString> ExistingKeywords;
 public:
+	// Check if commands exists
+	static bool ExistsCommand(FString name);
+
 	// World commands
 	static const FCommandRegistry<FWorldCommand> World;
 
@@ -23,6 +29,9 @@ public:
 	  * Registers a command.
 	  */
 	void Register(CMD* command) {
+		// Add keyword to list
+		ExistingKeywords.Add(command->GetName());
+
 		// Add command to list
 		Commands.Add(command->GetName(), command);
 	}
