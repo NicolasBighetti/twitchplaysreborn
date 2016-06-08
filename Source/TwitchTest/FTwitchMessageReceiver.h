@@ -33,7 +33,7 @@ public:
 	{
 		if (_flag == ANARCHY) {
 			UE_LOG(LogTemp, Warning, TEXT("Mode : Anarchy"));
-			Strat = new Anarchy(_pointer, &Queue, &Messages, 2);
+			Strat = new Anarchy(_pointer, &Queue, &Messages, 1);
 		}
 		else {
 			UE_LOG(LogTemp, Warning, TEXT("Mode : Basic"));
