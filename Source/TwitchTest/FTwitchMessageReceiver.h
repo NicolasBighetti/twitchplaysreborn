@@ -35,7 +35,7 @@ public:
 	{
 		if (_flag == ANARCHY) {
 			UE_LOG(LogTemp, Warning, TEXT("Strategy : Anarchy"));
-			Strat = new Anarchy(_pointer, &Queue, 2,camps);
+			Strat = new Anarchy(_pointer, &Queue, 1, camps);
 		}
 		else {
 			UE_LOG(LogTemp, Warning, TEXT("Strategy : Basic"));

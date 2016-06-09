@@ -8,13 +8,11 @@ const int CampsManager::MANUAL = 2;
 
 const int CampsManager::LAX_THRESHOLD = 2;
 
-CampsManager::CampsManager() {
-}
 
 uint32 CampsManager::AddCamps(Camps* cmp) {
 	uint32 res = CampsList.Add(cmp);
-	if (res)
-		nb_camps++;
+
+	nb_camps++;
 
 	return res;
 }

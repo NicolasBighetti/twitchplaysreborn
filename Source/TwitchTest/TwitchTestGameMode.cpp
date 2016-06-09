@@ -17,30 +17,34 @@ void ATwitchTestGameMode::BeginPlay()
 	//config file
 	FString Path = "Source/config.txt";
 	ConfigFile(Path);
+	
+	campsManager = CampsManager();
 
-	// Create Twitch runnable
-	UE_LOG(LogTemp, Warning, TEXT("Game mode: Creating the runnable"));	
-	campsManager = CampsManager(2);
-	TwitchRunnable = new FTwitchMessageReceiver(
-		oautch,    // Authentication token
-		nickname, // Bot nickname
-		channel,   // Channel to join
-		GetWorld(),
-		&campsManager
-		//ANARCHY
-	);
 	for (TActorIterator<ATwitchPawn> ActorItr(GetWorld()); ActorItr; ++ActorItr)
 	{
 		// Same as with the Object Iterator, access the subclass instance with the * or -> operators.
 		ATwitchPawn *actor = *ActorItr;
-		UE_LOG(LogTemp, Warning, TEXT("%s"),*(ActorItr->GetName()));
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *(ActorItr->GetName()));
 
 		Camps* c = new Camps(TEXT("boule"));
 		campsManager.AddCamps(c);
 		ActorItr->setCamps(c);
 		//ActorItr->setQueue(campsManager.getQueueInit());
 		ActorItr->launch();
+	}
 
+	// Create Twitch runnable
+	UE_LOG(LogTemp, Warning, TEXT("Game mode: Creating the runnable"));	
+	
+	TwitchRunnable = new FTwitchMessageReceiver(
+		oautch,    // Authentication token
+		nickname, // Bot nickname
+		channel,   // Channel to join
+		GetWorld(),
+		&campsManager,
+		strategy //ANARCHY
+	);
+	
 /*
 		BlockingQueue<FString>* queue = campsManager.getQueueInit();
 		if (queue != NULL) {
@@ -48,7 +52,7 @@ void ATwitchTestGameMode::BeginPlay()
 			ActorItr->launch();
 		}
 */
-	}
+	
 	// Create thread and run thread
 	UE_LOG(LogTemp, Warning, TEXT("Game mode: Starting the thread"));
 	TwitchThread = FRunnableThread::Create(TwitchRunnable, TEXT("FTwitchMessageReceiver"), 0, TPri_BelowNormal);

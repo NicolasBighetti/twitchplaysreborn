@@ -193,9 +193,15 @@ void FTwitchMessageReceiver::ReceivedChatMessage(FString userName, FString messa
 	*/
 	if (message.Equals(TEXT("join 1"))) {
 		camps->AddPlayerToTeam(userName, 1);
+		return;
 	}
 	if (message.Equals(TEXT("join 2"))) {
 		camps->AddPlayerToTeam(userName, 2);
+		return;
+	}
+	if (message.Equals(TEXT("join 3"))) {
+		camps->AddPlayerToTeam(userName, 3);
+		return;
 	}
 	Strat->Receive(userName, message);
 }

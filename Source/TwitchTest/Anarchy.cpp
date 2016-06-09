@@ -9,11 +9,13 @@ void Anarchy::OnTick() {
 	UE_LOG(LogTemp, Warning, TEXT("Anarchy OnTick"));
 	int i;
 	//on push la premiere commande présente dans les différentes maps
-	for (i =0 ; i < camps->GetNbCamps(); i++) {
+	for (i = 0 ; i < camps->GetNbCamps(); i++) {
 		auto It = Messages[i].CreateConstIterator();
-		FString commande;
-		camps->getCamps(i)->GetQueue()->push(*It.Value());
-		Messages[i].Empty();
+
+		if (It) {
+			camps->getCamps(i+1)->GetQueue()->push(*It.Value());
+			Messages[i].Empty();
+		}
 	}
 	
 	/*

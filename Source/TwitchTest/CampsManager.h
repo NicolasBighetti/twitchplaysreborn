@@ -22,7 +22,7 @@ public:
 	bool IsAlreadyInATeam(FString pseudo);
 	BlockingQueue<FString>* getQueueInit();
 	int GetNbCamps() {
-		return CampsList.Num();
+		return nb_camps;
 	}
 
 	BlockingQueue<FString>* getQueueInit(int i) {

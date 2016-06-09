@@ -56,6 +56,7 @@ void AHole::Tick( float DeltaTime )
 
 void AHole::OnBeginOverlap(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult) {
 
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Well played !"));
 	OurParticleSystem->Activate(false);
 	AudioComp->Activate(false);
 
