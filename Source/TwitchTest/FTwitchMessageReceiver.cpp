@@ -198,7 +198,7 @@ bool FTwitchMessageReceiver::ReceivedChatMessage(FString userName, int team) {
 
 	camps->AddPlayer(userName, CampsManager::MANUAL, team);
 
-	Strat->Receive(userName, message);
+	//Strat->Receive(userName, message);
 
 	return false;
 }
