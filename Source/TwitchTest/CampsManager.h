@@ -24,6 +24,11 @@ public:
 	int GetNbCamps() {
 		return CampsList.Num();
 	}
+
+	BlockingQueue<FString>* getQueueInit(int i) {
+		return CampsList[i - 1].GetQueueInit();
+	}
+
 	int GetCampByPseudo(FString pseudo);
 
 	Camps* getCamps(int nb) {
