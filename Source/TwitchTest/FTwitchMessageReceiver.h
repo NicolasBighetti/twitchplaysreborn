@@ -35,11 +35,11 @@ public:
 	{
 		UE_LOG(LogTemp, Warning, TEXT("%d , %d"), _flag, ANARCHY);
 		if (_flag == ANARCHY) {
-			UE_LOG(LogTemp, Warning, TEXT("Anarchy"));
+			UE_LOG(LogTemp, Warning, TEXT("Strategy : Anarchy"));
 			Strat = new Anarchy(_pointer, &Queue, 2,camps);
 		}
 		else {
-			UE_LOG(LogTemp, Warning, TEXT("Basic"));
+			UE_LOG(LogTemp, Warning, TEXT("Strategy : Basic"));
 			Strat = new Strategy(&Queue,camps);
 		}
 	}
