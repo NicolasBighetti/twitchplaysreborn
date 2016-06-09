@@ -6,7 +6,6 @@
 #include "CommandRegistry.h"
 
 // Initialize static values
-//const FCommandRegistry<>::FCommandRegistry<FWorldCommand> World;
 TSet<FString> FCommandRegistry<>::ExistingKeywords;
 
 bool FCommandRegistry<>::ExistsCommand(FString name)

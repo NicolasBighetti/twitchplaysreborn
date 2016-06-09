@@ -16,5 +16,6 @@ protected:
 	GameContext* Context;
 
 public:
-	FWorldCommand(FString _name, UWorld* _world, GameContext* _context) : FCommand(_name), World(_world), Context(_context) {}
+	FWorldCommand(FString _name, UWorld* _world, GameContext* _context) 
+		: FCommand(_name), World(_world), Context(_context) {}
 };

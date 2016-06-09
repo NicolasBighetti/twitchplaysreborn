@@ -20,8 +20,12 @@ public:
 	// Check if commands exists
 	static bool ExistsCommand(FString name);
 
-	// World commands
-	static const FCommandRegistry<FWorldCommand> World;
+	// Get world commands registry
+	static FCommandRegistry<FWorldCommand>* World()
+	{
+		static FCommandRegistry<FWorldCommand> world;
+		return &world;
+	}
 
 	// === Commands management
 

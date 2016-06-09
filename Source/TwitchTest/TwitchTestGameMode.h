@@ -1,6 +1,8 @@
 #include "TwitchTest.h"
 #include "BlockingQueue.h"
 #include "GameContext.h"
+#include "CommandRegistry.h"
+#include "WorldCommands.h"
 #include "TwitchTestGameMode.generated.h"
 
 UCLASS()
@@ -19,6 +21,12 @@ public:
 
 	// To override
 	virtual GameContext* CreateContext() { return new GameContext(); };
+	virtual void RegisterWorldCommands() { 
+		FCommandRegistry<>::World()->Register(
+			new FJoinWorldCommand(GetWorld(), Context)
+		);
+	};
+
 
 	// Config functions
 	void ATwitchTestGameMode::ConfigFile(FString FilPath);

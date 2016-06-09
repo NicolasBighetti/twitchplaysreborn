@@ -202,6 +202,15 @@ void FTwitchMessageReceiver::ReceivedChatMessage(FString userName, FString messa
 		return;
 	}
 
+	// Check if this is a world command
+	FWorldCommand* cmd = FCommandRegistry<>::World()->Get(parser.GetName());
+	if (cmd != NULL)
+	{
+		// Execute world command
+		cmd->Execute(parser);
+		return;
+	}
+
 	// Send command to strategy
 	Strat->Receive(parser);
 }
