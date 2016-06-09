@@ -3,7 +3,7 @@
 #pragma once
 
 #include "GameFramework/Pawn.h"
-#include "FTwitchMessageReceiver.h"
+#include "TwitchMessageReceiver.h"
 #include "CommandRegistry.h"
 #include "ThreadRead.h"
 #include "TwitchPawn.generated.h"
@@ -31,7 +31,8 @@ public:
 	virtual void Tick( float DeltaSeconds ) override;
 	virtual void BeginPlay() override;
 	virtual void BeginDestroy() override;
-	virtual void setQueue(BlockingQueue<FString>* queue);
+
+	virtual void setQueue(BlockingQueue<FCommandParser>* queue);
 	virtual void setCamps(Camps* c);
 	virtual void launch();
 };

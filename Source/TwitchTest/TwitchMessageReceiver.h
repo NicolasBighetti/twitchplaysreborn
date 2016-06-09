@@ -2,8 +2,7 @@
 #pragma once
 #include "TwitchTest.h"
 #include "BlockingQueue.h"
-#include "Strategy.h"
-#include "CampsManager.h"
+#include "GameContext.h"
 #include "Anarchy.h"
 
 //typedef void(*ReceivedTwitchMessageCallback)(FString, FString);
@@ -13,7 +12,7 @@
 class TWITCHTEST_API FTwitchMessageReceiver : public FRunnable
 {
 private:
-	CampsManager* camps;
+	GameContext* Context;
 	FSocket* ListenerSocket;
 	FString OAuth, Nickname, Channel;
 	bool KeepReceivingMessage = true;
@@ -26,20 +25,20 @@ private:
 
 public:
 	static TQueue<FString> MessagesQueue;
-	static BlockingQueue<FString>Queue;
+	static BlockingQueue<FCommandParser> Queue;
 	//TMap<FString, FString> Messages;
 
 	// Constructor
-	FTwitchMessageReceiver(FString _oAuth, FString _nickname, FString _channel, UWorld* _pointer,CampsManager* _camps, int32 _flag = 0)
-		: OAuth(_oAuth), Nickname(_nickname), Channel(_channel),camps(_camps)
+	FTwitchMessageReceiver(FString _oAuth, FString _nickname, FString _channel, UWorld* _world, GameContext* _context, int32 _strategy = STRAT_BASIC)
+		: OAuth(_oAuth), Nickname(_nickname), Channel(_channel), Context(_context)
 	{
-		if (_flag == ANARCHY) {
+		if (_strategy == STRAT_ANARCHY) {
 			UE_LOG(LogTemp, Warning, TEXT("Strategy : Anarchy"));
-			Strat = new Anarchy(_pointer, &Queue, 1, camps);
+			Strat = new Anarchy(_world, &Queue, 1, Context);
 		}
 		else {
 			UE_LOG(LogTemp, Warning, TEXT("Strategy : Basic"));
-			Strat = new Strategy(&Queue,camps);
+			Strat = new Strategy(&Queue, Context);
 		}
 	}
 

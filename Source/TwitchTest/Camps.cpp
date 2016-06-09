@@ -7,7 +7,7 @@
 
 Camps::Camps(FString CampsName) {
 	MessagesQueue = new TQueue<FString>();
-	Queue = new BlockingQueue<FString>();
+	Queue = new BlockingQueue<FCommandParser>();
 	Name = CampsName;
 }
 

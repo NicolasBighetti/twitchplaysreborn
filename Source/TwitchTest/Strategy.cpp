@@ -3,37 +3,28 @@
 #include "TwitchTest.h"
 #include "Strategy.h"
 
-
-Strategy::Strategy(BlockingQueue<FString>* q, CampsManager* campsmanager) {
-
-	queue = q;
-	camps = campsmanager;
-	int i;
-	int nb = camps->GetNbCamps();
+Strategy::Strategy(BlockingQueue<FCommandParser>* _queue, GameContext* _context) : queue(_queue), Context(_context)
+{
+	int nb = Context->GetCamps()->GetNbCamps();
+	bool multicamps = (nb > 1);
 
 	UE_LOG(LogTemp, Warning, TEXT("multi camps test %d"), nb);
 
-	if (nb <= 1) {
-		multicamps = false;
-	}
-	else
-		multicamps = true;
-
-	for (i = 0; i < nb; i++)
-		Messages.Add(TMap<FString, FString>());
+	for (int i = 0; i < nb; i++)
+		Messages.Add(TMap<FString, FCommandParser>());
 }
 
-void Strategy::Receive(FString userName, FString message) {
+void Strategy::Receive(FCommandParser parser) {
 	int cmp = 1;
 
 	if (multicamps) {
-		cmp = camps->GetCampByPseudo(userName);
+		cmp = Context->GetCamps()->GetCampByPseudo(parser.GetUserName());
 		UE_LOG(LogTemp, Warning, TEXT("multi camps test %d"), cmp);
 	}
 	if (cmp > 0) {
 		UE_LOG(LogTemp, Warning, TEXT("test dans strategy receive %d"), cmp);
-		Messages[cmp-1].Add(userName, message);
-		camps->getCamps(cmp)->GetQueue()->push(message);
+		//Messages[cmp-1].Add(parser.GetUserName(), parser);
+		Context->GetCamps()->getCamps(cmp)->GetQueue()->push(parser);
 		//queue->push(message);
 	}
 }

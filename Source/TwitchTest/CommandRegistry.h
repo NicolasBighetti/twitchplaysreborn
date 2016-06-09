@@ -51,14 +51,14 @@ public:
 	/**
 	  * Executes a command.
 	  */
-	bool Execute(FString name)
+	bool Execute(FCommandParser parser)
 	{
-		CMD* command = Get(name);
+		CMD* command = Get(parser.GetName());
 
 		// Execute command
 		if (command)
 		{
-			command->Execute();
+			command->Execute(parser);
 			return true;
 		}
 

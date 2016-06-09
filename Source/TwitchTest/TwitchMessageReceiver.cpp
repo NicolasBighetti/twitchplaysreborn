@@ -2,7 +2,8 @@
 #include "TwitchTest.h"
 #include <string>
 #include "Networking.h"
-#include "FTwitchMessageReceiver.h"
+#include "TwitchMessageReceiver.h"
+#include "CommandRegistry.h"
 
 #define SOCKET_NAME "TwitchListener"
 #define SOCKET_HOST "irc.twitch.tv"
@@ -10,7 +11,7 @@
 
 // Initialize queue
 TQueue<FString> FTwitchMessageReceiver::MessagesQueue;
-BlockingQueue<FString>FTwitchMessageReceiver::Queue;
+BlockingQueue<FCommandParser>FTwitchMessageReceiver::Queue;
 
 bool FTwitchMessageReceiver::Init()
 {
@@ -40,9 +41,9 @@ void FTwitchMessageReceiver::Stop()
 	UE_LOG(LogTemp, Warning, TEXT("Twitch receiver: Stop"));
 
 	int i;
-	for (i = 1; i <= camps->GetNbCamps(); i++) {
+	for (i = 1; i <= Context->GetCamps()->GetNbCamps(); i++) {
 		UE_LOG(LogTemp, Warning, TEXT("Liste des joueurs du camp %d :"), i);
-		camps->getCamps(i)->DisplayTeam();
+		Context->GetCamps()->getCamps(i)->DisplayTeam();
 	}
 
 	// Close and destroy socket
@@ -187,29 +188,22 @@ bool FTwitchMessageReceiver::SendMessage(FString msg)
 void FTwitchMessageReceiver::ReceivedChatMessage(FString userName, FString message)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Chat message received-> %s: %s"), *userName, *message);
-	//MessagesQueue.Enqueue(message);
+
+	// Check banned words
 	ManagedChat(userName, message, "C'est pas bien");
-	//Queue.push(message);
-	/*
-	if (!FCommandRegistry<>::ExistsCommand(message))
+
+	// Parse command
+	FCommandParser parser(userName, message);
+
+	// Check if command exists
+	if (!FCommandRegistry<>::ExistsCommand(parser.GetName()))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Ball-> Unknown command: %s"), *message);
-		return ;
-	}
-	*/
-	if (message.Equals(TEXT("join 1"))) {
-		camps->AddPlayer(userName,CampsManager::AUTO_STRICT, 1);
+		UE_LOG(LogTemp, Warning, TEXT("Ball-> Unknown command: %s"), *(parser.GetName()));
 		return;
 	}
-	if (message.Equals(TEXT("join 2"))) {
-		camps->AddPlayer(userName, CampsManager::AUTO_STRICT, 2);
-		return;
-	}
-	if (message.Equals(TEXT("join 3"))) {
-		camps->AddPlayer(userName,CampsManager::AUTO_STRICT, 3);
-		return;
-	}
-	Strat->Receive(userName, message);
+
+	// Send command to strategy
+	Strat->Receive(parser);
 }
 
 void FTwitchMessageReceiver::ManagedChat(FString userName, FString message, FString command) {

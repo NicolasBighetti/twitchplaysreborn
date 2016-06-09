@@ -20,12 +20,12 @@ public:
 	void BalanceTeam();
 	bool IsBalanced();
 	bool IsAlreadyInATeam(FString pseudo);
-	BlockingQueue<FString>* getQueueInit();
+	BlockingQueue<FCommandParser>* getQueueInit();
 	int GetNbCamps() {
 		return nb_camps;
 	}
 
-	BlockingQueue<FString>* getQueueInit(int i) {
+	BlockingQueue<FCommandParser>* getQueueInit(int i) {
 		return CampsList[i - 1]->GetQueueInit();
 	}
 

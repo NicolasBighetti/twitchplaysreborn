@@ -3,7 +3,7 @@
 #pragma once
 #include "TwitchTest.h"
 #include "BlockingQueue.h"
-#include "FTwitchMessageReceiver.h"
+#include "TwitchMessageReceiver.h"
 #include "CommandRegistry.h"
 /**
  * 
@@ -13,7 +13,7 @@ class TWITCHTEST_API ThreadRead : public FRunnable
 public:
 	bool running = true;
 	int32 nb_camps;
-	BlockingQueue<FString>* queue;
+	BlockingQueue<FCommandParser>* queue;
 
 protected:
 	// Twitch messages queue
@@ -27,5 +27,5 @@ public:
 	virtual bool Init();
 	virtual uint32 Run();
 	virtual void Stop();
-	virtual void setQueue(BlockingQueue<FString>* queue);
+	virtual void SetQueue(BlockingQueue<FCommandParser>* queue);
 };

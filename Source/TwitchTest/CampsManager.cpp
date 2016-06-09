@@ -154,9 +154,9 @@ bool CampsManager::IsBalanced()
 	return false;
 }
 
-BlockingQueue<FString>* CampsManager::getQueueInit()
+BlockingQueue<FCommandParser>* CampsManager::getQueueInit()
 {
-	BlockingQueue<FString>* bq;
+	BlockingQueue<FCommandParser>* bq;
 
 	for (int i = 0; i < CampsList.Num(); i++)
 	{

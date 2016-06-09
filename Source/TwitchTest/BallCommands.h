@@ -23,7 +23,7 @@ class TWITCHTEST_API FBallLeftCommand : public FBallCommand
 {
 public:
 	FBallLeftCommand(ABall* _ball) : FBallCommand(TEXT("q"), _ball) {}
-	virtual void Execute();
+	virtual void Execute(FCommandParser parser);
 };
 
 /**
@@ -33,7 +33,7 @@ class TWITCHTEST_API FBallRightCommand : public FBallCommand
 {
 public:
 	FBallRightCommand(ABall* _ball) : FBallCommand(TEXT("d"), _ball) {}
-	virtual void Execute();
+	virtual void Execute(FCommandParser parser);
 };
 
 /**
@@ -43,7 +43,7 @@ class TWITCHTEST_API FBallForwardCommand : public FBallCommand
 {
 public:
 	FBallForwardCommand(ABall* _ball) : FBallCommand(TEXT("z"), _ball) {}
-	virtual void Execute();
+	virtual void Execute(FCommandParser parser);
 };
 
 /**
@@ -53,7 +53,7 @@ class TWITCHTEST_API FBallBackwardCommand : public FBallCommand
 {
 public:
 	FBallBackwardCommand(ABall* _ball) : FBallCommand(TEXT("s"), _ball) {}
-	virtual void Execute();
+	virtual void Execute(FCommandParser parser);
 };
 
 
@@ -61,5 +61,5 @@ class TWITCHTEST_API FBallJumpCommand : public FBallCommand
 {
 public:
 	FBallJumpCommand(ABall* _ball) : FBallCommand(TEXT("a"), _ball) {}
-	virtual void Execute();
+	virtual void Execute(FCommandParser parser);
 };

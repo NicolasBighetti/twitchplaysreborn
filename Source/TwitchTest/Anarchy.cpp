@@ -9,11 +9,11 @@ void Anarchy::OnTick() {
 	UE_LOG(LogTemp, Warning, TEXT("Anarchy OnTick"));
 	int i;
 	//on push la premiere commande présente dans les différentes maps
-	for (i = 0 ; i < camps->GetNbCamps(); i++) {
+	for (i = 0 ; i < Context->GetCamps()->GetNbCamps(); i++) {
 		auto It = Messages[i].CreateConstIterator();
 
 		if (It) {
-			camps->getCamps(i+1)->GetQueue()->push(*It.Value());
+			Context->GetCamps()->getCamps(i+1)->GetQueue()->push(It.Value());
 			Messages[i].Empty();
 		}
 	}
@@ -28,15 +28,16 @@ void Anarchy::OnTick() {
 	*/
 }
 
-void Anarchy::Receive(FString userName, FString message) {
+
+void Anarchy::Receive(FCommandParser parser) {
 	int cmp = 1;
 	if (multicamps) {
-		cmp = camps->GetCampByPseudo(userName);
+		cmp = Context->GetCamps()->GetCampByPseudo(parser.GetUserName());
 		UE_LOG(LogTemp, Warning, TEXT("multi camps test %d"), cmp);
 	}
 	//si non present cmp = -1
 	if (cmp > 0) {
 		UE_LOG(LogTemp, Warning, TEXT("test dans strategy receive %d"), cmp);
-		Messages[cmp - 1].Add(userName, message);
+		Messages[cmp - 1].Add(parser.GetUserName(), parser);
 	}
 }

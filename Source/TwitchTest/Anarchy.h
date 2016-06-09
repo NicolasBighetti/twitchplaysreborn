@@ -10,8 +10,8 @@ class TWITCHTEST_API Anarchy : public Strategy
 {
 public:
 	 
-	Anarchy(UWorld* w, BlockingQueue<FString>* q, int32 time, CampsManager* c) : Strategy(q, c) {
-		world = w;
+	Anarchy(UWorld* _world, BlockingQueue<FCommandParser>* _queue, int32 time, GameContext* _context) 
+		: Strategy(_queue, _context), world(_world) {
 		FTimerDelegate del;
 		del.BindLambda([this] {
 			OnTick();
@@ -23,7 +23,7 @@ public:
 	FTimerHandle TimerHandle;
 	UWorld* world;
 
-	void Receive(FString userName, FString message) override;
+	void Receive(FCommandParser parser) override;
 	void OnTick() override;
 
 };

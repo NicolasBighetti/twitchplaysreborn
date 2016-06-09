@@ -4,6 +4,7 @@
 
 // #include "Commande.h"
 #include "BlockingQueue.h"
+#include "Command.h"
 
 using namespace std;
 
@@ -28,11 +29,11 @@ public:
 		return Pseudo;
 	}
 
-	void SetQueue(BlockingQueue<FString> *q){
+	void SetQueue(BlockingQueue<FCommandParser> *q){
 		Queue = q;
 	}
 
-	BlockingQueue<FString>* GetQueueInit()
+	BlockingQueue<FCommandParser>* GetQueueInit()
 	{
 		if (isAssigned())
 			return NULL;
@@ -42,7 +43,7 @@ public:
 			return Queue;
 		}
 	}
-	BlockingQueue<FString>* GetQueue()
+	BlockingQueue<FCommandParser>* GetQueue()
 	{
 
 		return Queue;
@@ -77,7 +78,7 @@ private:
 	FString Name;
 
 	TQueue<FString> *MessagesQueue;
-	BlockingQueue<FString> *Queue;
+	BlockingQueue<FCommandParser> *Queue;
 	//ATwitchPawn CampsPawn;
 
 	bool IsAssigned = false;

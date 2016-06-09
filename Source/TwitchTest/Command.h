@@ -3,6 +3,25 @@
 
 #pragma once
 
+class TWITCHTEST_API FCommandParser
+{
+private:
+	FString UserName;
+	TArray<FString> Args;
+	int32 Index;
+
+public:
+	FCommandParser(FString _username = TEXT(""), FString _cmd = TEXT(""));
+
+	FString Get(int32 index);
+	FString GetUserName();
+	FString GetName();
+	FString Next();
+	int32 NextInt();
+	float NextFloat();
+};
+
+
 /**
  * 
  */
@@ -16,5 +35,5 @@ public:
 	FString GetName() { return Name; }
 
 	// To redefine
-	virtual void Execute() = 0;
+	virtual void Execute(FCommandParser parser) = 0;
 };

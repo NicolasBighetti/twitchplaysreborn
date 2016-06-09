@@ -13,7 +13,6 @@ ATwitchPawn::ATwitchPawn()
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 }
 
-
 void ATwitchPawn::BeginPlay()
 {
 	Super::BeginPlay();
@@ -60,16 +59,16 @@ void ATwitchPawn::BeginDestroy()
 	}
 }
 
-void ATwitchPawn::setQueue(BlockingQueue<FString>* queue)
+void ATwitchPawn::setQueue(BlockingQueue<FCommandParser>* queue)
 {
 	_run = new ThreadRead(&CommandsRegistry);
-	_run->setQueue(queue);
+	_run->SetQueue(queue);
 }
 
 void ATwitchPawn::setCamps(Camps* c)
 {
 	_run = new ThreadRead(&CommandsRegistry);
-	_run->setQueue(c->GetQueue());
+	_run->SetQueue(c->GetQueue());
 }
 void ATwitchPawn::launch()
 {

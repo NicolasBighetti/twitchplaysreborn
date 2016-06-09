@@ -1,7 +1,7 @@
 #include "TwitchTest.h"
 #include "TwitchTestGameMode.h"
 #include "TwitchPawn.h"
-#include "FTwitchMessageReceiver.h"
+#include "TwitchMessageReceiver.h"
 #include "CoreMisc.h"
 #include "Anarchy.h"
 
@@ -17,9 +17,11 @@ void ATwitchTestGameMode::BeginPlay()
 	//config file
 	FString Path = "Source/config.txt";
 	ConfigFile(Path);
-	
-	campsManager = CampsManager();
 
+	// Initialize context
+	Context = CreateContext();
+
+	// Initialize actors
 	for (TActorIterator<ATwitchPawn> ActorItr(GetWorld()); ActorItr; ++ActorItr)
 	{
 		// Same as with the Object Iterator, access the subclass instance with the * or -> operators.
@@ -27,7 +29,7 @@ void ATwitchTestGameMode::BeginPlay()
 		UE_LOG(LogTemp, Warning, TEXT("%s"), *(ActorItr->GetName()));
 
 		Camps* c = new Camps(TEXT("boule"));
-		campsManager.AddCamps(c);
+		Context->GetCamps()->AddCamps(c);
 		ActorItr->setCamps(c);
 		//ActorItr->setQueue(campsManager.getQueueInit());
 		ActorItr->launch();
@@ -35,23 +37,15 @@ void ATwitchTestGameMode::BeginPlay()
 
 	// Create Twitch runnable
 	UE_LOG(LogTemp, Warning, TEXT("Game mode: Creating the runnable"));	
-	
+
 	TwitchRunnable = new FTwitchMessageReceiver(
 		oautch,    // Authentication token
 		nickname, // Bot nickname
 		channel,   // Channel to join
 		GetWorld(),
-		&campsManager,
+		Context,
 		strategy //ANARCHY
 	);
-	
-/*
-		BlockingQueue<FString>* queue = campsManager.getQueueInit();
-		if (queue != NULL) {
-			ActorItr->setQueue(queue);
-			ActorItr->launch();
-		}
-*/
 	
 	// Create thread and run thread
 	UE_LOG(LogTemp, Warning, TEXT("Game mode: Starting the thread"));
@@ -62,6 +56,8 @@ void ATwitchTestGameMode::BeginDestroy()
 {
 	Super::BeginDestroy();
 	UE_LOG(LogTemp, Warning, TEXT("Game mode: BeginDestroy"));
+
+	delete Context;
 
 	// Kill the thread
 	if (TwitchThread)
@@ -98,7 +94,6 @@ void ATwitchTestGameMode::ConfigFile(FString FilPath) {
 
 }
 
-
 FString ATwitchTestGameMode::Parse(TArray<FString> Array, FString key) {
 
 	int max = Array.Num();
@@ -125,12 +120,11 @@ FString ATwitchTestGameMode::Parse(TArray<FString> Array, FString key) {
 int32 ATwitchTestGameMode::FindStrategy(FString strategyName) {
 
 	TMap<FString, int32> StrategyMap;
-	StrategyMap.Add(TEXT("basic"), BASIC);
-	StrategyMap.Add(TEXT("anarchy"), ANARCHY);
+	StrategyMap.Add(TEXT("basic"), STRAT_BASIC);
+	StrategyMap.Add(TEXT("anarchy"), STRAT_ANARCHY);
 
 	int32 strat = 0;
 	strat = StrategyMap.FindRef(strategyName);
 
 	return strat;
 }
-
