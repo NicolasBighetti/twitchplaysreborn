@@ -39,6 +39,12 @@ void FTwitchMessageReceiver::Stop()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Twitch receiver: Stop"));
 
+	int i;
+	for (i = 1; i <= camps->GetNbCamps(); i++) {
+		UE_LOG(LogTemp, Warning, TEXT("Liste des joueurs du camp %d :"), i);
+		camps->getCamps(i)->DisplayTeam();
+	}
+
 	// Close and destroy socket
 	KeepReceivingMessage = false;
 	ListenerSocket->Close();
@@ -192,15 +198,15 @@ void FTwitchMessageReceiver::ReceivedChatMessage(FString userName, FString messa
 	}
 	*/
 	if (message.Equals(TEXT("join 1"))) {
-		camps->AddPlayerToTeam(userName, 1);
+		camps->AddPlayer(userName,CampsManager::AUTO_STRICT, 1);
 		return;
 	}
 	if (message.Equals(TEXT("join 2"))) {
-		camps->AddPlayerToTeam(userName, 2);
+		camps->AddPlayer(userName, CampsManager::AUTO_STRICT, 2);
 		return;
 	}
 	if (message.Equals(TEXT("join 3"))) {
-		camps->AddPlayerToTeam(userName, 3);
+		camps->AddPlayer(userName,CampsManager::AUTO_STRICT, 3);
 		return;
 	}
 	Strat->Receive(userName, message);
