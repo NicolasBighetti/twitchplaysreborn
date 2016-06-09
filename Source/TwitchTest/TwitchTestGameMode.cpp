@@ -34,7 +34,10 @@ void ATwitchTestGameMode::BeginPlay()
 		// Same as with the Object Iterator, access the subclass instance with the * or -> operators.
 		ATwitchPawn *actor = *ActorItr;
 		UE_LOG(LogTemp, Warning, TEXT("%s"),*(ActorItr->GetName()));
-		ActorItr->setQueue(campsManager.getQueueInit());
+		Camps* c = new Camps(TEXT("boule"));
+		campsManager.AddCamps(c);
+		ActorItr->setCamps(c);
+		//ActorItr->setQueue(campsManager.getQueueInit());
 		ActorItr->launch();
 	}
 	// Create thread and run thread
