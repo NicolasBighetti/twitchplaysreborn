@@ -25,7 +25,6 @@ Strategy::Strategy(BlockingQueue<FString>* q, CampsManager* campsmanager) {
 
 void Strategy::Receive(FString userName, FString message) {
 	int cmp = 1;
-	multicamps = true;
 
 	if (multicamps) {
 		cmp = camps->GetCampByPseudo(userName);
