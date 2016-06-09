@@ -19,7 +19,7 @@ CampsManager::CampsManager(int nbCamps) {
 
 bool CampsManager::AddPlayer(FString pseudo, int AUTOTEAM_POLICY, int team)
 {
-	if (team <= 0)
+	if (team <= 0 || IsAlreadyInATeam(pseudo))
 		return false;
 
 	if (AUTOTEAM_POLICY == CampsManager::MANUAL)
@@ -39,14 +39,9 @@ bool CampsManager::AddPlayer(FString pseudo, int AUTOTEAM_POLICY, int team)
 
 	if (AUTOTEAM_POLICY == CampsManager::AUTO_STRICT)
 	{
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Purple, pseudo.Append(" Lowest : ").Append(FString::FromInt(LowestTeam()).Append(" Average : ").Append(FString::FromInt(ComputeAverage()))));
-			int cmp;
+		int cmp;
 			try {
-
-				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Purple, pseudo.Append(" Lowest : ").Append(FString::FromInt(LowestTeam()).Append(" Average : ").Append(FString::FromInt(ComputeAverage()))));
-
 				cmp = GetByPopulation(LowestTeam());
-				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, pseudo.Append("Added to camp ").Append(FString::FromInt(cmp)));
 				return AddPlayerToTeam(pseudo, cmp);
 				
 			}
@@ -55,12 +50,14 @@ bool CampsManager::AddPlayer(FString pseudo, int AUTOTEAM_POLICY, int team)
 				return false;
 			}
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "END OF SHIT");
 	return false;
 }
 
 int CampsManager::RemovePlayer(FString pseudo, int team)
 {
+	if (!IsAlreadyInATeam(pseudo))
+		return 0;
+
 	if (team < 1)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("%s"), *FString::FromInt(GetCampByPseudo(pseudo)-1));
@@ -73,10 +70,9 @@ int CampsManager::RemovePlayer(FString pseudo, int team)
 
 bool CampsManager::AddPlayerToTeam(FString pseudo, int team)
 {
-	if (team > CampsList.Num() || team == 0)
+	if (team > CampsList.Num() || team == 0 || IsAlreadyInATeam(pseudo))
 		return false;
 
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::White, pseudo.Append(FString::FromInt(0).Append(" ").Append(FString::FromInt(team-1))));
 	return CampsList[team-1].AddPlayer(pseudo);
 }
 
@@ -87,11 +83,9 @@ uint32 CampsManager::ComputeAverage()
 	for (Camps cpm : CampsList)
 	{
 		i++;
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString::FromInt(average).Append("Computing average... Iteration : ").Append(FString::FromInt(i)));
 		average += cpm.GetTotalPlayer();
 	}
 
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString::FromInt(FMath::CeilToInt(average / CampsList.Num())));
 	return FMath::CeilToInt(average / CampsList.Num());
 
 }
@@ -136,13 +130,23 @@ int CampsManager::GetByPopulation(uint32 pop){
 		else
 			i++;
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Black, "SHITS THE BED YO");
 	throw 42;
 }
 
 void CampsManager::BalanceTeam()
 {
 
+}
+
+bool CampsManager::IsAlreadyInATeam(FString pseudo)
+{
+	for (Camps c : CampsList)
+	{
+		if (c.GetPlayerList().Contains(pseudo))
+			return true;
+	}
+
+	return false;
 }
 
 bool CampsManager::IsBalanced()
@@ -159,7 +163,6 @@ BlockingQueue<FString>* CampsManager::getQueueInit()
 		bq = CampsList[i].GetQueueInit();
 		if (bq != NULL)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, "NOTNULL");
 			return bq;
 		}
 	}

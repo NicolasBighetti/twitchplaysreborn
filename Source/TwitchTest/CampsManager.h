@@ -19,7 +19,7 @@ public:
 	bool AddPlayerToTeam(FString pseudo, int team);
 	void BalanceTeam();
 	bool IsBalanced();
-
+	bool IsAlreadyInATeam(FString pseudo);
 	BlockingQueue<FString>* getQueueInit();
 	int GetNbCamps() {
 		return CampsList.Num();
