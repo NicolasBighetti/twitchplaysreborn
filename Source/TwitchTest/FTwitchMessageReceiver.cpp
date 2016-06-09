@@ -93,7 +93,7 @@ void FTwitchMessageReceiver::Connect()
 	SendMessage(TEXT("JOIN ") + Channel);
 
 	// Display a message to check the bot is online
-	SendMessage(TEXT("PRIVMSG ") + Channel + TEXT(" :Bot activated <3"));
+	SendMessage(TEXT("PRIVMSG ") + Channel + TEXT(" :Bot activated !"));
 }
 
 void FTwitchMessageReceiver::ReceiveMessage()
