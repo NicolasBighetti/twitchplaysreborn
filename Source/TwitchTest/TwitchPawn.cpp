@@ -65,6 +65,12 @@ void ATwitchPawn::setQueue(BlockingQueue<FString>* queue)
 	_run = new ThreadRead(&CommandsRegistry);
 	_run->setQueue(queue);
 }
+
+void ATwitchPawn::setCamps(Camps* c)
+{
+	_run = new ThreadRead(&CommandsRegistry);
+	_run->setQueue(c->GetQueue());
+}
 void ATwitchPawn::launch()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Launch Thread read"));

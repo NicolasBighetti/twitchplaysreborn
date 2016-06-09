@@ -35,11 +35,19 @@ void ATwitchTestGameMode::BeginPlay()
 		ATwitchPawn *actor = *ActorItr;
 		UE_LOG(LogTemp, Warning, TEXT("%s"),*(ActorItr->GetName()));
 
+		Camps* c = new Camps(TEXT("boule"));
+		campsManager.AddCamps(c);
+		ActorItr->setCamps(c);
+		//ActorItr->setQueue(campsManager.getQueueInit());
+		ActorItr->launch();
+
+/*
 		BlockingQueue<FString>* queue = campsManager.getQueueInit();
 		if (queue != NULL) {
 			ActorItr->setQueue(queue);
 			ActorItr->launch();
 		}
+*/
 	}
 	// Create thread and run thread
 	UE_LOG(LogTemp, Warning, TEXT("Game mode: Starting the thread"));

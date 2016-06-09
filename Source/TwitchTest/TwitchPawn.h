@@ -21,6 +21,7 @@ protected:
 
 	// Commands registry
 	FCommandRegistry<> CommandsRegistry;
+	Camps* camps;
 
 public:
 	// Sets default values for this pawn's properties
@@ -31,5 +32,6 @@ public:
 	virtual void BeginPlay() override;
 	virtual void BeginDestroy() override;
 	virtual void setQueue(BlockingQueue<FString>* queue);
+	virtual void setCamps(Camps* c);
 	virtual void launch();
 };

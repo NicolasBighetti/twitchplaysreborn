@@ -37,11 +37,6 @@ uint32 ThreadRead::Run()
 				queue->clear();
 				break;
 			}
-			if (!FCommandRegistry<>::ExistsCommand(cmd))
-			{
-				UE_LOG(LogTemp, Warning, TEXT("Ball-> Unknown command: %s"), *cmd);
-				continue;
-			}
 			FFunctionGraphTask::CreateAndDispatchWhenReady([this,cmd]() {
 				if (!CommandsRegistry->Execute(cmd))
 					UE_LOG(LogTemp, Warning, TEXT("Ball-> Unknown command: %s"), *cmd);

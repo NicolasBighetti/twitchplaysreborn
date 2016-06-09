@@ -5,7 +5,7 @@
 #include "CoreMisc.h"
 
 
-Camps::Camps(FString* CampsName) {
+Camps::Camps(FString CampsName) {
 	MessagesQueue = new TQueue<FString>();
 	Queue = new BlockingQueue<FString>();
 	Name = CampsName;

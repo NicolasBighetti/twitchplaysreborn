@@ -93,7 +93,7 @@ void FTwitchMessageReceiver::Connect()
 	SendMessage(TEXT("JOIN ") + Channel);
 
 	// Display a message to check the bot is online
-	SendMessage(TEXT("PRIVMSG ") + Channel + TEXT(" :Bot activated !"));
+	SendMessage(TEXT("PRIVMSG ") + Channel + TEXT(" :Bot activated <3"));
 }
 
 void FTwitchMessageReceiver::ReceiveMessage()
@@ -184,6 +184,13 @@ void FTwitchMessageReceiver::ReceivedChatMessage(FString userName, FString messa
 	//MessagesQueue.Enqueue(message);
 	ManagedChat(userName, message, "C'est pas bien");
 	//Queue.push(message);
+	/*
+	if (!FCommandRegistry<>::ExistsCommand(message))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Ball-> Unknown command: %s"), *message);
+		return ;
+	}
+	*/
 	if (message.Equals(TEXT("join 1"))) {
 		camps->AddPlayerToTeam(userName, 1);
 	}
@@ -192,7 +199,6 @@ void FTwitchMessageReceiver::ReceivedChatMessage(FString userName, FString messa
 	}
 	Strat->Receive(userName, message);
 }
-
 
 void FTwitchMessageReceiver::ManagedChat(FString userName, FString message, FString command) {
 
