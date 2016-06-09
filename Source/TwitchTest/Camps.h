@@ -14,7 +14,7 @@ class TWITCHTEST_API Camps
 {
 public:
 
-	Camps();
+	Camps(FString* CampsName);
 
 	bool AddPlayer(FString pseudo);
 
@@ -63,12 +63,18 @@ public:
 		}
 	}
 
+	FString* GetName()
+	{
+		return Name;
+	}
+
 	void DisplayTeam();
 
 private:
 
 	TArray<FString> Pseudo;
 	uint32 TotalPlayer = 0;
+	FString* Name;
 
 	TQueue<FString> *MessagesQueue;
 	BlockingQueue<FString> *Queue;

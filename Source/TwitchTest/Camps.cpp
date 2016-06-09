@@ -4,10 +4,11 @@
 #include "Camps.h"
 #include "CoreMisc.h"
 
-Camps::Camps()
-{
+
+Camps::Camps(FString* CampsName) {
 	MessagesQueue = new TQueue<FString>();
 	Queue = new BlockingQueue<FString>();
+	Name = CampsName;
 }
 
 bool Camps::AddPlayer(FString pseudo) {

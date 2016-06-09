@@ -46,7 +46,6 @@ public:
 	// Send and receive message in channel
 	bool SendMessage(FString msg);
 	void ReceivedChatMessage(FString userName, FString message);
-	void ReceivedChatMessage(FString userName, int camps);
 
 	void FTwitchMessageReceiver::ManagedChat(FString userName, FString message, FString command);
 

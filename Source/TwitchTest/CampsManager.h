@@ -14,6 +14,7 @@ public:
 	static const int MANUAL;
 	static const int LAX_THRESHOLD;
 
+	uint32 AddCamps(Camps* cmp);
 	bool AddPlayer(FString pseudo, int AUTOTEAM_POLICY, int team);
 	int RemovePlayer(FString pseudo, int team);
 	bool AddPlayerToTeam(FString pseudo, int team);
@@ -26,17 +27,17 @@ public:
 	}
 
 	BlockingQueue<FString>* getQueueInit(int i) {
-		return CampsList[i - 1].GetQueueInit();
+		return CampsList[i - 1]->GetQueueInit();
 	}
 
 	int GetCampByPseudo(FString pseudo);
 
 	Camps* getCamps(int nb) {
-		return &CampsList[nb - 1];
+		return CampsList[nb - 1];
 	}
 
 private:
-		TArray<Camps> CampsList;
+		TArray<Camps*> CampsList;
 		uint32 AveragePlayers = 0;
 		uint32 nb_camps = 0;
 		void setAverage(uint32 avrg) { AveragePlayers = avrg; };
