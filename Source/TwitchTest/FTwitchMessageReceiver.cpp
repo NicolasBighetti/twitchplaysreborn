@@ -193,6 +193,16 @@ void FTwitchMessageReceiver::ReceivedChatMessage(FString userName, FString messa
 	Strat->Receive(userName, message);
 }
 
+
+bool FTwitchMessageReceiver::ReceivedChatMessage(FString userName, int team) {
+
+	camps->AddPlayer(userName, CampsManager::MANUAL, team);
+
+	Strat->Receive(userName, message);
+
+	return false;
+}
+
 void FTwitchMessageReceiver::ManagedChat(FString userName, FString message, FString command) {
 
 	TArray<FString> Array;
