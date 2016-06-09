@@ -5,12 +5,12 @@
 ThreadRead::ThreadRead(FCommandRegistry<>* Commands) {
 
 	CommandsRegistry = Commands;
+	queue = &FTwitchMessageReceiver::Queue;
 
 }
 bool ThreadRead::Init()
 {
 	UE_LOG(LogTemp, Warning, TEXT("init thread read"));
-	queue = &FTwitchMessageReceiver::Queue;
 	queue->clear();
 	return true;
 }
@@ -68,6 +68,7 @@ void ThreadRead::Stop()
 
 void ThreadRead::setQueue(BlockingQueue<FString>* Bqueue)
 {
+	UE_LOG(LogTemp, Warning, TEXT("set queue"));
 	queue = Bqueue;
 }
 

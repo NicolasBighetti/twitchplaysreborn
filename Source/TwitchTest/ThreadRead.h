@@ -17,7 +17,7 @@ public:
 
 protected:
 	// Twitch messages queue
-	TQueue<FString>* CommandsQueue = &FTwitchMessageReceiver::MessagesQueue;
+	TQueue<FString>* CommandsQueue;// = &FTwitchMessageReceiver::MessagesQueue;
 
 	// Commands registry
 	FCommandRegistry<>* CommandsRegistry;

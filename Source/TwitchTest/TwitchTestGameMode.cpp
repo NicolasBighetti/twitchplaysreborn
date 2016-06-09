@@ -20,14 +20,14 @@ void ATwitchTestGameMode::BeginPlay()
 
 	// Create Twitch runnable
 	UE_LOG(LogTemp, Warning, TEXT("Game mode: Creating the runnable"));	
-	campsManager = CampsManager(1);
+	campsManager = CampsManager(2);
 	TwitchRunnable = new FTwitchMessageReceiver(
 		oautch,    // Authentication token
 		nickname, // Bot nickname
 		channel,   // Channel to join
 		GetWorld(),
-		&campsManager,
-		strategy
+		&campsManager
+		//ANARCHY
 	);
 	for (TActorIterator<ATwitchPawn> ActorItr(GetWorld()); ActorItr; ++ActorItr)
 	{

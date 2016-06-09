@@ -20,12 +20,14 @@ Strategy::Strategy(BlockingQueue<FString>* q, CampsManager* campsmanager) {
 void Strategy::Receive(FString userName, FString message) {
 	int cmp = 1;
 	if (multicamps) {
-		int cmp = camps->GetCampByPseudo(userName);
+		cmp = camps->GetCampByPseudo(userName);
+		UE_LOG(LogTemp, Warning, TEXT("multi camps test %d"), cmp);
 	}
 	if (cmp > 0) {
 		UE_LOG(LogTemp, Warning, TEXT("test dans strategy receive %d"), cmp);
 		Messages[cmp-1].Add(userName, message);
 		camps->getCamps(cmp)->GetQueue()->push(message);
+		//queue->push(message);
 	}
 }
 
