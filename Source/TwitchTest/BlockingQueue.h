@@ -16,7 +16,7 @@ private:
 	TQueue<T> Queue;
 public:
 	void push(T const& value) {
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, "push");
+
 		d_mutex.lock();
 		Queue.Enqueue(value);
 		empty.post();
@@ -24,7 +24,7 @@ public:
 	}
 
 	T pop() {
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, "pop");
+
 		T cmd;
 		empty.wait();
 		d_mutex.lock();

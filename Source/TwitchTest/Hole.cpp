@@ -18,7 +18,7 @@ AHole::AHole()
 	hitbox->SetRelativeScale3D(FVector(2, 2, 5));
 	RootComponent = hitbox;
 	//hitbox->AttachTo(RootComponent);
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("test"));
+
 	hitbox->OnComponentBeginOverlap.AddDynamic(this, &AHole::OnBeginOverlap);
 
 	OurParticleSystem = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("MovementParticles"));
@@ -55,7 +55,7 @@ void AHole::Tick( float DeltaTime )
 }
 
 void AHole::OnBeginOverlap(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult) {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Well play !"));
+
 	OurParticleSystem->Activate(false);
 	AudioComp->Activate(false);
 
