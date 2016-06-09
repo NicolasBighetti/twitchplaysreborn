@@ -34,8 +34,12 @@ void ATwitchTestGameMode::BeginPlay()
 		// Same as with the Object Iterator, access the subclass instance with the * or -> operators.
 		ATwitchPawn *actor = *ActorItr;
 		UE_LOG(LogTemp, Warning, TEXT("%s"),*(ActorItr->GetName()));
-		ActorItr->setQueue(campsManager.getQueueInit());
-		ActorItr->launch();
+
+		BlockingQueue<FString>* queue = campsManager.getQueueInit();
+		if (queue != NULL) {
+			ActorItr->setQueue(queue);
+			ActorItr->launch();
+		}
 	}
 	// Create thread and run thread
 	UE_LOG(LogTemp, Warning, TEXT("Game mode: Starting the thread"));
