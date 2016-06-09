@@ -1,11 +1,11 @@
 # Example file, usage :
 # <Message>    <Delay=0>  <Count=1>
 
-Big:front   1000  2
+Big:none    1000
+Big:back   3000  
+Big:front		1000
 Big:left    1000  2
-Big:back    800  2
-Big:left    1000  2
-Big:left    1000  2
-Big:back    1000
-Big:back    1500
-Big:right
+Big:front		4400
+Big:front		1000
+
+
