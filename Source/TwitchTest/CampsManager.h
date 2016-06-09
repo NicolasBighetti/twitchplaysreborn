@@ -8,7 +8,6 @@ class TWITCHTEST_API CampsManager {
 
 public:
 
-	CampsManager(int nbCamps=0);
 	static const int AUTO_STRICT;
 	static const int AUTO_LAX;
 	static const int MANUAL;

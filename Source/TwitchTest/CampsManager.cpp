@@ -8,15 +8,15 @@ const int CampsManager::MANUAL = 2;
 
 const int CampsManager::LAX_THRESHOLD = 2;
 
-CampsManager::CampsManager(int nbCamps) {
-
-	if (nbCamps <= 0)
-		nbCamps = 1;
-	nb_camps = nbCamps;
+CampsManager::CampsManager() {
 }
 
 uint32 CampsManager::AddCamps(Camps* cmp) {
-	return CampsList.Add(cmp);
+	uint32 res = CampsList.Add(cmp);
+	if (res)
+		nb_camps++;
+
+	return res;
 }
 
 bool CampsManager::AddPlayer(FString pseudo, int AUTOTEAM_POLICY, int team)
