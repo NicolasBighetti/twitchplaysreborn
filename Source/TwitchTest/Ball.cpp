@@ -2,6 +2,7 @@
 
 #include "TwitchTest.h"
 #include "Ball.h"
+#include "CommandRegistry.h"
 #include "BallCommands.h"
 
 // Sets default values
@@ -20,6 +21,7 @@ ABall::ABall()
 	OurCamera->SetRelativeLocation(FVector(-250.0f, 0.0f, 250.0f));
 	OurCamera->SetRelativeRotation(FRotator(-45.0f, 0.0f, 0.0f));
 	OurVisibleComponent->AttachTo(RootComponent);
+	OurVisibleComponent->SetSimulatePhysics(true);
 
 	// Register commands
 	CommandsRegistry.Register(new FBallLeftCommand(this));
@@ -27,11 +29,6 @@ ABall::ABall()
 	CommandsRegistry.Register(new FBallBackwardCommand(this));
 	CommandsRegistry.Register(new FBallForwardCommand(this));
 	//CommandsRegistry.Register(new FBallJumpCommand(this));
-
-	OurVisibleComponent->SetSimulatePhysics(true);
-
-	
-
 }
 
 void ABall::BeginPlay()

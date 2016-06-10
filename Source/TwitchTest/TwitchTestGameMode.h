@@ -19,14 +19,13 @@ public:
 	virtual void BeginPlay() override;
 	virtual void BeginDestroy() override;
 
-	// To override
-	virtual GameContext* CreateContext() { return new GameContext(); };
-	virtual void RegisterWorldCommands() { 
-		FCommandRegistry<>::World()->Register(
-			new FJoinWorldCommand(GetWorld(), Context)
-		);
-	};
+	// Default game context, to override
+	GameContext* CreateContext() { return new GameContext(); };
 
+	// Default world commands, to override
+	void RegisterWorldCommands() { 
+		FCommandRegistry<>::World()->Register(new FJoinWorldCommand(GetWorld(), Context));
+	};
 
 	// Config functions
 	void ATwitchTestGameMode::ConfigFile(FString FilPath);

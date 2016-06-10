@@ -4,7 +4,6 @@
 
 #include "TwitchTest.h"
 #include "GameFramework/Pawn.h"
-#include "CommandRegistry.h"
 #include "TwitchPawn.h"
 #include "Ball.generated.h"
 
@@ -16,11 +15,6 @@ class TWITCHTEST_API ABall : public ATwitchPawn
 protected:
 	FVector CurrentVelocity;
 
-	/*
-	ThreadRead* _run= NULL;
-	FRunnableThread* _thread = NULL;
-	FCommandRegistry CommandsRegistry;
-	*/
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* OurVisibleComponent;
 
@@ -37,5 +31,4 @@ public:
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void BeginPlay() override;
 	virtual void BeginDestroy() override;
-
 };

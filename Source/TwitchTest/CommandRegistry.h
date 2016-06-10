@@ -15,11 +15,12 @@ private:
 	TMap<FString, CMD*> Commands;
 
 	// Contains every keywords registered
-	static TSet<FString> ExistingKeywords;
+	static TSet<FString>* ExistingKeywords()
+	{
+		static TSet<FString> existingKeywords;
+		return &existingKeywords;
+	}
 public:
-	// Check if commands exists
-	static bool ExistsCommand(FString name);
-
 	// Get world commands registry
 	static FCommandRegistry<FWorldCommand>* World()
 	{
@@ -29,12 +30,18 @@ public:
 
 	// === Commands management
 
+	// Check if commands exists
+	static bool ExistsCommand(FString name)
+	{
+		return ExistingKeywords()->Contains(name);
+	}
+
 	/**
 	  * Registers a command.
 	  */
 	void Register(CMD* command) {
 		// Add keyword to list
-		ExistingKeywords.Add(command->GetName());
+		ExistingKeywords()->Add(command->GetName());
 
 		// Add command to list
 		Commands.Add(command->GetName(), command);
