@@ -42,6 +42,7 @@ bool CampsManager::AddPlayer(FString pseudo, int AUTOTEAM_POLICY, int team)
 		int cmp;
 			try {
 				cmp = GetByPopulation(LowestTeam());
+				UE_LOG(LogTemp, Warning, TEXT("Balancing : %s moved into team %d !"), *pseudo, cmp);
 				return AddPlayerToTeam(pseudo, cmp);
 				
 			}

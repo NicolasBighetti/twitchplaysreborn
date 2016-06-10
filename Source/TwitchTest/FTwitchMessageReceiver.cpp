@@ -197,6 +197,16 @@ void FTwitchMessageReceiver::ReceivedChatMessage(FString userName, FString messa
 		return ;
 	}
 	*/
+	int i;
+	for (i = 1; i <= camps->GetNbCamps(); i++) {
+		FString join = "join "+ FString::FromInt(i);
+		if (message.Equals(join)) {
+			camps->AddPlayer(userName, CampsManager::AUTO_STRICT, i);
+			//camps->AddPlayerToTeam(userName, i);
+			return;
+		}
+	}
+	/*
 	if (message.Equals(TEXT("join 1"))) {
 		camps->AddPlayer(userName,CampsManager::AUTO_STRICT, 1);
 		return;
@@ -209,6 +219,7 @@ void FTwitchMessageReceiver::ReceivedChatMessage(FString userName, FString messa
 		camps->AddPlayer(userName,CampsManager::AUTO_STRICT, 3);
 		return;
 	}
+	*/
 	Strat->Receive(userName, message);
 }
 
