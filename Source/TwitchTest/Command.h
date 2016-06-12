@@ -8,7 +8,7 @@ class TWITCHTEST_API FCommandParser
 private:
 	FString UserName;
 	TArray<FString> Args;
-	int32 Index;
+	int32 Index = 0;
 
 public:
 	FCommandParser(FString _username = TEXT(""), FString _cmd = TEXT(""));

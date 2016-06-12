@@ -3,6 +3,8 @@
 #include "TwitchPawn.h"
 #include "TwitchMessageReceiver.h"
 #include "CoreMisc.h"
+#include "CommandRegistry.h"
+#include "Registry.h"
 #include "Anarchy.h"
 
 FString oautch;
@@ -21,6 +23,13 @@ void ATwitchTestGameMode::BeginPlay()
 	// Initialize context
 	Context = CreateContext();
 
+
+	Registry::Keys->Add(TEXT("join"));
+	FCommandRegistry<>::World()->Register(new FJoinWorldCommand(GetWorld(), Context));
+	for (FString m : Registry::Keys->Array()) {
+		UE_LOG(LogTemp, Warning, TEXT("keys test %s"), *m);
+	}
+
 	// Initialize actors
 	for (TActorIterator<ATwitchPawn> ActorItr(GetWorld()); ActorItr; ++ActorItr)
 	{
@@ -36,7 +45,7 @@ void ATwitchTestGameMode::BeginPlay()
 	}
 
 	// Create Twitch runnable
-	UE_LOG(LogTemp, Warning, TEXT("Game mode: Creating the runnable"));	
+	UE_LOG(LogTemp, Warning, TEXT("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"));	
 
 	TwitchRunnable = new FTwitchMessageReceiver(
 		oautch,    // Authentication token

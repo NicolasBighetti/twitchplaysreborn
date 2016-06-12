@@ -201,16 +201,18 @@ void FTwitchMessageReceiver::ReceivedChatMessage(FString userName, FString messa
 		UE_LOG(LogTemp, Warning, TEXT("Ball-> Unknown command: %s"), *(parser.GetName()));
 		return;
 	}
-
+	UE_LOG(LogTemp, Warning, TEXT("commande connue %s"), *(parser.GetName()));
 	// Check if this is a world command
 	FWorldCommand* cmd = FCommandRegistry<>::World()->Get(parser.GetName());
 	if (cmd != NULL)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("is world command %s"), *(parser.GetName()));
 		// Execute world command
 		cmd->Execute(parser);
 		return;
 	}
 
+	UE_LOG(LogTemp, Warning, TEXT("send %s"), *(parser.GetName()));
 	// Send command to strategy
 	Strat->Receive(parser);
 }

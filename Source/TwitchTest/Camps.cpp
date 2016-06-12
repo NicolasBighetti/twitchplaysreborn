@@ -44,8 +44,10 @@ bool Camps::IsInTeam(FString pseudo) {
 
 void Camps::DisplayTeam()
 {
-	for(FString pseudo : Pseudo)
-		UE_LOG(LogTemp, Warning, TEXT("%s"), *pseudo);
+	for (FString pseudo : Pseudo) {
+		if (!pseudo.IsEmpty())
+			UE_LOG(LogTemp, Warning, TEXT("%s"), *pseudo);
+	}
 }
 
 /*

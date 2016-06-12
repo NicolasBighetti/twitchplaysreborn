@@ -1,12 +1,12 @@
-// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
 #include "WorldCommand.h"
+#include "Registry.h"
 
 /**
- * 
- */
+*
+*/
 template<class CMD = FCommand>
 class TWITCHTEST_API FCommandRegistry
 {
@@ -33,23 +33,23 @@ public:
 	// Check if commands exists
 	static bool ExistsCommand(FString name)
 	{
-		return ExistingKeywords()->Contains(name);
+		return Registry::Keys->Contains(name);
 	}
 
 	/**
-	  * Registers a command.
-	  */
+	* Registers a command.
+	*/
 	void Register(CMD* command) {
 		// Add keyword to list
-		ExistingKeywords()->Add(command->GetName());
+		Registry::Keys->Add(command->GetName());
 
 		// Add command to list
 		Commands.Add(command->GetName(), command);
 	}
 
 	/**
-	  * Gets a command.
-	  */
+	* Gets a command.
+	*/
 	CMD* Get(FString name)
 	{
 		// Check if command exists
@@ -60,8 +60,8 @@ public:
 	}
 
 	/**
-	  * Executes a command.
-	  */
+	* Executes a command.
+	*/
 	bool Execute(FCommandParser parser)
 	{
 		CMD* command = Get(parser.GetName());
@@ -78,16 +78,16 @@ public:
 	}
 
 	/**
-	  * Checks if it is a command.
-	  */
+	* Checks if it is a command.
+	*/
 	bool IsCommand(FString name)
 	{
 		return Commands.Contains(name);
 	}
 
 	/**
-	  * Free all commands.
-	  */
+	* Free all commands.
+	*/
 	~FCommandRegistry()
 	{
 		// Free registered commands
