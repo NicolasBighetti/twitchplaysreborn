@@ -3,7 +3,6 @@
 #include "TwitchTest.h"
 #include "Anarchy.h"
 
-
 void Anarchy::OnTick() {
 
 	UE_LOG(LogTemp, Warning, TEXT("Anarchy OnTick"));

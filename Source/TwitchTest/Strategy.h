@@ -7,6 +7,7 @@
 
 #define STRAT_BASIC    0
 #define STRAT_ANARCHY  1
+#define STRAT_DEMOCRACY 2
 
 /**
  * 
@@ -35,6 +36,8 @@ public:
 		// Basic strategies
 		StratsMap.Add(TEXT("basic"), STRAT_BASIC);
 		StratsMap.Add(TEXT("anarchy"), STRAT_ANARCHY);
+		StrategyMap.Add(TEXT("democracy"), STRAT_DEMOCRACY);
+
 
 		return StratsMap;
 	}

@@ -4,6 +4,7 @@
 #include "BlockingQueue.h"
 #include "GameContext.h"
 #include "Anarchy.h"
+#include "Democracy.h"
 
 //typedef void(*ReceivedTwitchMessageCallback)(FString, FString);
 /**
@@ -35,6 +36,10 @@ public:
 		if (_strategy == STRAT_ANARCHY) {
 			UE_LOG(LogTemp, Warning, TEXT("Strategy : Anarchy"));
 			Strat = new Anarchy(_world, &Queue, 1, Context);
+		}
+		else if (_strategy == STRAT_DEMOCRACY) {
+			UE_LOG(LogTemp, Warning, TEXT("Strategy : Democraty"));
+			Strat = new Democracy(_world, &Queue, 1, Context);
 		}
 		else {
 			UE_LOG(LogTemp, Warning, TEXT("Strategy : Basic"));
