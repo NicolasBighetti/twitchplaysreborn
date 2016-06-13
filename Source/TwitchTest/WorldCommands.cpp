@@ -11,8 +11,6 @@
 void FJoinWorldCommand::Execute(FCommandParser parser)
 {
 	// Add player to team
-
-	UE_LOG(LogTemp, Warning, TEXT("join test"));
 	Context->GetCamps()->AddPlayer(
 		parser.GetUserName(), // Username
 		CampsManager::AUTO_STRICT, // Auto-balance

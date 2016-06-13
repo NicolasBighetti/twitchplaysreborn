@@ -196,14 +196,14 @@ void FTwitchMessageReceiver::ReceivedChatMessage(FString userName, FString messa
 	FCommandParser parser(userName, message);
 
 	// Check if command exists
-	if (!FCommandRegistry<>::ExistsCommand(parser.GetName()))
+	if (!FWorldCommandRegistry::ExistsCommand(parser.GetName()))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Ball-> Unknown command: %s"), *(parser.GetName()));
 		return;
 	}
 	UE_LOG(LogTemp, Warning, TEXT("commande connue %s"), *(parser.GetName()));
 	// Check if this is a world command
-	FWorldCommand* cmd = FCommandRegistry<>::World()->Get(parser.GetName());
+	FWorldCommand* cmd = FWorldCommandRegistry::GetInstance()->Get(parser.GetName());
 	if (cmd != NULL)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("is world command %s"), *(parser.GetName()));

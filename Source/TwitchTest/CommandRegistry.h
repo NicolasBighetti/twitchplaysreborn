@@ -2,7 +2,6 @@
 #pragma once
 
 #include "WorldCommand.h"
-#include "Registry.h"
 
 /**
 *
@@ -13,35 +12,15 @@ class TWITCHTEST_API FCommandRegistry
 private:
 	// Commands list
 	TMap<FString, CMD*> Commands;
-
-	// Contains every keywords registered
-	static TSet<FString>* ExistingKeywords()
-	{
-		static TSet<FString> existingKeywords;
-		return &existingKeywords;
-	}
 public:
-	// Get world commands registry
-	static FCommandRegistry<FWorldCommand>* World()
-	{
-		static FCommandRegistry<FWorldCommand> world;
-		return &world;
-	}
-
 	// === Commands management
-
-	// Check if commands exists
-	static bool ExistsCommand(FString name)
-	{
-		return Registry::Keys->Contains(name);
-	}
 
 	/**
 	* Registers a command.
 	*/
 	void Register(CMD* command) {
 		// Add keyword to list
-		Registry::Keys->Add(command->GetName());
+		FWorldCommandRegistry::ExistingKeywords()->Add(command->GetName());
 
 		// Add command to list
 		Commands.Add(command->GetName(), command);
@@ -93,5 +72,31 @@ public:
 		// Free registered commands
 		for (auto& cmd : Commands)
 			delete (cmd.Value);
+	}
+};
+
+class TWITCHTEST_API FWorldCommandRegistry : public FCommandRegistry<FWorldCommand> {
+private:
+	FWorldCommandRegistry() {};
+
+public:
+	static FWorldCommandRegistry* GetInstance()
+	{
+		static FWorldCommandRegistry instance;
+		return &instance;
+	}
+
+	// === Global commands management
+
+	// Check if commands exists
+	static bool ExistsCommand(FString name)
+	{
+		return FWorldCommandRegistry::ExistingKeywords()->Contains(name);
+	}
+
+	static TSet<FString>* ExistingKeywords()
+	{
+		static TSet<FString> existingKeywords;
+		return &existingKeywords;
 	}
 };

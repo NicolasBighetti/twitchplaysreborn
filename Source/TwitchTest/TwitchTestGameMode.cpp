@@ -4,7 +4,6 @@
 #include "TwitchMessageReceiver.h"
 #include "CoreMisc.h"
 #include "CommandRegistry.h"
-#include "Registry.h"
 #include "Anarchy.h"
 
 FString oautch;
@@ -16,19 +15,20 @@ void ATwitchTestGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//config file
+	// Configuration file
 	FString Path = "Source/config.txt";
 	ConfigFile(Path);
 
 	// Initialize context
 	Context = CreateContext();
-
-
+	this->RegisterWorldCommands();
+	/*
 	Registry::Keys->Add(TEXT("join"));
 	FCommandRegistry<>::World()->Register(new FJoinWorldCommand(GetWorld(), Context));
 	for (FString m : Registry::Keys->Array()) {
 		UE_LOG(LogTemp, Warning, TEXT("keys test %s"), *m);
 	}
+	*/
 
 	// Initialize actors
 	for (TActorIterator<ATwitchPawn> ActorItr(GetWorld()); ActorItr; ++ActorItr)

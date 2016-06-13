@@ -24,7 +24,7 @@ public:
 
 	// Default world commands, to override
 	void RegisterWorldCommands() { 
-		//FCommandRegistry<>::World()->Register(new FJoinWorldCommand(GetWorld(), Context));
+		FWorldCommandRegistry::GetInstance()->Register(new FJoinWorldCommand(GetWorld(), Context));
 	};
 
 	// Config functions
