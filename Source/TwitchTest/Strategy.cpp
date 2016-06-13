@@ -10,9 +10,9 @@ TMap<FString, int32> Strategy::StrategyMap = BasicStrategyMap();
 Strategy::Strategy(BlockingQueue<FCommandParser>* _queue, GameContext* _context) : queue(_queue), Context(_context)
 {
 	int nb = Context->GetCamps()->GetNbCamps();
-	bool multicamps = (nb > 1);
+	multicamps = (nb > 1);
 
-	UE_LOG(LogTemp, Warning, TEXT("multi camps test %d"), nb);
+	UE_LOG(LogTemp, Warning, TEXT("constructeur : multi camps test %d, %d"), nb, multicamps);
 
 	for (int i = 0; i < nb; i++)
 		Messages.Add(TMap<FString, FCommandParser>());
