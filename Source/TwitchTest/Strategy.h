@@ -19,9 +19,31 @@ protected:
 	TArray<TMap<FString, FCommandParser>> Messages;
 	bool multicamps = true;
 
+	static TMap<FString, int32> StrategyMap;
+
 public:
 	Strategy(BlockingQueue<FCommandParser>* _queue, GameContext* _context);
 
 	virtual void Receive(FCommandParser parser);
 	virtual void OnTick();
+
+	// === Strategy types management
+
+	static TMap<FString, int32> BasicStrategyMap() {
+		TMap<FString, int32> StratsMap;
+
+		// Basic strategies
+		StratsMap.Add(TEXT("basic"), STRAT_BASIC);
+		StratsMap.Add(TEXT("anarchy"), STRAT_ANARCHY);
+
+		return StratsMap;
+	}
+
+	static int32 FindStrategy(FString strategyName) {
+		return StrategyMap.FindRef(strategyName);
+	}
+
+	static void AddStrategy(FString strategyName, int32 strategy) {
+		StrategyMap.Add(strategyName, strategy);
+	}
 };

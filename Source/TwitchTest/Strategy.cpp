@@ -3,6 +3,10 @@
 #include "TwitchTest.h"
 #include "Strategy.h"
 
+TMap<FString, int32> Strategy::StrategyMap = BasicStrategyMap();
+
+// ===
+
 Strategy::Strategy(BlockingQueue<FCommandParser>* _queue, GameContext* _context) : queue(_queue), Context(_context)
 {
 	int nb = Context->GetCamps()->GetNbCamps();

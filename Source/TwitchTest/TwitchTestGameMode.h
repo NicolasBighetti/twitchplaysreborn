@@ -3,6 +3,7 @@
 #include "GameContext.h"
 #include "CommandRegistry.h"
 #include "WorldCommands.h"
+#include "Config.h"
 #include "TwitchTestGameMode.generated.h"
 
 UCLASS()
@@ -14,8 +15,12 @@ private:
 	FRunnable *TwitchRunnable = NULL;
 	FRunnableThread* TwitchThread = NULL;
 	GameContext* Context = NULL;
+	Config Conf;
 
 public:
+	ATwitchTestGameMode();
+
+	// Unreal Engine overrides
 	virtual void BeginPlay() override;
 	virtual void BeginDestroy() override;
 
@@ -26,9 +31,4 @@ public:
 	void RegisterWorldCommands() { 
 		FWorldCommandRegistry::GetInstance()->Register(new FJoinWorldCommand(GetWorld(), Context));
 	};
-
-	// Config functions
-	void ATwitchTestGameMode::ConfigFile(FString FilPath);
-	FString ATwitchTestGameMode::Parse(TArray<FString> Array, FString key);
-	int32 ATwitchTestGameMode::FindStrategy(FString strategyName);
 };
