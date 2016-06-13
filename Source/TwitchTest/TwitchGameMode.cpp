@@ -25,7 +25,7 @@ void ATwitchGameMode::BeginPlay()
 	{
 		// Same as with the Object Iterator, access the subclass instance with the * or -> operators.
 		ATwitchPawn *actor = *ActorItr;
-		UE_LOG(LogTemp, Warning, TEXT("%s"), *(ActorItr->GetName()));
+		//UE_LOG(LogTemp, Warning, TEXT("%s"), *(ActorItr->GetName()));
 
 		Camps* c = new Camps(TEXT("boule"));
 		Context->GetCamps()->AddCamps(c);

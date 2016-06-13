@@ -72,6 +72,6 @@ void ATwitchPawn::setCamps(Camps* c)
 }
 void ATwitchPawn::launch()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Launch Thread read"));
+	UE_LOG(LogTemp, Warning, TEXT("Twitch Read : Launch"));
 	_thread = FRunnableThread::Create(_run, TEXT("FThreadRead"), 0, TPri_BelowNormal);
 }

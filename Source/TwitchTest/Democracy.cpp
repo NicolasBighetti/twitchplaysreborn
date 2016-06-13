@@ -61,11 +61,11 @@ void Democracy::Receive(FCommandParser parser) {
 	int cmp = 1;
 	if (multicamps) {
 		cmp = Context->GetCamps()->GetCampByPseudo(parser.GetUserName());
-		UE_LOG(LogTemp, Warning, TEXT("multi camps test %d"), cmp);
+		//UE_LOG(LogTemp, Warning, TEXT("multi camps test %d"), cmp);
 	}
 	//si non present cmp = -1
 	if (cmp > 0) {
-		UE_LOG(LogTemp, Warning, TEXT("test dans strategy receive %d"), cmp);
+		//UE_LOG(LogTemp, Warning, TEXT("test dans strategy receive %d"), cmp);
 		Messages[cmp - 1].Add(parser.GetUserName(), parser);
 	}
 }
