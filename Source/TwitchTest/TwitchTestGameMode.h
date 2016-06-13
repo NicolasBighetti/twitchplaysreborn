@@ -1,34 +1,21 @@
 #include "TwitchTest.h"
-#include "BlockingQueue.h"
-#include "GameContext.h"
-#include "CommandRegistry.h"
-#include "WorldCommands.h"
-#include "Config.h"
+#include "TwitchGameMode.h"
 #include "TwitchTestGameMode.generated.h"
 
+#pragma once
+
 UCLASS()
-class TWITCHTEST_API ATwitchTestGameMode : public AGameMode
+class TWITCHTEST_API ATwitchTestGameMode : public ATwitchGameMode
 {
 	GENERATED_BODY()
-
-private:
-	FRunnable *TwitchRunnable = NULL;
-	FRunnableThread* TwitchThread = NULL;
-	GameContext* Context = NULL;
-	Config Conf;
-
-public:
-	ATwitchTestGameMode();
 
 	// Unreal Engine overrides
 	virtual void BeginPlay() override;
 	virtual void BeginDestroy() override;
 
-	// Default game context, to override
-	GameContext* CreateContext() { return new GameContext(); };
+	// Override default context
+	virtual GameContext* CreateContext() override;
 
-	// Default world commands, to override
-	void RegisterWorldCommands() { 
-		FWorldCommandRegistry::GetInstance()->Register(new FJoinWorldCommand(GetWorld(), Context));
-	};
+	// Add custom world commands
+	virtual void RegisterWorldCommands() override;
 };
