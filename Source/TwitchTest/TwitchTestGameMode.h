@@ -14,6 +14,8 @@ private:
 	FRunnable *TwitchRunnable = NULL;
 	FRunnableThread* TwitchThread = NULL;
 	GameContext* Context = NULL;
+	TMap<FString, int32> StrategyMap;
+	
 
 public:
 	virtual void BeginPlay() override;

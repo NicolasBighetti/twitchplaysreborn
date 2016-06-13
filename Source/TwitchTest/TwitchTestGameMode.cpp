@@ -19,6 +19,9 @@ void ATwitchTestGameMode::BeginPlay()
 	FString Path = "Source/config.txt";
 	ConfigFile(Path);
 
+	StrategyMap.Add(TEXT("basic"), STRAT_BASIC);
+	StrategyMap.Add(TEXT("anarchy"), STRAT_ANARCHY);
+
 	// Initialize context
 	Context = CreateContext();
 	this->RegisterWorldCommands();
@@ -128,12 +131,7 @@ FString ATwitchTestGameMode::Parse(TArray<FString> Array, FString key) {
 
 int32 ATwitchTestGameMode::FindStrategy(FString strategyName) {
 
-	TMap<FString, int32> StrategyMap;
-	StrategyMap.Add(TEXT("basic"), STRAT_BASIC);
-	StrategyMap.Add(TEXT("anarchy"), STRAT_ANARCHY);
+	return StrategyMap.FindRef(strategyName);
 
-	int32 strat = 0;
-	strat = StrategyMap.FindRef(strategyName);
-
-	return strat;
+ 
 }
