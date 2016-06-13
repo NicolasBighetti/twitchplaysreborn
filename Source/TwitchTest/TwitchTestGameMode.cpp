@@ -15,12 +15,14 @@ void ATwitchTestGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
+
+	StrategyMap.Add(TEXT("basic"), STRAT_BASIC);
+	StrategyMap.Add(TEXT("anarchy"), STRAT_ANARCHY);
+
 	// Configuration file
 	FString Path = "Source/config.txt";
 	ConfigFile(Path);
 
-	StrategyMap.Add(TEXT("basic"), STRAT_BASIC);
-	StrategyMap.Add(TEXT("anarchy"), STRAT_ANARCHY);
 
 	// Initialize context
 	Context = CreateContext();
