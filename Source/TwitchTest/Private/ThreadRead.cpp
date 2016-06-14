@@ -1,9 +1,9 @@
-#include "TwitchTest.h"
+#include "TwitchPlaysAPI.h"
 #include "ThreadRead.h"
 
 #define STOP_COMMAND "stop"
 
-ThreadRead::ThreadRead(FCommandRegistry<>* Commands) {
+ThreadRead::ThreadRead(FCommandRegistry* Commands) {
 
 	CommandsRegistry = Commands;
 	queue = &FTwitchMessageReceiver::Queue;

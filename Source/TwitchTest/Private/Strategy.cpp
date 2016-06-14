@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "TwitchTest.h"
+#include "TwitchPlaysAPI.h"
 #include "Strategy.h"
 
 TMap<FString, int32> Strategy::StrategyMap = BasicStrategyMap();

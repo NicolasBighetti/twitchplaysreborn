@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "TwitchTest.h"
+#include "TwitchPlaysAPI.h"
 #include "Ball.h"
 #include "CommandRegistry.h"
 #include "BallCommands.h"

@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "TwitchTest.h"
+#include "TwitchPlaysAPI.h"
 #include "GameFramework/Pawn.h"
 #include "TwitchPawn.h"
 #include "Ball.generated.h"

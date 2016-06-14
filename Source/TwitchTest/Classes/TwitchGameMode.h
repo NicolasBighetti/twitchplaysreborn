@@ -1,4 +1,4 @@
-#include "TwitchTest.h"
+#include "TwitchPlaysAPI.h"
 #include "BlockingQueue.h"
 #include "GameContext.h"
 #include "CommandRegistry.h"
@@ -31,6 +31,6 @@ public:
 
 	// Default world commands, to override
 	virtual void RegisterWorldCommands() { 
-		FWorldCommandRegistry::GetInstance()->Register(new FJoinWorldCommand(GetWorld(), Context));
+		FCommandRegistry::World()->Register(new FJoinWorldCommand(GetWorld(), Context));
 	};
 };

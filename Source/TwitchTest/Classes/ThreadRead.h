@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-#include "TwitchTest.h"
+#include "TwitchPlaysAPI.h"
 #include "BlockingQueue.h"
 #include "TwitchMessageReceiver.h"
 #include "CommandRegistry.h"
@@ -20,10 +20,10 @@ protected:
 	TQueue<FString>* CommandsQueue;// = &FTwitchMessageReceiver::MessagesQueue;
 
 	// Commands registry
-	FCommandRegistry<>* CommandsRegistry;
+	FCommandRegistry* CommandsRegistry;
 
 public:
-	ThreadRead(FCommandRegistry<>* Commandes);
+	ThreadRead(FCommandRegistry* Commandes);
 	virtual bool Init();
 	virtual uint32 Run();
 	virtual void Stop();

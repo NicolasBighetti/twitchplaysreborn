@@ -1,6 +1,6 @@
 #pragma once
 
-#include "TwitchTest.h"
+#include "TwitchPlaysAPI.h"
 #include "Camps.h"
 #include "BlockingQueue.h"
 

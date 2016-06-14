@@ -20,7 +20,7 @@ protected:
 	FRunnableThread* _thread = NULL;
 
 	// Commands registry
-	FCommandRegistry<> CommandsRegistry;
+	FCommandRegistry CommandsRegistry;
 	Camps* camps;
 
 public:

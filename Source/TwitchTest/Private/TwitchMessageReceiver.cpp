@@ -1,5 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-#include "TwitchTest.h"
+#include "TwitchPlaysAPI.h"
 #include <string>
 #include "Networking.h"
 #include "TwitchMessageReceiver.h"
@@ -196,19 +196,20 @@ void FTwitchMessageReceiver::ReceivedChatMessage(FString userName, FString messa
 	FCommandParser parser(userName, message);
 
 	// Check if command exists
-	if (!FWorldCommandRegistry::ExistsCommand(parser.GetName()))
+	if (!FCommandRegistry::ExistsCommand(parser.GetName()))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Ball-> Unknown command: %s"), *(parser.GetName()));
 		return;
 	}
 	UE_LOG(LogTemp, Warning, TEXT("commande connue %s"), *(parser.GetName()));
+
 	// Check if this is a world command
-	FWorldCommand* cmd = FWorldCommandRegistry::GetInstance()->Get(parser.GetName());
-	if (cmd != NULL)
+	FCommand* worldCmd = FCommandRegistry::World()->Get(parser.GetName());
+	if (worldCmd != NULL)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("is world command %s"), *(parser.GetName()));
 		// Execute world command
-		cmd->Execute(parser);
+		worldCmd->Execute(parser);
 		return;
 	}
 

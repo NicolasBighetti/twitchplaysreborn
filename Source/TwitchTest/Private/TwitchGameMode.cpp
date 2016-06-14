@@ -1,11 +1,11 @@
-#include "TwitchTest.h"
+#include "TwitchPlaysAPI.h"
 #include "TwitchGameMode.h"
 #include "TwitchPawn.h"
 #include "TwitchMessageReceiver.h"
 #include "CoreMisc.h"
 #include "CommandRegistry.h"
 
-#define DEFAULT_CONFIG "Source/config.txt"
+#define DEFAULT_CONFIG "Config/TwitchPlaysAPI.conf"
 
 ATwitchGameMode::ATwitchGameMode() {
 	// Configuration file
