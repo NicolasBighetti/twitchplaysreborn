@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #pragma once
 #include "TwitchPlaysAPI.h"
+#include "Config.h"
 #include "BlockingQueue.h"
 #include "GameContext.h"
 #include "Anarchy.h"
@@ -13,11 +14,13 @@
 class TWITCHTEST_API FTwitchMessageReceiver : public FRunnable
 {
 private:
+	Config* Conf;
 	GameContext* Context;
 	FSocket* ListenerSocket;
-	FString OAuth, Nickname, Channel;
+	FString Channel;
 	bool KeepReceivingMessage = true;
 	Strategy* Strat;
+	TArray<FString> BannedWords;
 
 	// Twitch Connection/Reading
 	void Connect();
@@ -30,22 +33,7 @@ public:
 	//TMap<FString, FString> Messages;
 
 	// Constructor
-	FTwitchMessageReceiver(FString _oAuth, FString _nickname, FString _channel, UWorld* _world, GameContext* _context, int32 _strategy = STRAT_BASIC)
-		: OAuth(_oAuth), Nickname(_nickname), Channel(_channel), Context(_context)
-	{
-		if (_strategy == STRAT_ANARCHY) {
-			UE_LOG(LogTemp, Warning, TEXT("Strategy : Anarchy"));
-			Strat = new Anarchy(_world, &Queue, 1, Context);
-		}
-		else if (_strategy == STRAT_DEMOCRACY) {
-			UE_LOG(LogTemp, Warning, TEXT("Strategy : Democraty"));
-			Strat = new Democracy(_world, &Queue, 1, Context);
-		}
-		else {
-			UE_LOG(LogTemp, Warning, TEXT("Strategy : Basic"));
-			Strat = new Strategy(&Queue, Context);
-		}
-	}
+	FTwitchMessageReceiver(Config* _conf, UWorld* _world, GameContext* _context, int32 _strategy = STRAT_BASIC);
 
 	// Send and receive message in channel
 	bool SendMessage(FString msg);

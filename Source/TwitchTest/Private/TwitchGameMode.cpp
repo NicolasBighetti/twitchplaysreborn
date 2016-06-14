@@ -37,11 +37,9 @@ void ATwitchGameMode::BeginPlay()
 	// Create Twitch runnable
 	UE_LOG(LogTemp, Warning, TEXT("Game mode: Creating runnable"));	
 	TwitchRunnable = new FTwitchMessageReceiver(
-		Conf.Get("oAuth"),    // Authentication token
-		Conf.Get("botNickname"), // Bot nickname
-		Conf.Get("channel"),   // Channel to join
-		GetWorld(),
-		Context,
+		&Conf, // Configuration
+		GetWorld(), // World
+		Context, // Context
 		Strategy::FindStrategy(Conf.Get("strategy")) // Strategy to apply
 	);
 	

@@ -13,11 +13,35 @@
 TQueue<FString> FTwitchMessageReceiver::MessagesQueue;
 BlockingQueue<FCommandParser>FTwitchMessageReceiver::Queue;
 
+FTwitchMessageReceiver::FTwitchMessageReceiver(Config* _conf, UWorld* _world, GameContext* _context, int32 _strategy)
+	: Conf(_conf), Context(_context)
+{
+	Channel = Conf->Get("channel");
+
+	if (_strategy == STRAT_ANARCHY) {
+		UE_LOG(LogTemp, Warning, TEXT("Strategy : Anarchy"));
+		Strat = new Anarchy(_world, &Queue, 1, Context);
+	}
+	else if (_strategy == STRAT_DEMOCRACY) {
+		UE_LOG(LogTemp, Warning, TEXT("Strategy : Democraty"));
+		Strat = new Democracy(_world, &Queue, 1, Context);
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("Strategy : Basic"));
+		Strat = new Strategy(&Queue, Context);
+	}
+}
+
 bool FTwitchMessageReceiver::Init()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Twitch receiver: Init"));
 
-	// Nothing to do
+	// Load banned words list
+	FString bannedWordsFile = FPaths::GameDir() + Conf->Get("bannedWordsFile");
+
+	// Failed to read file
+	if (!FFileHelper::LoadANSITextFileToStrings(*bannedWordsFile, NULL, BannedWords))
+		return false;
 
 	return true;
 }
@@ -93,10 +117,10 @@ void FTwitchMessageReceiver::Connect()
 	}
 
 	// Send OAuth authentication token
-	SendMessage(TEXT("PASS oauth:") + OAuth);
+	SendMessage(TEXT("PASS oauth:") + Conf->Get("oAuth"));
 
 	// Configure bot and make it joins
-	SendMessage(TEXT("NICK ") + Nickname);
+	SendMessage(TEXT("NICK ") + Conf->Get("botNickname"));
 	SendMessage(TEXT("JOIN ") + Channel);
 
 	// Display a message to check the bot is online
@@ -219,29 +243,19 @@ void FTwitchMessageReceiver::ReceivedChatMessage(FString userName, FString messa
 }
 
 void FTwitchMessageReceiver::ManagedChat(FString userName, FString message, FString command) {
+	// Parse message in words
+	TArray<FString> messageParts;
+	message.ParseIntoArray(messageParts, TEXT(" "));
 
-	TArray<FString> Array;
-	FString Config = FPaths::GameDir();
-	Config += "Source/bannedWords.txt";
+	int nbWords = messageParts.Num();
 
-	//Read file
-	if (FFileHelper::LoadANSITextFileToStrings(*Config, NULL, Array)) {
-
-		TArray<FString> parts;
-		message.ParseIntoArray(parts, TEXT(" "));
-		parts[0];
-
-		int max = Array.Num();
-
-		//Boucle sur le parsing du message
-		for (int y = 0; y < parts.Num(); y++) {
-			//Boucle sur la liste des mots
-			for (int i = 0; i < max; i++) {
-				//Si on trouve le mot
-				if (Array[i] == parts[y]) {
-					SendMessage(TEXT("PRIVMSG ") + Channel + TEXT(" :") + command + TEXT(" ") + userName);
-				}
-			}
-		}
+	// Check every words
+	for (int i = 0; i < nbWords; i++) {
+		// Check if the word is banished
+		if(BannedWords.Contains(messageParts[i]))
+			// Send message to say word is banned
+			SendMessage(
+				TEXT("PRIVMSG ") + Channel + TEXT(" :") + command + TEXT(" ") + userName
+			);
 	}
 }
