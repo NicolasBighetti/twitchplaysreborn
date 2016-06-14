@@ -3,6 +3,7 @@
 #include "GameContext.h"
 #include "CommandRegistry.h"
 #include "WorldCommands.h"
+#include "Strategy.h"
 #include "TwitchTestGameMode.generated.h"
 
 UCLASS()
@@ -15,6 +16,7 @@ private:
 	FRunnableThread* TwitchThread = NULL;
 	GameContext* Context = NULL;
 	TMap<FString, int32> StrategyMap;
+	int32 strategy;
 	
 
 public:
@@ -27,6 +29,7 @@ public:
 	// Default world commands, to override
 	void RegisterWorldCommands() { 
 		FWorldCommandRegistry::GetInstance()->Register(new FJoinWorldCommand(GetWorld(), Context));
+		//FWorldCommandRegistry::GetInstance()->Register(new FChangeStrategyWorldCommand(GetWorld(), Context));
 	};
 
 	// Config functions

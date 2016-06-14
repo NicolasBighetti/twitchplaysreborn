@@ -4,6 +4,7 @@
 #include "GameContext.h"
 #include "BlockingQueue.h"
 #include "Command.h"
+#include "WorldCommand.h"
 
 #define STRAT_BASIC    0
 #define STRAT_ANARCHY  1
@@ -24,4 +25,13 @@ public:
 
 	virtual void Receive(FCommandParser parser);
 	virtual void OnTick();
+};
+
+class TWITCHTEST_API FChangeStrategyWorldCommand : public FWorldCommand {
+
+public:
+	FChangeStrategyWorldCommand(UWorld* _world, GameContext* _context)
+		: FWorldCommand(TEXT("strat"), _world, _context) {}
+
+	virtual void Execute(FCommandParser parser);
 };

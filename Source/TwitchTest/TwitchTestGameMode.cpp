@@ -9,7 +9,7 @@
 FString oautch;
 FString nickname;
 FString channel;
-int32 strategy;
+
 
 void ATwitchTestGameMode::BeginPlay()
 {
@@ -58,7 +58,7 @@ void ATwitchTestGameMode::BeginPlay()
 		channel,   // Channel to join
 		GetWorld(),
 		Context,
-		strategy //ANARCHY
+		Context->GetStrategy() //ANARCHY
 	);
 	
 	// Create thread and run thread
@@ -100,7 +100,7 @@ void ATwitchTestGameMode::ConfigFile(FString FilPath) {
 		channel = Parse(Array, "channel");
 		//UE_LOG(LogTemp, Warning, TEXT("%s"), *channel);
 		FString strategyName = Parse(Array, "strategy");
-		strategy = FindStrategy(strategyName);
+		Context->SetStrategy(FindStrategy(strategyName));
 	}
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("Could not open config file"));

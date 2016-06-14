@@ -30,3 +30,12 @@ void Strategy::Receive(FCommandParser parser) {
 }
 
 void Strategy::OnTick() {}
+
+void FChangeStrategyWorldCommand::Execute(FCommandParser parser)
+{
+	//FString strg = parser.Get(1);
+
+	//UE_LOG(LogTemp, Warning, TEXT("%s"), *strg);
+
+	//Context->SetStrategy(FCString::Atoi(dd));
+}
