@@ -30,12 +30,10 @@
 .vs/
 .vs/*
 Binaries/
-Config/
 Content/
 Intermediate/
 Saved/
 Binaries/*
-Config/*
 Content/*
 Intermediate/*
 Saved/*
