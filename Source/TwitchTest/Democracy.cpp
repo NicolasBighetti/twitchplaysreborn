@@ -9,7 +9,7 @@ void Democracy::OnTick() {
 	UE_LOG(LogTemp, Warning, TEXT("Democracy OnTick"));
 	int i;
 
-	//on push toutes les commandes présente dans les différentes maps
+	//we push all commands for all different maps
 	for (i = 0; i < Context->GetCamps()->GetNbCamps(); i++) {
 		auto It = Messages[i].CreateIterator();
 
@@ -59,11 +59,12 @@ void Democracy::OnTick() {
 void Democracy::Receive(FCommandParser parser) {
 
 	int cmp = 1;
+	//We check if there are more than one camp
 	if (multicamps) {
 		cmp = Context->GetCamps()->GetCampByPseudo(parser.GetUserName());
 		//UE_LOG(LogTemp, Warning, TEXT("multi camps test %d"), cmp);
 	}
-	//si non present cmp = -1
+	//if not present cmp = -1
 	if (cmp > 0) {
 		//UE_LOG(LogTemp, Warning, TEXT("test dans strategy receive %d"), cmp);
 		Messages[cmp - 1].Add(parser.GetUserName(), parser);

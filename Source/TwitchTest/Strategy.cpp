@@ -9,11 +9,13 @@ TMap<FString, int32> Strategy::StrategyMap = BasicStrategyMap();
 
 Strategy::Strategy(BlockingQueue<FCommandParser>* _queue, GameContext* _context) : queue(_queue), Context(_context)
 {
+	//We check if there are more than one camp
 	int nb = Context->GetCamps()->GetNbCamps();
 	multicamps = (nb > 1);
 
 	//UE_LOG(LogTemp, Warning, TEXT("constructeur : multi camps test %d, %d"), nb, multicamps);
 
+	//One TMap per camp
 	for (int i = 0; i < nb; i++)
 		Messages.Add(TMap<FString, FCommandParser>());
 }
@@ -21,10 +23,12 @@ Strategy::Strategy(BlockingQueue<FCommandParser>* _queue, GameContext* _context)
 void Strategy::Receive(FCommandParser parser) {
 	int cmp = 1;
 
+	//We check if there are more than one camp
 	if (multicamps) {
 		cmp = Context->GetCamps()->GetCampByPseudo(parser.GetUserName());
 		//UE_LOG(LogTemp, Warning, TEXT("multi camps test %d"), cmp);
 	}
+	//if not present cmp = -1
 	if (cmp > 0) {
 		//UE_LOG(LogTemp, Warning, TEXT("test dans strategy receive %d"), cmp);
 		//Messages[cmp-1].Add(parser.GetUserName(), parser);

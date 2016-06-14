@@ -42,6 +42,7 @@ void ATunnel::Tick( float DeltaTime )
 
 }
 
+//Event when ball enter in the hole
 void ATunnel::OnBeginOverlap(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult) {
 
 	OurParticleSystem->Activate(true);

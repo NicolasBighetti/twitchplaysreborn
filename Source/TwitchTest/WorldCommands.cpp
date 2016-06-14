@@ -14,7 +14,7 @@ void FJoinWorldCommand::Execute(FCommandParser parser)
 	Context->GetCamps()->AddPlayer(
 		parser.GetUserName(), // Username
 		//CampsManager::AUTO_STRICT, // Auto-balance
-		CampsManager::MANUAL,
+		CampsManager::MANUAL, //Without Auto-balance
 		parser.NextInt() // Camp ID
 	);
 }
