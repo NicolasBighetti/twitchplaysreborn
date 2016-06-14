@@ -11,7 +11,7 @@ ThreadRead::ThreadRead(FCommandRegistry<>* Commands) {
 }
 bool ThreadRead::Init()
 {
-	UE_LOG(LogTemp, Warning, TEXT("init thread read"));
+	UE_LOG(LogTemp, Warning, TEXT("Twitch Read : Init"));
 	queue->clear();
 	return true;
 }
@@ -57,7 +57,7 @@ void ThreadRead::Stop()
 
 void ThreadRead::SetQueue(BlockingQueue<FCommandParser>* Bqueue)
 {
-	UE_LOG(LogTemp, Warning, TEXT("set queue"));
+	//UE_LOG(LogTemp, Warning, TEXT("set queue"));
 	queue = Bqueue;
 }
 

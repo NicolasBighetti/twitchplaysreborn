@@ -11,7 +11,7 @@ class TWITCHTEST_API GameContext
 {
 private:
 	CampsManager Camps;
-	int32 strategy;
+	int32 strategy = 0;
 
 public:
 	CampsManager* GetCamps() { return &Camps; }

@@ -100,7 +100,7 @@ void FTwitchMessageReceiver::Connect()
 	SendMessage(TEXT("JOIN ") + Channel);
 
 	// Display a message to check the bot is online
-	SendMessage(TEXT("PRIVMSG ") + Channel + TEXT(" :Bot activated <3"));
+	SendMessage(TEXT("PRIVMSG ") + Channel + TEXT(" :Bot activated !"));
 }
 
 void FTwitchMessageReceiver::ReceiveMessage()
@@ -190,7 +190,7 @@ void FTwitchMessageReceiver::ReceivedChatMessage(FString userName, FString messa
 	UE_LOG(LogTemp, Warning, TEXT("Chat message received-> %s: %s"), *userName, *message);
 
 	// Check banned words
-	ManagedChat(userName, message, "C'est pas bien");
+	ManagedChat(userName, message, "Don't use this word (put timeout command here)");
 
 	// Parse command
 	FCommandParser parser(userName, message);

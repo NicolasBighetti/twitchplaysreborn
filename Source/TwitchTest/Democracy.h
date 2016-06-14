@@ -6,16 +6,17 @@
 /**
  * 
  */
-class TWITCHTEST_API Anarchy : public Strategy
+class TWITCHTEST_API Democracy : public Strategy
 {
-
 private:
+	TMap<FString, int> commands;
+
 	FTimerHandle TimerHandle;
 	UWorld* world;
 
 public:
-	 
-	Anarchy(UWorld* _world, BlockingQueue<FCommandParser>* _queue, int32 time, GameContext* _context) 
+
+	Democracy(UWorld* _world, BlockingQueue<FCommandParser>* _queue, int32 time, GameContext* _context)
 		: Strategy(_queue, _context), world(_world) {
 		FTimerDelegate del;
 		del.BindLambda([this] {
@@ -26,5 +27,4 @@ public:
 
 	void Receive(FCommandParser parser) override;
 	void OnTick() override;
-
 };

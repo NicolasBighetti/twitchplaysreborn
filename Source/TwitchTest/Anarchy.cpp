@@ -3,7 +3,6 @@
 #include "TwitchTest.h"
 #include "Anarchy.h"
 
-
 void Anarchy::OnTick() {
 
 	UE_LOG(LogTemp, Warning, TEXT("Anarchy OnTick"));
@@ -30,14 +29,16 @@ void Anarchy::OnTick() {
 
 
 void Anarchy::Receive(FCommandParser parser) {
+
 	int cmp = 1;
+	//We check if there are more than one camp
 	if (multicamps) {
 		cmp = Context->GetCamps()->GetCampByPseudo(parser.GetUserName());
-		UE_LOG(LogTemp, Warning, TEXT("multi camps test %d"), cmp);
+		//UE_LOG(LogTemp, Warning, TEXT("multi camps test %d"), cmp);
 	}
-	//si non present cmp = -1
+	//if not present cmp = -1
 	if (cmp > 0) {
-		UE_LOG(LogTemp, Warning, TEXT("test dans strategy receive %d"), cmp);
+		//UE_LOG(LogTemp, Warning, TEXT("test dans strategy receive %d"), cmp);
 		Messages[cmp - 1].Add(parser.GetUserName(), parser);
 	}
 }

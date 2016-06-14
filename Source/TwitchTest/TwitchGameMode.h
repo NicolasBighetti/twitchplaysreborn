@@ -3,14 +3,13 @@
 #include "GameContext.h"
 #include "CommandRegistry.h"
 #include "WorldCommands.h"
-#include "Strategy.h"
-#include "TwitchGameMode.h"
-#include "TwitchTestGameMode.generated.h"
+#include "Config.h"
+#include "TwitchGameMode.generated.h"
 
 #pragma once
 
 UCLASS()
-class TWITCHTEST_API ATwitchTestGameMode : public ATwitchGameMode
+class TWITCHTEST_API ATwitchGameMode : public AGameMode
 {
 	GENERATED_BODY()
 
@@ -18,21 +17,20 @@ private:
 	FRunnable *TwitchRunnable = NULL;
 	FRunnableThread* TwitchThread = NULL;
 	GameContext* Context = NULL;
-	TMap<FString, int32> StrategyMap;
-	int32 strategy;
-	
+	Config Conf;
 
 public:
+	ATwitchGameMode();
+
+	// Unreal Engine overrides
 	virtual void BeginPlay() override;
 	virtual void BeginDestroy() override;
 
-	int32 FindStrategy(FString strategyName);
-
 	// Default game context, to override
-	GameContext* CreateContext();
+	virtual GameContext* CreateContext() { return new GameContext(); };
 
 	// Default world commands, to override
-	void RegisterWorldCommands();
-
-
+	virtual void RegisterWorldCommands() { 
+		FWorldCommandRegistry::GetInstance()->Register(new FJoinWorldCommand(GetWorld(), Context));
+	};
 };

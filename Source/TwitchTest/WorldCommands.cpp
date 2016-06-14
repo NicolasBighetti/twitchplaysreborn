@@ -13,7 +13,8 @@ void FJoinWorldCommand::Execute(FCommandParser parser)
 	// Add player to team
 	Context->GetCamps()->AddPlayer(
 		parser.GetUserName(), // Username
-		CampsManager::AUTO_STRICT, // Auto-balance
+		//CampsManager::AUTO_STRICT, // Auto-balance
+		CampsManager::MANUAL, //Without Auto-balance
 		parser.NextInt() // Camp ID
 	);
 }
