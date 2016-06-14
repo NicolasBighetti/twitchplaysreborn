@@ -1,4 +1,4 @@
 oAuth : 22jwdnv3dqhmuc9t4wf6du0qq9q2td
 botNickname : drym_tv
 channel	: #drymfr
-strategy : democracy
+strategy : basic

@@ -8,6 +8,11 @@
  */
 class TWITCHTEST_API Anarchy : public Strategy
 {
+
+private:
+	FTimerHandle TimerHandle;
+	UWorld* world;
+
 public:
 	 
 	Anarchy(UWorld* _world, BlockingQueue<FCommandParser>* _queue, int32 time, GameContext* _context) 
@@ -18,10 +23,6 @@ public:
 		});
 		world->GetTimerManager().SetTimer(TimerHandle, del, time, true);
 	};
-
-
-	FTimerHandle TimerHandle;
-	UWorld* world;
 
 	void Receive(FCommandParser parser) override;
 	void OnTick() override;
