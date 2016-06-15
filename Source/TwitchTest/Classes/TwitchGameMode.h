@@ -4,6 +4,9 @@
 #include "CommandRegistry.h"
 #include "WorldCommands.h"
 #include "Config.h"
+#include "TwitchEvent.h"
+#include "SpamEvent.h"
+#include "ActorTwitchEventListener.h"
 #include "TwitchGameMode.generated.h"
 
 #pragma once
@@ -14,6 +17,7 @@ class TWITCHTEST_API ATwitchGameMode : public AGameMode
 	GENERATED_BODY()
 
 private:
+	TwitchEvent* events;
 	FRunnable *TwitchRunnable = NULL;
 	FRunnableThread* TwitchThread = NULL;
 	GameContext* Context = NULL;

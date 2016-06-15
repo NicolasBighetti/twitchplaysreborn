@@ -6,6 +6,7 @@
 #include "GameContext.h"
 #include "Anarchy.h"
 #include "Democracy.h"
+#include "TwitchEvent.h"
 
 //typedef void(*ReceivedTwitchMessageCallback)(FString, FString);
 /**
@@ -20,6 +21,7 @@ private:
 	FString Channel;
 	bool KeepReceivingMessage = true;
 	Strategy* Strat;
+	TwitchEvent* Events = NULL;
 	TArray<FString> BannedWords;
 
 	// Twitch Connection/Reading
@@ -38,7 +40,7 @@ public:
 	// Send and receive message in channel
 	bool SendMessage(FString msg);
 	void ReceivedChatMessage(FString userName, FString message);
-
+	bool setEvent(TwitchEvent* _event);
 	void FTwitchMessageReceiver::ManagedChat(FString userName, FString message, FString command);
 
 	// Runnable interface

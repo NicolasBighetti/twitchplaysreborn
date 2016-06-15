@@ -3,6 +3,8 @@
 #include "TwitchPawn.h"
 #include "TwitchMessageReceiver.h"
 #include "CoreMisc.h"
+#include "ActorTwitchEventListener.h"
+#include "CloudWordEvent.h"
 #include "CommandRegistry.h"
 
 #define DEFAULT_CONFIG "Config/TwitchPlaysAPI.conf"
@@ -46,6 +48,19 @@ void ATwitchGameMode::BeginPlay()
 	// Create thread and run thread
 	UE_LOG(LogTemp, Warning, TEXT("Game mode: Starting the thread"));
 	TwitchThread = FRunnableThread::Create(TwitchRunnable, TEXT("FTwitchMessageReceiver"), 0, TPri_BelowNormal);
+	
+	AActorTwitchEventListener* ActorListener = NULL;
+	for (TActorIterator<AActorTwitchEventListener> ActorItr(GetWorld()); ActorItr; ++ActorItr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("finding actor"));
+		ActorListener = *ActorItr;
+	}
+	if(ActorListener != NULL){
+		events = new SpamEvent(5, Context, ActorListener, GetWorld(), TEXT("pd"));
+		//events = new CloudWordEvent(15, Context, ActorListener, GetWorld(), 4);
+		((FTwitchMessageReceiver*)TwitchRunnable)->setEvent(events);
+	}
+	
 }
 
 void ATwitchGameMode::BeginDestroy()

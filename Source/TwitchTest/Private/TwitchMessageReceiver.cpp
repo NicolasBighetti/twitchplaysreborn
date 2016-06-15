@@ -222,6 +222,12 @@ void FTwitchMessageReceiver::ReceivedChatMessage(FString userName, FString messa
 	// Check if command exists
 	if (!FCommandRegistry::ExistsCommand(parser.GetName()))
 	{
+		if (Events!=NULL) {
+			if (Events->isRunning()) {
+				Events->receiveMessage(userName, message);
+			}
+		}
+		else
 		UE_LOG(LogTemp, Warning, TEXT("Ball-> Unknown command: %s"), *(parser.GetName()));
 		return;
 	}
@@ -241,6 +247,19 @@ void FTwitchMessageReceiver::ReceivedChatMessage(FString userName, FString messa
 	// Send command to strategy
 	Strat->Receive(parser);
 }
+
+
+bool FTwitchMessageReceiver::setEvent(TwitchEvent* _event) {
+	UE_LOG(LogTemp, Warning, TEXT("set event"));
+	if (!Events || !Events->isRunning()) {
+		UE_LOG(LogTemp, Warning, TEXT("event not register"));
+		Events = _event;
+		return true;
+	}
+	return false;
+}
+
+
 
 void FTwitchMessageReceiver::ManagedChat(FString userName, FString message, FString command) {
 	// Parse message in words
