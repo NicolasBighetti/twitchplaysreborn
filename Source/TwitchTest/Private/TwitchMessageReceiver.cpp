@@ -17,14 +17,15 @@ FTwitchMessageReceiver::FTwitchMessageReceiver(Config* _conf, UWorld* _world, Ga
 	: Conf(_conf), Context(_context)
 {
 	Channel = Conf->Get("channel");
+	Tick = FCString::Atoi(*Conf->Get("tick"));
 
 	if (_strategy == STRAT_ANARCHY) {
 		UE_LOG(LogTemp, Warning, TEXT("Strategy : Anarchy"));
-		Strat = new Anarchy(_world, &Queue, 1, Context);
+		Strat = new Anarchy(_world, &Queue, Tick, Context);
 	}
 	else if (_strategy == STRAT_DEMOCRACY) {
 		UE_LOG(LogTemp, Warning, TEXT("Strategy : Democraty"));
-		Strat = new Democracy(_world, &Queue, 1, Context);
+		Strat = new Democracy(_world, &Queue, Tick, Context);
 	}
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("Strategy : Basic"));

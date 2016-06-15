@@ -56,8 +56,8 @@ void ATwitchGameMode::BeginPlay()
 		ActorListener = *ActorItr;
 	}
 	if(ActorListener != NULL){
-		events = new SpamEvent(5, Context, ActorListener, GetWorld(), TEXT("pd"));
-		//events = new CloudWordEvent(15, Context, ActorListener, GetWorld(), 4);
+		//events = new SpamEvent(5, Context, ActorListener, GetWorld(), TEXT("Kappa"));
+		events = new CloudWordEvent(15, Context, ActorListener, GetWorld(), 4);
 		((FTwitchMessageReceiver*)TwitchRunnable)->setEvent(events);
 	}
 	

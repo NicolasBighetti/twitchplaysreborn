@@ -19,6 +19,7 @@ private:
 	GameContext* Context;
 	FSocket* ListenerSocket;
 	FString Channel;
+	int32 Tick;
 	bool KeepReceivingMessage = true;
 	Strategy* Strat;
 	TwitchEvent* Events = NULL;
