@@ -2,9 +2,11 @@
 # <Message>    <Delay=0>  <Count=1>
 
 Big:none    1000
-Big:s   4500 
-Big:z		1000
-Big:q   1000  2
+Big:z		1000 2
 Big:none    3000
-Big:z		2500
-Big:z		1000
+Big:q   1000  3
+Big:none    3000
+Big:s		2500
+Big:s 	1000
+Big:none    2500
+Big:d 	1000
