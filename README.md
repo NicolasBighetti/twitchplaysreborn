@@ -28,7 +28,7 @@ Add the TwitchPlaysAPI.conf and bannedWords.txt in your Config folder (UnrealPro
 Open the TwitchPlaysAPI.conf from notepad supply it with the appropriate info
 channel: the channel you wish to connect
 botNickname: the pseudo of a valid Twitch acount
-oAuth : a crypted key you got from [http://www.twitchapps.com/tmi/] linked to your account
+oAuth : a crypted key you got from http://www.twitchapps.com/tmi/ linked to your account
 strategy: basic (each word one command), anarchy (a random command during laps time), democracy (an elected command during a lap time)
 tick: lap time for anarchy or democracy in second
 
@@ -339,9 +339,10 @@ Then bind it to your event at creation, care you need to notify the TwitchMessag
 	}
 ```
 
-2 Event are at your disposal SpamEvent and CloudWord
+2 Events are at your disposals SpamEvent and CloudWordEvent
 SpamEvent take as parameter the FString you want to follow in the chat and return the winning team with the number of spams.
-CloudWord returns the n word more used (4 in this sample) in the chat (word not phrases).
+CloudWord returns the n words more used (4 in this sample) in the chat (words not phrases).
+
 
 
 
