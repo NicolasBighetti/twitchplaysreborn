@@ -22,6 +22,9 @@ public:
 	// Sets default values for this pawn's properties
 	ABall();
 
+	// Register ball commands
+	virtual void RegisterCommands() override;
+
 	FVector GetCurrentVelocity() { return CurrentVelocity; }
 	void SetCurrentVelocity(FVector velocity) { CurrentVelocity = velocity; }
 

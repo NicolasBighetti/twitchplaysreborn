@@ -27,6 +27,9 @@ public:
 	// Sets default values for this pawn's properties
 	ATwitchPawn();
 
+	// Register Twitch commands, to override
+	virtual void RegisterCommands() {};
+
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 	virtual void BeginPlay() override;

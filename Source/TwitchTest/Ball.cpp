@@ -22,7 +22,10 @@ ABall::ABall()
 	OurCamera->SetRelativeRotation(FRotator(-45.0f, 0.0f, 0.0f));
 	OurVisibleComponent->AttachTo(RootComponent);
 	OurVisibleComponent->SetSimulatePhysics(true);
+}
 
+void ABall::RegisterCommands()
+{
 	// Register commands
 	CommandsRegistry.Register(new FBallLeftCommand(this));
 	CommandsRegistry.Register(new FBallRightCommand(this));
@@ -35,6 +38,7 @@ void ABall::BeginPlay()
 {
 	Super::BeginPlay();
 }
+
 // Called every frame
 void ABall::Tick( float DeltaTime )
 {
