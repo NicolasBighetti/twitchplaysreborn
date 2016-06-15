@@ -15,6 +15,12 @@ private:
 	Semaphore empty;
 	TQueue<T> Queue;
 public:
+
+	bool IsEmpty()
+	{
+		return Queue.IsEmpty();
+	}
+
 	void push(T const& value) {
 
 		d_mutex.lock();
