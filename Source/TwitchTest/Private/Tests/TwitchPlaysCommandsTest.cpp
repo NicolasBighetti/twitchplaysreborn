@@ -13,7 +13,6 @@ public:
 	}
 };
 
-
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FTwitchPlaysCommandsCommandTest, "TwitchPlays.Commands.CommandTest", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter);
 
 bool FTwitchPlaysCommandsCommandTest::RunTest(const FString& Parameters)
@@ -27,9 +26,28 @@ bool FTwitchPlaysCommandsCommandTest::RunTest(const FString& Parameters)
 
 	// Execute command
 	cmd.Execute(parser);
-
-	// Check value changed
 	TWITCH_CHECK(cmd.SomeValue == 86, "Execute failed !");
 
     return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FTwitchPlaysCommandsCommandRegistryTest, "TwitchPlays.Commands.CommandRegistryTest", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter);
+
+bool FTwitchPlaysCommandsCommandRegistryTest::RunTest(const FString& Parameters)
+{
+	FCommandRegistry registry;
+	FCommandParser parser("Test");
+
+	// Check initialization
+	TWITCH_CHECK(!registry.IsCommand("Test"), "Command doesn't exists !");
+	TWITCH_CHECK(registry.Get("Test") == NULL, "Command doesn't exists ! (2)");
+	TWITCH_CHECK(!FCommandRegistry::ExistsCommand("Test"), "Command doesn't exists ! (3)"); // Global
+
+	// Add commands
+	registry.Register(new FTwitchTestCommand("Test"));
+	TWITCH_CHECK(registry.IsCommand("Test"), "Command should exists !");
+	TWITCH_CHECK(registry.Get("Test") != NULL, "Command should exists ! (2)");
+	TWITCH_CHECK(FCommandRegistry::ExistsCommand("Test"), "Command should exists ! (3)"); // Global
+
+	return true;
 }
