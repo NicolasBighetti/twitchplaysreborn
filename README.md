@@ -18,7 +18,7 @@ Launch Unreal Engine
 
 Create a new C++ Basic Code project, call it TwitchTest
 It's very important to call it TwitchTest cause all the file belongs to this module
-![start](https://github.com/Paltoquet/UnrealTutoRessource/blob/master/Start1.PNG)
+
 
 Go to your Source folder (UnrealProjects/TwitchPlaysProject/Source)
 Insert the content of Source/TwitchTest/private and Source/TwitchTest/classes you get from the git repository in to your Source folder
