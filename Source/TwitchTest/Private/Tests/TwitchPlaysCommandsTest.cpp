@@ -2,6 +2,9 @@
 #include "AutomationTest.h"
 #include "CommandRegistry.h"
 
+/**
+  * Custom command for tests.
+  */
 class FTwitchTestCommand : public FCommand {
 public:
 	int32 SomeValue = 68;
@@ -13,6 +16,28 @@ public:
 	}
 };
 
+/**
+  * Commands tests.
+  */
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FTwitchPlaysCommandsCommandParserTest, "TwitchPlays.Commands.CommandParserTest", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter);
+
+bool FTwitchPlaysCommandsCommandParserTest::RunTest(const FString& Parameters)
+{
+	FCommandParser parser(TEXT("Test TP 68 8.6"));
+
+	// Check parsing
+	//TWITCH_CHECK(parser.GetName().Equals("Test"), "Name not equals !");
+	//TWITCH_CHECK(parser.Next().Equals("TP"), "First argument not equals !");
+	//TWITCH_CHECK(parser.NextInt() == 68, "Second argument not equals !");
+	//TWITCH_CHECK(parser.NextFloat() == 8.6f, "Third argument not equals !");
+
+	return true;
+}
+
+
+/**
+  * Commands parser tests.
+  */
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FTwitchPlaysCommandsCommandTest, "TwitchPlays.Commands.CommandTest", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter);
 
 bool FTwitchPlaysCommandsCommandTest::RunTest(const FString& Parameters)
@@ -31,6 +56,9 @@ bool FTwitchPlaysCommandsCommandTest::RunTest(const FString& Parameters)
     return true;
 }
 
+/**
+  * Commands registry tests.
+  */
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FTwitchPlaysCommandsCommandRegistryTest, "TwitchPlays.Commands.CommandRegistryTest", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter);
 
 bool FTwitchPlaysCommandsCommandRegistryTest::RunTest(const FString& Parameters)
@@ -51,3 +79,4 @@ bool FTwitchPlaysCommandsCommandRegistryTest::RunTest(const FString& Parameters)
 
 	return true;
 }
+
