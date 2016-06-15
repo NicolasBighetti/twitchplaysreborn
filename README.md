@@ -7,7 +7,7 @@ TwitchPlay is a Plug in for Unreal Engine it allows developper to quickly link t
 We offers:
 
 * binding Keywords to your pawn's method from your c++ code
-* implementation of the different chat parsing strategies (democratie, anarchy and basic)
+* implementation of the different chat parsing strategies (democracy, anarchy and basic)
 * use of custom TwitchEvent like Spamming and CloudWord to interact with your viewers
 * dynamic management of camps, your viewers can join the different side based of the number of Pawn you dropped in your game
 
@@ -18,18 +18,19 @@ Launch Unreal Engine
 
 Create a new C++ Basic Code project, call it TwitchTest
 It's very important to call it TwitchTest cause all the file belongs to this module
+
 ![start](https://github.com/Paltoquet/UnrealTutoRessource/blob/master/Start1.PNG)
 
 Go to your Source folder (UnrealProjects/TwitchPlaysProject/Source)
 Insert the content of Source/TwitchTest/private and Source/TwitchTest/classes you get from the git repository in to your Source folder
-(Classes got all the .h files, private all the .cpp the files from root are just samples)
+(Classes got all the .h files, private all the .cpp, the files from root are just samples)
 
 Add the TwitchPlaysAPI.conf and bannedWords.txt in your Config folder (UnrealProjects/TwitchPlaysProject/Config)
 Open the TwitchPlaysAPI.conf from notepad supply it with the appropriate info
 channel: the channel you wish to connect
 botNickname: the pseudo of a valid Twitch acount
-oAuth : a crypted key you got from [http://www.twitchapps.com/tmi/] linked to your account
-strategy: basic (each word one command), anarchy (a random command during laps time), democracy (an elected command during a lap time)
+oAuth : a crypted key you got from http://www.twitchapps.com/tmi/ linked to your account
+strategy: basic (each word one command), anarchy (a random command during lap time), democracy (an elected command during lap time)
 tick: lap time for anarchy or democracy in second
 
 ```
@@ -45,7 +46,7 @@ Open Visual Studio if not opened (File/Open Visual Studio)
 Open TwitchTestGameMode.h
 make inherit your class from ATwitchGameMode and add the appropriate include
 
-```
+```C++
 #include "TwitchPlaysAPI.h"
 #include "TwitchGameMode.h"
 #include "TwitchTestGameMode.generated.h"
@@ -67,7 +68,7 @@ public:
 
 your TwitchTestGameMoede.cpp shoul look like that
 
-```
+```C++
 #include "TwitchTestGameMode.h"
 
 void ATwitchTestGameMode::BeginPlay()
@@ -90,13 +91,14 @@ It will bind each of your TwitchPawnActor to a different camp and notify them wh
 ###Create a custom Pawn
 
 go to the Unreal Editor and create a new Pawn, call it MyTwitchPawn
+![Pawn](https://github.com/Paltoquet/UnrealTutoRessource/blob/master/Pawn.PNG)
 
 
 go to MyTwitchPawn.h
 make it inherit ATwitchPawn, include the file too.
 add a mesheComponent with a uproperty tag to make it editable from editor
 
-```
+```C++
 #pragma once
 
 #include "TwitchPlaysAPI.h"
@@ -135,7 +137,7 @@ public:
 the cpp file
 we add a camera to our component and we enable physics
 
-```
+```C++
 #include "TwitchPlaysAPI.h"
 #include "MyTwitchPawn.h"
 
@@ -173,32 +175,26 @@ void AMyTwitchPawn::Tick( float DeltaTime )
 	Super::Tick( DeltaTime );
 
 }
-
-// Called to bind functionality to input
-void AMyTwitchPawn::SetupPlayerInputComponent(class UInputComponent* InputComponent)
-{
-	Super::SetupPlayerInputComponent(InputComponent);
-
-}
-
 ```
 
 now click build solution on visual studio or compile form the game editor
 if everything is fine you should be able to drag and drop a MyTwitchPawn in to the world and set its mesh and material
-
+![custom](https://github.com/Paltoquet/UnrealTutoRessource/blob/master/TwitchPawn.PNG)
 
 ###Bind action to the Pawn
 
-Go to the Edit and click on add new c++ class and then none parent class
+Go to the Editor and click on add new c++ class and then none parent class
 Call it MyTwitchPawnCommand
 
-We will create a super class  MyTwitchPawnCommand and also all the different Command we want for our Pawn.
+![start](https://github.com/Paltoquet/UnrealTutoRessource/blob/master/PawnCommand.PNG)
+
+We will create a super class MyTwitchPawnCommand and also all the different Command we want for our Pawn.
 Our class will inherit FCommand which allows to bind the keyword to our parsing method, it will keep a pointer to the MyTwitchPawn as an attribute, it's a kind of a c++ delegate.
-All of the subclass will inherit from the one we created and define a execute method wich will be called when the keyword is taped in chat. The Fcommand constructor taks a FString it's what will have to type in the chat to execute the appropriate method
+All of the subclass will inherit from the one we created and define a execute method wich will be called when the keyword is taped in chat. The Fcommand constructor takes a FString it's what we will have to type in the chat to execute the appropriate method
 
 MyTwitchPawnCommand.h
 
-```
+```C++
 #pragma once
 
 
@@ -235,7 +231,7 @@ public:
 ```
 now we will define the execute method for both our command back and front in the MyTwitchPawnCommand.cpp file
 
-```
+```C++
 #include "TwitchPlaysAPI.h"
 #include "MyTwitchPawnCommand.h"
 
@@ -261,15 +257,15 @@ void FPawnBackCommand::Execute(FCommandParser parser)
 }
 ```
 
-We have our class Command know we need to instanciate them in the MyTwitchPawn constructor.
+We have our class Command, now we need to instanciate them in the MyTwitchPawn constructor.
 AMyTwitchPawn inherit from ATwitchPawn a attribute called CommandsRegistry.
 we will register the new instance of our command in it.
-It's used to call the appropriate method when our Actor receive a Message from our differents Threads.
+It's used to call the appropriate method when our Actor receive a message from our differents Threads.
 
 go to MyTwitchPawn.cpp
-the constructor know should like this, don't forget to add the new include "MyTwitchPawnCommand.h"
+the constructor now should like this, don't forget to add the new include "MyTwitchPawnCommand.h"
 
-```
+```C++
 #include "TwitchPlaysAPI.h"
 #include "MyTwitchPawnCommand.h"
 #include "MyTwitchPawn.h"
@@ -300,5 +296,48 @@ AMyTwitchPawn::AMyTwitchPawn()
 ```
 
 compile again
+And run 
+You should be able to move your Pawn from the chat after  "Bot activated !" have been prompt in the chat
+See the output log for more details (window/developer tool/outputlog).
+
+![nic](https://github.com/Paltoquet/UnrealTutoRessource/blob/master/movement.PNG)
+
+
+You have full access to the source files
+Check TwitchGameMode.cpp for more information or a TwitchPawn.cpp
+You can try to move your ball left and right by adding commands too, good exercise
+
+You can drag and drop more AMyTwitchPawn in to your level but you will need to type join [0-9]* to select a team and then type your command.
+
+###Create Custom Event
+
+Not fill for the moment go see TwitchGameMode constructor
+and ActorTwitchEventListener for the implementation of the listener
+
+You need to implement TwitchEventListener on one of your class (actor,gamemode,everything you want)
+Then bind it to your event at creation, care you need to notify the TwitchMessageReceiver with the setEvent method.
+
+
+```C++
+
+	AActorTwitchEventListener* ActorListener = NULL;
+	for (TActorIterator<AActorTwitchEventListener> ActorItr(GetWorld()); ActorItr; ++ActorItr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("finding actor"));
+		ActorListener = *ActorItr;
+	}
+	if(ActorListener != NULL){
+		//events = new SpamEvent(5, Context, ActorListener, GetWorld(), TEXT("Kappa"));
+		events = new CloudWordEvent(15, Context, ActorListener, GetWorld(), 4);
+		((FTwitchMessageReceiver*)TwitchRunnable)->setEvent(events);
+	}
+```
+
+2 Events are at your disposals SpamEvent and CloudWordEvent
+SpamEvent take as parameter the FString you want to follow in the chat and return the winning team with the number of spams.
+CloudWord returns the n words more used (4 in this sample) in the chat (words not phrases).
+
+
+
 
 
