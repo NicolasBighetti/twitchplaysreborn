@@ -6,9 +6,8 @@
 #include "BallCommands.h"
 
 // Sets default values
-ABall::ABall()
+ABall::ABall() : ATwitchPawn()
 {
-	PrimaryActorTick.bCanEverTick = true;
 	// Create a dummy root component we can attach things to.
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 
