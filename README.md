@@ -46,7 +46,7 @@ Open Visual Studio if not opened (File/Open Visual Studio)
 Open TwitchTestGameMode.h
 make inherit your class from ATwitchGameMode and add the appropriate include
 
-```
+```C++
 #include "TwitchPlaysAPI.h"
 #include "TwitchGameMode.h"
 #include "TwitchTestGameMode.generated.h"
@@ -68,7 +68,7 @@ public:
 
 your TwitchTestGameMoede.cpp shoul look like that
 
-```
+```C++
 #include "TwitchTestGameMode.h"
 
 void ATwitchTestGameMode::BeginPlay()
@@ -98,7 +98,7 @@ go to MyTwitchPawn.h
 make it inherit ATwitchPawn, include the file too.
 add a mesheComponent with a uproperty tag to make it editable from editor
 
-```
+```C++
 #pragma once
 
 #include "TwitchPlaysAPI.h"
@@ -137,7 +137,7 @@ public:
 the cpp file
 we add a camera to our component and we enable physics
 
-```
+```C++
 #include "TwitchPlaysAPI.h"
 #include "MyTwitchPawn.h"
 
@@ -194,7 +194,7 @@ All of the subclass will inherit from the one we created and define a execute me
 
 MyTwitchPawnCommand.h
 
-```
+```C++
 #pragma once
 
 
@@ -231,7 +231,7 @@ public:
 ```
 now we will define the execute method for both our command back and front in the MyTwitchPawnCommand.cpp file
 
-```
+```C++
 #include "TwitchPlaysAPI.h"
 #include "MyTwitchPawnCommand.h"
 
@@ -265,7 +265,7 @@ It's used to call the appropriate method when our Actor receive a Message from o
 go to MyTwitchPawn.cpp
 the constructor know should like this, don't forget to add the new include "MyTwitchPawnCommand.h"
 
-```
+```C++
 #include "TwitchPlaysAPI.h"
 #include "MyTwitchPawnCommand.h"
 #include "MyTwitchPawn.h"
@@ -317,7 +317,7 @@ You need to implement TwitchEventListener on one of your class (actor,gamemode,e
 Then bind it to your event at creation, care you need to notify the TwitchMessageReceiver with the setEvent method.
 
 
-```
+```C++
 
 	AActorTwitchEventListener* ActorListener = NULL;
 	for (TActorIterator<AActorTwitchEventListener> ActorItr(GetWorld()); ActorItr; ++ActorItr)
