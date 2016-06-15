@@ -11,14 +11,15 @@ ATwitchPawn::ATwitchPawn()
 	PrimaryActorTick.bCanEverTick = true;
 	// Set this pawn to be controlled by the lowest-numbered player
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
-
-	// Register commands
-	RegisterCommands();
 }
 
 void ATwitchPawn::BeginPlay()
 {
 	Super::BeginPlay();
+
+	// Register commands
+	RegisterCommands();
+
 	/*
 	_run = new ThreadRead(&CommandsRegistry);
 	_thread = FRunnableThread::Create(_run, TEXT("FThreadRead"), 0, TPri_BelowNormal);
