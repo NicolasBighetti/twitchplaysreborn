@@ -175,14 +175,6 @@ void AMyTwitchPawn::Tick( float DeltaTime )
 	Super::Tick( DeltaTime );
 
 }
-
-// Called to bind functionality to input
-void AMyTwitchPawn::SetupPlayerInputComponent(class UInputComponent* InputComponent)
-{
-	Super::SetupPlayerInputComponent(InputComponent);
-
-}
-
 ```
 
 now click build solution on visual studio or compile form the game editor
