@@ -90,6 +90,7 @@ It will bind each of your TwitchPawnActor to a different camp and notify them wh
 ###Create a custom Pawn
 
 go to the Unreal Editor and create a new Pawn, call it MyTwitchPawn
+![Pawn](https://github.com/Paltoquet/UnrealTutoRessource/blob/master/Pawn.PNG)
 
 
 go to MyTwitchPawn.h
@@ -185,12 +186,14 @@ void AMyTwitchPawn::SetupPlayerInputComponent(class UInputComponent* InputCompon
 
 now click build solution on visual studio or compile form the game editor
 if everything is fine you should be able to drag and drop a MyTwitchPawn in to the world and set its mesh and material
-
+![custom](https://github.com/Paltoquet/UnrealTutoRessource/blob/master/TwitchPawn.PNG)
 
 ###Bind action to the Pawn
 
 Go to the Edit and click on add new c++ class and then none parent class
 Call it MyTwitchPawnCommand
+
+![start](https://github.com/Paltoquet/UnrealTutoRessource/blob/master/PawnCommand.PNG)
 
 We will create a super class  MyTwitchPawnCommand and also all the different Command we want for our Pawn.
 Our class will inherit FCommand which allows to bind the keyword to our parsing method, it will keep a pointer to the MyTwitchPawn as an attribute, it's a kind of a c++ delegate.
@@ -300,5 +303,46 @@ AMyTwitchPawn::AMyTwitchPawn()
 ```
 
 compile again
+And run 
+You should be able to move your Pawn from the chat after  "Bot activated !" have been prompt in the chat
+See the output log for more detail (window/developer tool/outputlog).
+
+![nic](https://github.com/Paltoquet/UnrealTutoRessource/blob/master/movement.PNG)
+
+
+You have full access to the source files.
+Check TwitchGameMode.cpp for more information or a TwitchPawn.
+You can try to move your ball left and right by adding commands too.
+
+
+###Create Custom Event
+
+Not fill for the moment go see TwitchGameMode constructor
+and ActorTwitchEventListener for the implementation of the listener
+
+You need to implement TwitchEventListener on one of your class (actor,gamemode,everything you want)
+Then bind it to your event at creation, care you need to notify the TwitchMessageReceiver with the setEvent method.
+
+
+```
+
+	AActorTwitchEventListener* ActorListener = NULL;
+	for (TActorIterator<AActorTwitchEventListener> ActorItr(GetWorld()); ActorItr; ++ActorItr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("finding actor"));
+		ActorListener = *ActorItr;
+	}
+	if(ActorListener != NULL){
+		//events = new SpamEvent(5, Context, ActorListener, GetWorld(), TEXT("Kappa"));
+		events = new CloudWordEvent(15, Context, ActorListener, GetWorld(), 4);
+		((FTwitchMessageReceiver*)TwitchRunnable)->setEvent(events);
+	}
+```
+
+2 Event are at your disposal SpamEvent and CloudWord
+SpamEvent take as parameter the FString you want to follow in the chat and return the winning team with the number of spams.
+CloudWord returns the n word more used (4 in this sample) in the chat (word not phrases).
+
+
 
 
