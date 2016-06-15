@@ -13,6 +13,7 @@ Camps::Camps(FString CampsName) {
 
 bool Camps::AddPlayer(FString pseudo) {
 
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *pseudo);
 	if (!Pseudo.Contains(pseudo)) {
 		Pseudo.Add(pseudo);
 		TotalPlayer++;
