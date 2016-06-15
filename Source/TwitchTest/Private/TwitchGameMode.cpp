@@ -20,7 +20,6 @@ void ATwitchGameMode::BeginPlay()
 
 	// Initialize context
 	Context = CreateContext();
-	this->RegisterWorldCommands();
 
 	// Initialize actors
 	for (TActorIterator<ATwitchPawn> ActorItr(GetWorld()); ActorItr; ++ActorItr)
@@ -48,7 +47,6 @@ void ATwitchGameMode::BeginPlay()
 	// Create thread and run thread
 	UE_LOG(LogTemp, Warning, TEXT("Game mode: Starting the thread"));
 	TwitchThread = FRunnableThread::Create(TwitchRunnable, TEXT("FTwitchMessageReceiver"), 0, TPri_BelowNormal);
-	
 	AActorTwitchEventListener* ActorListener = NULL;
 	for (TActorIterator<AActorTwitchEventListener> ActorItr(GetWorld()); ActorItr; ++ActorItr)
 	{
@@ -57,9 +55,12 @@ void ATwitchGameMode::BeginPlay()
 	}
 	if(ActorListener != NULL){
 		//events = new SpamEvent(5, Context, ActorListener, GetWorld(), TEXT("Kappa"));
-		events = new CloudWordEvent(15, Context, ActorListener, GetWorld(), 4);
+		events = new CloudWordEvent(1, Context, ActorListener, GetWorld(), 4);
 		((FTwitchMessageReceiver*)TwitchRunnable)->setEvent(events);
 	}
+
+	Context->SetReceiver(TwitchRunnable);
+	this->RegisterWorldCommands();
 	
 }
 

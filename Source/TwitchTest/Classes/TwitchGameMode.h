@@ -36,5 +36,7 @@ public:
 	// Default world commands, to override
 	virtual void RegisterWorldCommands() { 
 		FCommandRegistry::World()->Register(new FJoinWorldCommand(GetWorld(), Context));
+		FCommandRegistry::World()->Register(new FSpamWorldCommand(GetWorld(), Context));
+		FCommandRegistry::World()->Register(new FCloudWordCommand(GetWorld(), Context));
 	};
 };

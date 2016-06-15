@@ -27,6 +27,12 @@ public:
 		return ExistingKeywords.Contains(name);
 	}
 
+	static void PrintKeywords() {
+		for (FString m : FCommandRegistry::ExistingKeywords) {
+			UE_LOG(LogTemp, Warning, TEXT("commande: %s"), *m);
+		}
+	}
+
 	// === Commands management
 
 	/**

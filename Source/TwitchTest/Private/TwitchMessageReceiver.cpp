@@ -219,7 +219,8 @@ void FTwitchMessageReceiver::ReceivedChatMessage(FString userName, FString messa
 
 	// Parse command
 	FCommandParser parser(userName, message);
-
+	UE_LOG(LogTemp, Warning, TEXT("commande: %s"), *parser.GetName());
+	//FCommandRegistry::PrintKeywords();
 	// Check if command exists
 	if (!FCommandRegistry::ExistsCommand(parser.GetName()))
 	{

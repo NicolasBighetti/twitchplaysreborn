@@ -2,9 +2,12 @@
 
 #include "TwitchPlaysAPI.h"
 #include "WorldCommands.h"
+#include "TwitchMessageReceiver.h"
+#include "CloudWordEvent.h"
+#include "SpamEvent.h"
 
 #define Val 4
-
+#define superuser TEXT("wayroth")
 /**
  * Join command.
  */
@@ -17,4 +20,43 @@ void FJoinWorldCommand::Execute(FCommandParser parser)
 		CampsManager::MANUAL, //Without Auto-balance
 		parser.NextInt() // Camp ID
 	);
+}
+
+void FSpamWorldCommand::Execute(FCommandParser parser)
+{
+	FString user = parser.GetUserName();
+	UE_LOG(LogTemp, Warning,TEXT("utilisateur de spam: %s"), *user);
+	if (World != NULL && user.Equals("wayroth")) {
+		FString word = parser.Next();
+		//executed in GameThread
+		FFunctionGraphTask::CreateAndDispatchWhenReady([this,word]() {
+			AActorTwitchEventListener* ActorListener = NULL;
+			for (TActorIterator<AActorTwitchEventListener> ActorItr(World); ActorItr; ++ActorItr)
+			{
+				ActorListener = *ActorItr;
+			}
+			SpamEvent* events = new SpamEvent(15, Context, ActorListener, World, word);
+			((FTwitchMessageReceiver*)Context->getReceiver())->setEvent(events);
+		}
+		, TStatId(), nullptr, ENamedThreads::GameThread);
+	}
+}
+
+void FCloudWordCommand::Execute(FCommandParser parser)
+{
+	FString user = parser.GetUserName();
+	UE_LOG(LogTemp, Warning, TEXT("utilisateur de cloudword: %s"), *user);
+	if (World != NULL && user.Equals(superuser)) {
+		int32 nb = parser.NextInt();
+		FFunctionGraphTask::CreateAndDispatchWhenReady([this, nb]() {
+			AActorTwitchEventListener* ActorListener = NULL;
+			for (TActorIterator<AActorTwitchEventListener> ActorItr(World); ActorItr; ++ActorItr)
+			{
+				ActorListener = *ActorItr;
+			}
+			CloudWordEvent* events = new CloudWordEvent(15, Context, ActorListener, World, nb);
+			((FTwitchMessageReceiver*)Context->getReceiver())->setEvent(events);
+		}
+		, TStatId(), nullptr, ENamedThreads::GameThread);
+	}
 }

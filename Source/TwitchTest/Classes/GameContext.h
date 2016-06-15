@@ -11,6 +11,7 @@ class TWITCHTEST_API GameContext
 {
 private:
 	CampsManager Camps;
+	FRunnable *TwitchRunnable = NULL;
 	int32 strategy = 0;
 
 public:
@@ -18,6 +19,12 @@ public:
 	int32 GetStrategy() { return strategy;  }
 	void SetStrategy(int32 strat) {
 		strategy = strat;
+	}
+	void SetReceiver(FRunnable *_TwitchRunnable) {
+		TwitchRunnable = _TwitchRunnable;
+	}
+	FRunnable *getReceiver() {
+		return TwitchRunnable;
 	}
 };
 

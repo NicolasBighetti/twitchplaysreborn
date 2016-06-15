@@ -15,3 +15,22 @@ public:
 
 	virtual void Execute(FCommandParser parser);
 };
+
+
+class TWITCHTEST_API FSpamWorldCommand : public FWorldCommand
+{
+public:
+	FSpamWorldCommand(UWorld* _world, GameContext* _context)
+		: FWorldCommand(TEXT("spam"), _world, _context) {}
+
+	virtual void Execute(FCommandParser parser);
+};
+
+class TWITCHTEST_API FCloudWordCommand : public FWorldCommand
+{
+public:
+	FCloudWordCommand(UWorld* _world, GameContext* _context)
+		: FWorldCommand(TEXT("cloud"), _world, _context) {}
+
+	virtual void Execute(FCommandParser parser);
+};
