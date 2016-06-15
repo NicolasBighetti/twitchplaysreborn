@@ -3,3 +3,8 @@
 #pragma once
 
 #include "Engine.h"
+
+
+// For tests
+#define TWITCH_CHECK(test, errorMsg) \
+	if(!(test)) { UE_LOG(LogTemp, Display, TEXT("TWITCHTEST Error: %s"), errorMsg); return false; }
