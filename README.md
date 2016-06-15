@@ -307,6 +307,7 @@ You have full access to the source files.
 Check TwitchGameMode.cpp for more information or a TwitchPawn.
 You can try to move your ball left and right by adding commands too.
 
+You can drag and drop more AMyTwitchPawn in to your level but you will need to type join [0-9]* to select a team and then type your command.
 
 ###Create Custom Event
 
