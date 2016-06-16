@@ -7,7 +7,7 @@
 #include "SpamEvent.h"
 
 #define Val 4
-#define superuser TEXT("wayroth")
+#define superuser TEXT("drymfr")
 /**
  * Join command.
  */
@@ -26,19 +26,21 @@ void FSpamWorldCommand::Execute(FCommandParser parser)
 {
 	FString user = parser.GetUserName();
 	UE_LOG(LogTemp, Warning,TEXT("utilisateur de spam: %s"), *user);
-	if (World != NULL && user.Equals("wayroth")) {
+	if (World != NULL && user.Equals(superuser)) {
 		FString word = parser.Next();
-		//executed in GameThread
-		FFunctionGraphTask::CreateAndDispatchWhenReady([this,word]() {
-			AActorTwitchEventListener* ActorListener = NULL;
-			for (TActorIterator<AActorTwitchEventListener> ActorItr(World); ActorItr; ++ActorItr)
-			{
-				ActorListener = *ActorItr;
+		if (!word.Equals("")) {
+			//executed in GameThread
+			FFunctionGraphTask::CreateAndDispatchWhenReady([this, word]() {
+				AActorTwitchEventListener* ActorListener = NULL;
+				for (TActorIterator<AActorTwitchEventListener> ActorItr(World); ActorItr; ++ActorItr)
+				{
+					ActorListener = *ActorItr;
+				}
+				SpamEvent* events = new SpamEvent(15, Context, ActorListener, World, word);
+				((FTwitchMessageReceiver*)Context->getReceiver())->setEvent(events);
 			}
-			SpamEvent* events = new SpamEvent(15, Context, ActorListener, World, word);
-			((FTwitchMessageReceiver*)Context->getReceiver())->setEvent(events);
+			, TStatId(), nullptr, ENamedThreads::GameThread);
 		}
-		, TStatId(), nullptr, ENamedThreads::GameThread);
 	}
 }
 
@@ -48,15 +50,17 @@ void FCloudWordCommand::Execute(FCommandParser parser)
 	UE_LOG(LogTemp, Warning, TEXT("utilisateur de cloudword: %s"), *user);
 	if (World != NULL && user.Equals(superuser)) {
 		int32 nb = parser.NextInt();
-		FFunctionGraphTask::CreateAndDispatchWhenReady([this, nb]() {
-			AActorTwitchEventListener* ActorListener = NULL;
-			for (TActorIterator<AActorTwitchEventListener> ActorItr(World); ActorItr; ++ActorItr)
-			{
-				ActorListener = *ActorItr;
+		if (nb != NULL) {
+			FFunctionGraphTask::CreateAndDispatchWhenReady([this, nb]() {
+				AActorTwitchEventListener* ActorListener = NULL;
+				for (TActorIterator<AActorTwitchEventListener> ActorItr(World); ActorItr; ++ActorItr)
+				{
+					ActorListener = *ActorItr;
+				}
+				CloudWordEvent* events = new CloudWordEvent(15, Context, ActorListener, World, nb);
+				((FTwitchMessageReceiver*)Context->getReceiver())->setEvent(events);
 			}
-			CloudWordEvent* events = new CloudWordEvent(15, Context, ActorListener, World, nb);
-			((FTwitchMessageReceiver*)Context->getReceiver())->setEvent(events);
+			, TStatId(), nullptr, ENamedThreads::GameThread);
 		}
-		, TStatId(), nullptr, ENamedThreads::GameThread);
 	}
 }

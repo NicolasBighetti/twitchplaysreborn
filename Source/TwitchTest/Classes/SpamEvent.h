@@ -19,13 +19,13 @@ public:
 	}
 	SpamEvent(int32 _delay, GameContext* _context, AActorTwitchEventListener* _listener, UWorld* _world,FString _word) : TwitchEvent(_delay, _context, _listener, _world) {
 		word = _word;
-		UE_LOG(LogTemp, Warning, TEXT("Spam debut gogo %s %d"), *word, Context->GetCamps()->GetNbCamps());
+		UE_LOG(LogTemp, Warning, TEXT("Spam debut : %s %d"), *word, Context->GetCamps()->GetNbCamps());
 		count.Init(0, Context->GetCamps()->GetNbCamps());
 		//notify();
 		AActorTwitchEventListener* listen = listener;
 		SpamEvent* copy = this;
 		del.BindLambda([listen,copy] {
-			UE_LOG(LogTemp, Warning, TEXT("fin timmer"));
+			UE_LOG(LogTemp, Warning, TEXT("fin timer"));
 			int32 max = 0;
 			int32 i;
 			UE_LOG(LogTemp, Warning, TEXT("notify"));
@@ -45,7 +45,7 @@ public:
 
 
 		if(world!=NULL){
-			UE_LOG(LogTemp, Warning, TEXT("world not null"));
+			//UE_LOG(LogTemp, Warning, TEXT("world not null"));
 			world->GetTimerManager().SetTimer(Timer, del, delay, false);
 		}
 		

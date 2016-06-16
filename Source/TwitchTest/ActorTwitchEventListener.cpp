@@ -37,7 +37,7 @@ void AActorTwitchEventListener::Tick( float DeltaTime )
 
 void AActorTwitchEventListener::updateSpam(int winningTeam, int strenght)
 {
-	UE_LOG(LogTemp, Warning, TEXT("coucou %d %d"),winningTeam,strenght);
+	//UE_LOG(LogTemp, Warning, TEXT("%d %d"),winningTeam,strenght);
 	text->SetText(FText::FromString(FString::Printf(TEXT("Winning team %d with %d spams !"), winningTeam, strenght)));
 	FTimerHandle timer;
 	GetWorld()->GetTimerManager().SetTimer(timer, this, &AActorTwitchEventListener::clear, clear_time, false);

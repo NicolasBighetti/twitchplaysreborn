@@ -33,7 +33,7 @@ public:
 		/*
 		FTimerDelegate del;
 		del.BindLambda([this] {
-			UE_LOG(LogTemp, Warning, TEXT("fin timmer"));
+			UE_LOG(LogTemp, Warning, TEXT("fin timmr"));
 			this->notify();
 		});
 		world->GetTimerManager().SetTimer(TimerHandle, del, delay, false);
@@ -44,7 +44,7 @@ public:
 	virtual void receiveMessage(FString userName, FString message) = 0;
 
 	bool isRunning() {
-		UE_LOG(LogTemp, Warning, TEXT("Running event: %d"), running);
+		//UE_LOG(LogTemp, Warning, TEXT("Running event: %d"), running);
 		return running;
 	}
 	

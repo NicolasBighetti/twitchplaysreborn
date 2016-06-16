@@ -25,12 +25,18 @@ FString FCommandParser::GetName()
 
 FString FCommandParser::Next()
 {
-	return Get(++Index);
+	if (Index + 1 < Args.Num()) {
+		return Get(++Index);
+	}
+	else return "";
 }
 
 int32 FCommandParser::NextInt()
 {
-	return FCString::Atoi(*Next());
+	if (Index + 1 < Args.Num()) {
+		return FCString::Atoi(*Next());
+	}
+	else return NULL;
 }
 
 float FCommandParser::NextFloat()

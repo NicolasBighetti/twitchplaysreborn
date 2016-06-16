@@ -50,7 +50,7 @@ void ATwitchGameMode::BeginPlay()
 	AActorTwitchEventListener* ActorListener = NULL;
 	for (TActorIterator<AActorTwitchEventListener> ActorItr(GetWorld()); ActorItr; ++ActorItr)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("finding actor"));
+		//UE_LOG(LogTemp, Warning, TEXT("finding actor"));
 		ActorListener = *ActorItr;
 	}
 	if(ActorListener != NULL){

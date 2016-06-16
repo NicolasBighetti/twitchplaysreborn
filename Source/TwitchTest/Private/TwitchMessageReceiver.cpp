@@ -252,9 +252,9 @@ void FTwitchMessageReceiver::ReceivedChatMessage(FString userName, FString messa
 
 
 bool FTwitchMessageReceiver::setEvent(TwitchEvent* _event) {
-	UE_LOG(LogTemp, Warning, TEXT("set event"));
+	//UE_LOG(LogTemp, Warning, TEXT("set event"));
 	if (!Events || !Events->isRunning()) {
-		UE_LOG(LogTemp, Warning, TEXT("event not register"));
+		//UE_LOG(LogTemp, Warning, TEXT("event not register"));
 		Events = _event;
 		return true;
 	}

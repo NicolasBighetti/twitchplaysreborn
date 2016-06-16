@@ -6,10 +6,10 @@
 
 void SpamEvent::notify()
 {
-	UE_LOG(LogTemp, Warning, TEXT("fin timmer"));
+	UE_LOG(LogTemp, Warning, TEXT("fin timer"));
 	int32 max = 0;
 	int32 i;
-	UE_LOG(LogTemp, Warning, TEXT("notify"));
+	//UE_LOG(LogTemp, Warning, TEXT("notify"));
 
 	//iterate and get the max occurency
 	for (i = 0; i < count.Num(); ++i) {
@@ -32,7 +32,7 @@ void SpamEvent::receiveMessage(FString userName, FString message)
 	if (message.Equals(word)) {
 		if (count.Num() == 1) {
 			camps = 1;
-			UE_LOG(LogTemp, Warning, TEXT("SpamEvent une team %d"), camps);
+			//UE_LOG(LogTemp, Warning, TEXT("SpamEvent une team %d"), camps);
 		}
 		else {
 			camps = Context->GetCamps()->GetCampByPseudo(userName);
