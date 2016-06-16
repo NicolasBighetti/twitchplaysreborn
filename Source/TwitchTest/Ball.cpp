@@ -19,8 +19,14 @@ ABall::ABall() : ATwitchPawn()
 	OurCamera->AttachTo(RootComponent);
 	OurCamera->SetRelativeLocation(FVector(-250.0f, 0.0f, 250.0f));
 	OurCamera->SetRelativeRotation(FRotator(-45.0f, 0.0f, 0.0f));
-	OurVisibleComponent->AttachTo(RootComponent);
 	OurVisibleComponent->SetSimulatePhysics(true);
+	/*
+	OurVisibleComponent->bGenerateOverlapEvents = true;
+	OurVisibleComponent->SetNotifyRigidBodyCollision(true);
+	OurVisibleComponent->BodyInstance.SetCollisionProfileName("PhysicsBody");
+	OurVisibleComponent->OnComponentHit.AddDynamic(this, &ABall::onHit);
+	*/
+	OurVisibleComponent->AttachTo(RootComponent);
 }
 
 void ABall::RegisterCommands()
@@ -53,6 +59,11 @@ void ABall::Tick( float DeltaTime )
 	// Call tick from twitch pawn
 }
 
+void ABall::onHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector v, const FHitResult& Hit)
+{
+	UE_LOG(LogTemp, Warning, TEXT("vector %d %d %d"), v.X, v.Y,v.Z);
+	this->GetOurVisibleComponent()->AddImpulse(v *= FVector(10, 10, 10));
+}
 void ABall::BeginDestroy()
 {
 	Super::BeginDestroy();

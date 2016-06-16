@@ -30,6 +30,8 @@ public:
 
 	UStaticMeshComponent* GetOurVisibleComponent() { return OurVisibleComponent; }
 
+	UFUNCTION()
+	void onHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 	// Called every frame
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void BeginPlay() override;
