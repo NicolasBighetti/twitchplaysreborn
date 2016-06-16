@@ -29,7 +29,12 @@ void ATwitchGameMode::BeginPlay()
 		//UE_LOG(LogTemp, Warning, TEXT("%s"), *(ActorItr->GetName()));
 
 		Camps* c = new Camps(TEXT("boule"));
+
+		Config Conf = Config::Load("Config/TwitchPlaysAPI.conf");
+		FString admin = Conf.Get("admin");
+
 		Context->GetCamps()->AddCamps(c);
+		Context->SetAdmin(admin);
 		ActorItr->setCamps(c);
 		//ActorItr->setQueue(campsManager.getQueueInit());
 		ActorItr->launch();

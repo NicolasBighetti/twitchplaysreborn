@@ -26,7 +26,7 @@ void FSpamWorldCommand::Execute(FCommandParser parser)
 {
 	FString user = parser.GetUserName();
 	UE_LOG(LogTemp, Warning,TEXT("utilisateur de spam: %s"), *user);
-	if (World != NULL && user.Equals(superuser)) {
+	if (World != NULL && user.Equals(Context->GetAdmin())) {
 		FString word = parser.Next();
 		if (!word.Equals("")) {
 			//executed in GameThread
@@ -36,7 +36,7 @@ void FSpamWorldCommand::Execute(FCommandParser parser)
 				{
 					ActorListener = *ActorItr;
 				}
-				SpamEvent* events = new SpamEvent(15, Context, ActorListener, World, word);
+				SpamEvent* events = new SpamEvent(10, Context, ActorListener, World, word);
 				((FTwitchMessageReceiver*)Context->getReceiver())->setEvent(events);
 			}
 			, TStatId(), nullptr, ENamedThreads::GameThread);
@@ -48,7 +48,7 @@ void FCloudWordCommand::Execute(FCommandParser parser)
 {
 	FString user = parser.GetUserName();
 	UE_LOG(LogTemp, Warning, TEXT("utilisateur de cloudword: %s"), *user);
-	if (World != NULL && user.Equals(superuser)) {
+	if (World != NULL && user.Equals(Context->GetAdmin())) {
 		int32 nb = parser.NextInt();
 		if (nb != NULL) {
 			FFunctionGraphTask::CreateAndDispatchWhenReady([this, nb]() {
@@ -57,7 +57,7 @@ void FCloudWordCommand::Execute(FCommandParser parser)
 				{
 					ActorListener = *ActorItr;
 				}
-				CloudWordEvent* events = new CloudWordEvent(15, Context, ActorListener, World, nb);
+				CloudWordEvent* events = new CloudWordEvent(10, Context, ActorListener, World, nb);
 				((FTwitchMessageReceiver*)Context->getReceiver())->setEvent(events);
 			}
 			, TStatId(), nullptr, ENamedThreads::GameThread);

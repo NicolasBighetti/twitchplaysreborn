@@ -13,6 +13,7 @@ private:
 	CampsManager Camps;
 	FRunnable *TwitchRunnable = NULL;
 	int32 strategy = 0;
+	FString Admin;
 
 public:
 	CampsManager* GetCamps() { return &Camps; }
@@ -25,6 +26,14 @@ public:
 	}
 	FRunnable *getReceiver() {
 		return TwitchRunnable;
+	}
+
+	FString GetAdmin() {
+		return Admin;
+	}
+
+	void SetAdmin(FString admin) {
+		Admin = admin;
 	}
 };
 
