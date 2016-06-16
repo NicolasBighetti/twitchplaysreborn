@@ -42,7 +42,6 @@ bool FTwitchPlaysCampsBalanceTest::RunTest(const FString& Parameters)
 		c2.AddPlayer(name.AppendChar(ch), CampsManager::AUTO_STRICT, 1);
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("Testign auto balance"));
 	if ((c2.getCamps(1)->GetTotalPlayer() != 5) || (c2.getCamps(2)->GetTotalPlayer() != 5) || (c2.getCamps(3)->GetTotalPlayer() != 5) || (c2.getCamps(4)->GetTotalPlayer() != 5))
 		return false;
 

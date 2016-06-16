@@ -14,18 +14,12 @@ AActorTwitchEventListener::AActorTwitchEventListener()
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 	text = CreateDefaultSubobject<UTextRenderComponent>(TEXT("Text"));
 	text->AttachTo(RootComponent);
-	UE_LOG(LogTemp, Warning, TEXT("ActorListener constructor"));
-
 }
 
 // Called when the game starts or when spawned
 void AActorTwitchEventListener::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Warning, TEXT("ActorListener begin play"));
-	//GetWorld()->GetAuthGameMode();
-	//ATwitchTestGameMode* gm = (ATwitchTestGameMode*) GetWorld()->GetAuthGameMode();
-	//SpamEvent event = SpamEvent(5, gm->getContext(), this, GetWorld(), TEXT("pd"));
 }
 
 // Called every frame
@@ -37,7 +31,6 @@ void AActorTwitchEventListener::Tick( float DeltaTime )
 
 void AActorTwitchEventListener::updateSpam(int winningTeam, int strenght)
 {
-	//UE_LOG(LogTemp, Warning, TEXT("%d %d"),winningTeam,strenght);
 	text->SetText(FText::FromString(FString::Printf(TEXT("Winning team %d with %d spams !"), winningTeam, strenght)));
 	FTimerHandle timer;
 	GetWorld()->GetTimerManager().SetTimer(timer, this, &AActorTwitchEventListener::clear, clear_time, false);
@@ -56,11 +49,6 @@ void AActorTwitchEventListener::updateCloudWord(TArray<FString> result)
 	FTimerHandle timer;
 	GetWorld()->GetTimerManager().SetTimer(timer, this, &AActorTwitchEventListener::clear, clear_time, false);
 }
-
-void AActorTwitchEventListener::print() {
-	UE_LOG(LogTemp, Warning, TEXT("print test eventlistener dans actor"));
-}
-
 
 void AActorTwitchEventListener::clear() {
 	text->SetText(FText::FromString(TEXT("")));

@@ -6,7 +6,7 @@
 #include "Hole.generated.h"
 
 UCLASS()
-class TWITCHTEST_API AHole : public AActor
+class AHole : public AActor
 {
 	GENERATED_BODY()
 	

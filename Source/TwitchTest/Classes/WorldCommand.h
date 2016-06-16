@@ -8,7 +8,7 @@
 /**
  * 
  */
-class TWITCHTEST_API FWorldCommand : public FCommand
+class FWorldCommand : public FCommand
 {
 
 protected:

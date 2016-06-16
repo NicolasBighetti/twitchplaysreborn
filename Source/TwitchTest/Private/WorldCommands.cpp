@@ -25,7 +25,7 @@ void FJoinWorldCommand::Execute(FCommandParser parser)
 void FSpamWorldCommand::Execute(FCommandParser parser)
 {
 	FString user = parser.GetUserName();
-	UE_LOG(LogTemp, Warning,TEXT("utilisateur de spam: %s"), *user);
+
 	if (World != NULL && user.Equals(Context->GetAdmin())) {
 		FString word = parser.Next();
 		if (!word.Equals("")) {
@@ -47,7 +47,7 @@ void FSpamWorldCommand::Execute(FCommandParser parser)
 void FCloudWordCommand::Execute(FCommandParser parser)
 {
 	FString user = parser.GetUserName();
-	UE_LOG(LogTemp, Warning, TEXT("utilisateur de cloudword: %s"), *user);
+
 	if (World != NULL && user.Equals(Context->GetAdmin())) {
 		int32 nb = parser.NextInt();
 		if (nb != NULL) {

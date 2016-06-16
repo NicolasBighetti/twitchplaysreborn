@@ -8,7 +8,7 @@
 /**
  * 
  */
-class TWITCHTEST_API ThreadRead : public FRunnable
+class ThreadRead : public FRunnable
 {
 public:
 	bool running = true;

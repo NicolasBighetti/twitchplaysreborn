@@ -57,7 +57,6 @@ void ThreadRead::Stop()
 
 void ThreadRead::SetQueue(BlockingQueue<FCommandParser>* Bqueue)
 {
-	//UE_LOG(LogTemp, Warning, TEXT("set queue"));
 	queue = Bqueue;
 }
 

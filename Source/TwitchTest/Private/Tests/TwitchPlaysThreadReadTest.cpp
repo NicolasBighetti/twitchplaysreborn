@@ -9,9 +9,6 @@ IMPLEMENT_SIMPLE_AUTOMATION_TEST(TwitchPlaysThreadReadTest, "TwitchPlays.ThreadR
 // Running test
 bool TwitchPlaysThreadReadTest::RunTest(const FString& Parameters)
 {
-
-	UE_LOG(LogTemp, Display, TEXT("TwitchPlaysThreadReadTest"));
-
 	FCommandRegistry* r = new FCommandRegistry();
 	ThreadRead* t = new ThreadRead(r);
 

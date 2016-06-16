@@ -6,7 +6,7 @@
 /**
  * 
  */
-class TWITCHTEST_API Anarchy : public Strategy
+class Anarchy : public Strategy
 {
 
 private:

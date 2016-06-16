@@ -30,28 +30,12 @@ void ATwitchPawn::BeginPlay()
 void ATwitchPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	// Check if queue is not empty and execute command
-	/*
-	if (!CommandsQueue.IsEmpty())
-	{
-		// Get twitch command
-		FString cmd;
-		CommandsQueue.Dequeue(cmd);
-
-		UE_LOG(LogTemp, Warning, TEXT("Ball-> Executing command: %s"), *cmd);
-
-		// Execute command
-		if(!CommandsRegistry.Execute(cmd))
-			// Command not found
-			UE_LOG(LogTemp, Warning, TEXT("Ball-> Unknown command: %s"), *cmd);
-	}
-	*/
 }
 
 void ATwitchPawn::BeginDestroy()
 {
 	Super::BeginDestroy();
+	
 	UE_LOG(LogTemp, Warning, TEXT("Ball: BeginDestroy"));
 
 	//Kill the thread
@@ -76,6 +60,6 @@ void ATwitchPawn::setCamps(Camps* c)
 }
 void ATwitchPawn::launch()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Twitch Read : Launch"));
+	UE_LOG(LogTemp, Warning, TEXT("Twitch Read: Launch"));
 	_thread = FRunnableThread::Create(_run, TEXT("FThreadRead"), 0, TPri_BelowNormal);
 }

@@ -9,7 +9,7 @@
 /**
  * 
  */
-class TWITCHTEST_API TwitchEvent
+class TwitchEvent
 {
 
 protected:
@@ -26,26 +26,12 @@ public:
 
 	TwitchEvent() {}
 	TwitchEvent(int32 _delay, GameContext* _context, AActorTwitchEventListener* _listener, UWorld* _world) :delay(_delay), Context(_context),
-		listener(_listener),world(_world)
-	{
-
-		//launch timmer for listen to chat at the end call notify, only once
-		/*
-		FTimerDelegate del;
-		del.BindLambda([this] {
-			UE_LOG(LogTemp, Warning, TEXT("fin timmr"));
-			this->notify();
-		});
-		world->GetTimerManager().SetTimer(TimerHandle, del, delay, false);
-		*/
-	};
+		listener(_listener), world(_world) {};
 
 	virtual void notify() = 0;
 	virtual void receiveMessage(FString userName, FString message) = 0;
 
 	bool isRunning() {
-		//UE_LOG(LogTemp, Warning, TEXT("Running event: %d"), running);
 		return running;
 	}
-	
 };

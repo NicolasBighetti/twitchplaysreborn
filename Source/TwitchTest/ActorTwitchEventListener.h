@@ -8,7 +8,7 @@
 #include "ActorTwitchEventListener.generated.h"
 
 UCLASS()
-class TWITCHTEST_API AActorTwitchEventListener : public AActor, public TwitchEventListener
+class AActorTwitchEventListener : public AActor, public TwitchEventListener
 {
 	GENERATED_BODY()
 	
@@ -31,7 +31,5 @@ public:
 
 	void updateSpam(int winningTeam, int strenght) override;
 	void updateCloudWord(TArray<FString> result) override;
-	virtual void print() override;
 	void clear();
-	
 };

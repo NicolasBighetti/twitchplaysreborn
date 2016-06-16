@@ -8,7 +8,7 @@
 #include "Ball.generated.h"
 
 UCLASS()
-class TWITCHTEST_API ABall : public ATwitchPawn
+class ABall : public ATwitchPawn
 {
 	GENERATED_BODY()
 

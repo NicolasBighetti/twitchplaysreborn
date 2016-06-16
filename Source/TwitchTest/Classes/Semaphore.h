@@ -7,7 +7,7 @@
 /**
  * 
  */
-class TWITCHTEST_API Semaphore
+class Semaphore
 {
 private:
 	std::mutex mutex;

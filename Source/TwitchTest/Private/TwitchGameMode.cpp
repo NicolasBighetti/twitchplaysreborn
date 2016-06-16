@@ -26,7 +26,6 @@ void ATwitchGameMode::BeginPlay()
 	{
 		// Same as with the Object Iterator, access the subclass instance with the * or -> operators.
 		ATwitchPawn *actor = *ActorItr;
-		//UE_LOG(LogTemp, Warning, TEXT("%s"), *(ActorItr->GetName()));
 
 		Camps* c = new Camps(TEXT("boule"));
 
@@ -53,11 +52,10 @@ void ATwitchGameMode::BeginPlay()
 	UE_LOG(LogTemp, Warning, TEXT("Game mode: Starting the thread"));
 	TwitchThread = FRunnableThread::Create(TwitchRunnable, TEXT("FTwitchMessageReceiver"), 0, TPri_BelowNormal);
 	AActorTwitchEventListener* ActorListener = NULL;
+
 	for (TActorIterator<AActorTwitchEventListener> ActorItr(GetWorld()); ActorItr; ++ActorItr)
-	{
-		//UE_LOG(LogTemp, Warning, TEXT("finding actor"));
 		ActorListener = *ActorItr;
-	}
+
 	if(ActorListener != NULL){
 		//events = new SpamEvent(5, Context, ActorListener, GetWorld(), TEXT("Kappa"));
 		events = new CloudWordEvent(1, Context, ActorListener, GetWorld(), 4);

@@ -8,9 +8,6 @@ IMPLEMENT_SIMPLE_AUTOMATION_TEST(TwitchPlaysBlockingQueueTest, "TwitchPlays.Bloc
 // Running test
 bool TwitchPlaysBlockingQueueTest::RunTest(const FString& Parameters)
 {
-
-	UE_LOG(LogTemp, Display, TEXT("BlockingQueueTest4"));
-
 	BlockingQueue<int>* q = new BlockingQueue<int>();
 	int32 val = 42;
 
@@ -29,12 +26,3 @@ bool TwitchPlaysBlockingQueueTest::RunTest(const FString& Parameters)
 	
     return true;
 }
-
-/*
-How to run a test in Unreal Engine :
-	In Unreal Editor console :
-		"Automation List" => List all tests
-		"	Automation RunTests TwitchPlays.BlockingQueueTest " => Run TwitchPlays.BlockingQueueTest
-
-That's all for me ! **drop the mic**
-*/

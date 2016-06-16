@@ -8,7 +8,7 @@
 /**
 * Ball command.
 */
-class TWITCHTEST_API FBallCommand : public FCommand
+class FBallCommand : public FCommand
 {
 protected:
 	ABall* Ball;
@@ -19,7 +19,7 @@ public:
 /**
  * Command moving ball to the left.
  */
-class TWITCHTEST_API FBallLeftCommand : public FBallCommand
+class FBallLeftCommand : public FBallCommand
 {
 public:
 	FBallLeftCommand(ABall* _ball) : FBallCommand(TEXT("q"), _ball) {}
@@ -29,7 +29,7 @@ public:
 /**
  * Command moving ball to the right.
  */
-class TWITCHTEST_API FBallRightCommand : public FBallCommand
+class FBallRightCommand : public FBallCommand
 {
 public:
 	FBallRightCommand(ABall* _ball) : FBallCommand(TEXT("d"), _ball) {}
@@ -39,7 +39,7 @@ public:
 /**
 * Command moving ball Forward.
 */
-class TWITCHTEST_API FBallForwardCommand : public FBallCommand
+class FBallForwardCommand : public FBallCommand
 {
 public:
 	FBallForwardCommand(ABall* _ball) : FBallCommand(TEXT("z"), _ball) {}
@@ -49,7 +49,7 @@ public:
 /**
 * Command moving ball backward.
 */
-class TWITCHTEST_API FBallBackwardCommand : public FBallCommand
+class FBallBackwardCommand : public FBallCommand
 {
 public:
 	FBallBackwardCommand(ABall* _ball) : FBallCommand(TEXT("s"), _ball) {}
@@ -57,7 +57,7 @@ public:
 };
 
 
-class TWITCHTEST_API FBallJumpCommand : public FBallCommand
+class FBallJumpCommand : public FBallCommand
 {
 public:
 	FBallJumpCommand(ABall* _ball) : FBallCommand(TEXT("a"), _ball) {}

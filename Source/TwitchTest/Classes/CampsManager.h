@@ -4,7 +4,7 @@
 #include "Camps.h"
 #include "BlockingQueue.h"
 
-class TWITCHTEST_API CampsManager {
+class CampsManager {
 
 public:
 

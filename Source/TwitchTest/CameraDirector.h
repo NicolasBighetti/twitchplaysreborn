@@ -6,7 +6,7 @@
 #include "CameraDirector.generated.h"
 
 UCLASS()
-class TWITCHTEST_API ACameraDirector : public AActor
+class ACameraDirector : public AActor
 {
 	GENERATED_BODY()
 	

@@ -6,7 +6,7 @@
 #include "Tunnel.generated.h"
 
 UCLASS()
-class TWITCHTEST_API ATunnel : public AActor
+class ATunnel : public AActor
 {
 	GENERATED_BODY()
 	

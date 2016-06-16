@@ -8,7 +8,7 @@
 /**
  * 
  */
-class TWITCHTEST_API CloudWordEvent : public TwitchEvent
+class CloudWordEvent : public TwitchEvent
 {
 private:
 	TMap<FString, int32> count;
@@ -18,10 +18,10 @@ public:
 
 	CloudWordEvent(int32 _delay, GameContext* _context, AActorTwitchEventListener* _listener, UWorld* _world, int32 _nbword) :
 		TwitchEvent(_delay, _context, _listener, _world),nb_word(_nbword) {
-		//UE_LOG(LogTemp, Warning, TEXT("CloudWordEvent %d"), nb_word);
+		UE_LOG(LogTemp, Warning, TEXT("CloudWordEvent %d"), nb_word);
 		CloudWordEvent* copy = this;
 		del.BindLambda([copy] {
-			//UE_LOG(LogTemp, Warning, TEXT("fin timer"));
+
 			TArray<FString> result;
 			//sort int by max
 			copy->count.ValueSort([](int32 A, int32 B) {
@@ -35,10 +35,9 @@ public:
 			copy->listener->updateCloudWord(result);
 			copy->running = false;
 		});
-		if (world != NULL) {
-			//UE_LOG(LogTemp, Warning, TEXT("world not null"));
+
+		if (world != NULL)
 			world->GetTimerManager().SetTimer(Timer, del, delay, false);
-		}
 	};
 
 	void notify() override;

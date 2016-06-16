@@ -7,7 +7,7 @@
 /**
  * 
  */
-class TWITCHTEST_API GameContext
+class GameContext
 {
 private:
 	CampsManager Camps;

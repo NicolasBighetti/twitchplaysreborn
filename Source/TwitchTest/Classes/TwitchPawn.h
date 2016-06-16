@@ -9,7 +9,7 @@
 #include "TwitchPawn.generated.h"
 
 UCLASS()
-class TWITCHTEST_API ATwitchPawn : public APawn
+class ATwitchPawn : public APawn
 {
 	GENERATED_BODY()
 

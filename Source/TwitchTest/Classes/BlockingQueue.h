@@ -8,7 +8,7 @@
 #include <deque>
 
 template <typename T>
-class TWITCHTEST_API BlockingQueue
+class BlockingQueue
 {
 private:
 	std::mutex d_mutex;

@@ -59,10 +59,7 @@ int CampsManager::RemovePlayer(FString pseudo, int team)
 		return 0;
 
 	if (team < 1)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("%s"), *FString::FromInt(GetCampByPseudo(pseudo)-1));
 		return CampsList[GetCampByPseudo(pseudo)-1]->RemovePlayer(pseudo);
-	}
 
 	return CampsList[team-1]->RemovePlayer(pseudo);
 }

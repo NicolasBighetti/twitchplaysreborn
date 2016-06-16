@@ -7,7 +7,7 @@
 /**
  * 
  */
-class TWITCHTEST_API SpamEvent : public TwitchEvent
+class SpamEvent : public TwitchEvent
 {
 private:
 	FString word;
@@ -19,16 +19,14 @@ public:
 	}
 	SpamEvent(int32 _delay, GameContext* _context, AActorTwitchEventListener* _listener, UWorld* _world,FString _word) : TwitchEvent(_delay, _context, _listener, _world) {
 		word = _word;
-		UE_LOG(LogTemp, Warning, TEXT("Spam debut : %s %d"), *word, Context->GetCamps()->GetNbCamps());
+		UE_LOG(LogTemp, Warning, TEXT("Starting spam event : %s %d"), *word, Context->GetCamps()->GetNbCamps());
 		count.Init(0, Context->GetCamps()->GetNbCamps());
 		//notify();
 		AActorTwitchEventListener* listen = listener;
 		SpamEvent* copy = this;
 		del.BindLambda([listen,copy] {
-			UE_LOG(LogTemp, Warning, TEXT("fin timer"));
 			int32 max = 0;
 			int32 i;
-			UE_LOG(LogTemp, Warning, TEXT("notify"));
 
 			//iterate and get the max occurency
 			for (i = 0; i < copy->count.Num(); ++i) {
@@ -44,11 +42,8 @@ public:
 		});
 
 
-		if(world!=NULL){
-			//UE_LOG(LogTemp, Warning, TEXT("world not null"));
+		if(world!=NULL)
 			world->GetTimerManager().SetTimer(Timer, del, delay, false);
-		}
-		
 	};
 
 	void notify() override;

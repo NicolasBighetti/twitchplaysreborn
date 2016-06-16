@@ -11,7 +11,7 @@ using namespace std;
 /**
  * 
  */
-class TWITCHTEST_API Camps
+class Camps
 {
 public:
 

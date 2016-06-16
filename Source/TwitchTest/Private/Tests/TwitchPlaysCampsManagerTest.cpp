@@ -10,9 +10,6 @@ bool FTwitchPlaysCampsManagerTest::RunTest(const FString& Parameters)
 {
 	CampsManager c = CampsManager();
 
-
-	UE_LOG(LogTemp, Warning, TEXT("YOLOOOOOOOOOOOOOOOOOOOOOOO"));
-
 	//Test initial CampsManager condition
 	//check(c.GetNbCamps() == 100000000);
 	if (c.GetNbCamps() != 0)

@@ -5,7 +5,7 @@
 #pragma once
 
 UCLASS()
-class TWITCHTEST_API ATwitchTestGameMode : public ATwitchGameMode
+class ATwitchTestGameMode : public ATwitchGameMode
 {
 	GENERATED_BODY()
 

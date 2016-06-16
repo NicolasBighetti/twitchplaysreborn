@@ -8,9 +8,6 @@ IMPLEMENT_SIMPLE_AUTOMATION_TEST(TwitchPlaysConfigTest, "TwitchPlays.ConfigTest"
 // Running test
 bool TwitchPlaysConfigTest::RunTest(const FString& Parameters)
 {
-
-	UE_LOG(LogTemp, Display, TEXT("TwitchPlaysConfigTest5"));
-
 	Config Conf = Config::Load("Config/TwitchPlaysAPITest.conf");
 
 	FString Test1 = Conf.Get("test");

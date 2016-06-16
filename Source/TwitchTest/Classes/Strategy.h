@@ -13,7 +13,7 @@
 /**
  * 
  */
-class TWITCHTEST_API Strategy
+class Strategy
 {
 protected:
 	GameContext* Context;
@@ -51,7 +51,7 @@ public:
 	}
 };
 
-class TWITCHTEST_API FChangeStrategyWorldCommand : public FWorldCommand {
+class FChangeStrategyWorldCommand : public FWorldCommand {
 
 public:
 	FChangeStrategyWorldCommand(UWorld* _world, GameContext* _context)

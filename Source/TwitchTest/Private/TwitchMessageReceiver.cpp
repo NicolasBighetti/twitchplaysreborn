@@ -20,15 +20,15 @@ FTwitchMessageReceiver::FTwitchMessageReceiver(Config* _conf, UWorld* _world, Ga
 	Tick = FCString::Atoi(*Conf->Get("tick"));
 
 	if (_strategy == STRAT_ANARCHY) {
-		UE_LOG(LogTemp, Warning, TEXT("Strategy : Anarchy"));
+		UE_LOG(LogTemp, Warning, TEXT("Strategy: Anarchy"));
 		Strat = new Anarchy(_world, &Queue, Tick, Context);
 	}
 	else if (_strategy == STRAT_DEMOCRACY) {
-		UE_LOG(LogTemp, Warning, TEXT("Strategy : Democraty"));
+		UE_LOG(LogTemp, Warning, TEXT("Strategy: Democracy"));
 		Strat = new Democracy(_world, &Queue, Tick, Context);
 	}
 	else {
-		UE_LOG(LogTemp, Warning, TEXT("Strategy : Basic"));
+		UE_LOG(LogTemp, Warning, TEXT("Strategy: Basic"));
 		Strat = new Strategy(&Queue, Context);
 	}
 }
@@ -107,7 +107,7 @@ void FTwitchMessageReceiver::Connect()
 	// Try socket connection
 	bool connected = ListenerSocket->Connect(*iaddr);
 	if (connected) {
-		UE_LOG(LogTemp, Warning, TEXT("Connected"));
+		UE_LOG(LogTemp, Warning, TEXT("Connected!"));
 	}
 	else
 	{
@@ -188,12 +188,6 @@ void FTwitchMessageReceiver::ParseMessage(FString msg)
 				ReceivedChatMessage(username, message);
 				continue;
 			}
-			/*
-			else
-			{
-				UE_LOG(LogTemp, Warning, TEXT("Unknown message received: %s"), *msg);
-			}
-			*/
 		}
 	}
 }
@@ -219,8 +213,7 @@ void FTwitchMessageReceiver::ReceivedChatMessage(FString userName, FString messa
 
 	// Parse command
 	FCommandParser parser(userName, message);
-	UE_LOG(LogTemp, Warning, TEXT("commande: %s"), *parser.GetName());
-	//FCommandRegistry::PrintKeywords();
+
 	// Check if command exists
 	if (!FCommandRegistry::ExistsCommand(parser.GetName()))
 	{
@@ -233,28 +226,24 @@ void FTwitchMessageReceiver::ReceivedChatMessage(FString userName, FString messa
 		UE_LOG(LogTemp, Warning, TEXT("Ball-> Unknown command: %s"), *(parser.GetName()));
 		return;
 	}
-	UE_LOG(LogTemp, Warning, TEXT("commande connue %s"), *(parser.GetName()));
 
 	// Check if this is a world command
 	FCommand* worldCmd = FCommandRegistry::World()->Get(parser.GetName());
 	if (worldCmd != NULL)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("is world command %s"), *(parser.GetName()));
+		UE_LOG(LogTemp, Warning, TEXT("Executing world command: %s"), *(parser.GetName()));
 		// Execute world command
 		worldCmd->Execute(parser);
 		return;
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("send %s"), *(parser.GetName()));
 	// Send command to strategy
 	Strat->Receive(parser);
 }
 
 
 bool FTwitchMessageReceiver::setEvent(TwitchEvent* _event) {
-	//UE_LOG(LogTemp, Warning, TEXT("set event"));
 	if (!Events || !Events->isRunning()) {
-		//UE_LOG(LogTemp, Warning, TEXT("event not register"));
 		Events = _event;
 		return true;
 	}

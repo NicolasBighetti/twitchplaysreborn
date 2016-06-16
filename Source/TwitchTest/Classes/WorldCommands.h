@@ -7,7 +7,7 @@
 /**
 * Join command.
 */
-class TWITCHTEST_API FJoinWorldCommand : public FWorldCommand
+class FJoinWorldCommand : public FWorldCommand
 {
 public:
 	FJoinWorldCommand(UWorld* _world, GameContext* _context) 
@@ -17,7 +17,7 @@ public:
 };
 
 
-class TWITCHTEST_API FSpamWorldCommand : public FWorldCommand
+class FSpamWorldCommand : public FWorldCommand
 {
 public:
 	FSpamWorldCommand(UWorld* _world, GameContext* _context)
@@ -26,7 +26,7 @@ public:
 	virtual void Execute(FCommandParser parser);
 };
 
-class TWITCHTEST_API FCloudWordCommand : public FWorldCommand
+class FCloudWordCommand : public FWorldCommand
 {
 public:
 	FCloudWordCommand(UWorld* _world, GameContext* _context)

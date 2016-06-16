@@ -6,7 +6,7 @@
 /**
 *
 */
-class TWITCHTEST_API FCommandRegistry
+class FCommandRegistry
 {
 private:
 	// Commands list
@@ -29,7 +29,7 @@ public:
 
 	static void PrintKeywords() {
 		for (FString m : FCommandRegistry::ExistingKeywords) {
-			UE_LOG(LogTemp, Warning, TEXT("commande: %s"), *m);
+			UE_LOG(LogTemp, Warning, TEXT("Command: %s"), *m);
 		}
 	}
 

@@ -7,7 +7,7 @@
 /**
  * 
  */
-class TWITCHTEST_API BallGameContext : public GameContext
+class BallGameContext : public GameContext
 {
 	// TODO : Add custom attributes, etc.
 };

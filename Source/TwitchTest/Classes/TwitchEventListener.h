@@ -6,17 +6,10 @@
 /**
  * 
  */
-class TWITCHTEST_API TwitchEventListener
+class TwitchEventListener
 {
 public:
 
-	virtual void updateSpam(int winningTeam, int strenght) {
-		UE_LOG(LogTemp, Warning, TEXT("updateSpam generique"));
-	}
+	virtual void updateSpam(int winningTeam, int strenght) {}
 	virtual void updateCloudWord(TArray<FString> result) = 0;
-
-
-	virtual void print() {
-		UE_LOG(LogTemp, Warning, TEXT("print test eventlistener"));
-	}
 };

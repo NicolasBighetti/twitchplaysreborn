@@ -3,7 +3,7 @@
 
 #pragma once
 
-class TWITCHTEST_API FCommandParser
+class FCommandParser
 {
 private:
 	FString UserName;
@@ -25,7 +25,7 @@ public:
 /**
  * 
  */
-class TWITCHTEST_API FCommand
+class FCommand
 {
 protected:
 	FString Name;

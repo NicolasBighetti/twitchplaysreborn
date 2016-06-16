@@ -23,13 +23,13 @@ IMPLEMENT_SIMPLE_AUTOMATION_TEST(FTwitchPlaysCommandsCommandParserTest, "TwitchP
 
 bool FTwitchPlaysCommandsCommandParserTest::RunTest(const FString& Parameters)
 {
-	FCommandParser parser(TEXT("Test TP 68 8.6"));
+	FCommandParser parser("BotTest", "Test TP 68 8.6");
 
 	// Check parsing
-	//TWITCH_CHECK(parser.GetName().Equals("Test"), "Name not equals !");
-	//TWITCH_CHECK(parser.Next().Equals("TP"), "First argument not equals !");
-	//TWITCH_CHECK(parser.NextInt() == 68, "Second argument not equals !");
-	//TWITCH_CHECK(parser.NextFloat() == 8.6f, "Third argument not equals !");
+	TWITCH_CHECK(parser.GetName().Equals("test"), "Name not equals !");
+	TWITCH_CHECK(parser.Next().Equals("TP"), "First argument not equals !");
+	TWITCH_CHECK(parser.NextInt() == 68, "Second argument not equals !");
+	TWITCH_CHECK(parser.NextFloat() == 8.6f, "Third argument not equals !");
 
 	return true;
 }
@@ -63,8 +63,9 @@ IMPLEMENT_SIMPLE_AUTOMATION_TEST(FTwitchPlaysCommandsCommandRegistryTest, "Twitc
 
 bool FTwitchPlaysCommandsCommandRegistryTest::RunTest(const FString& Parameters)
 {
+	FTwitchTestCommand* cmd = new FTwitchTestCommand("Test");
 	FCommandRegistry registry;
-	FCommandParser parser("Test");
+	FCommandParser parser("BotTest", "Test");
 
 	// Check initialization
 	TWITCH_CHECK(!registry.IsCommand("Test"), "Command doesn't exists !");
@@ -72,10 +73,14 @@ bool FTwitchPlaysCommandsCommandRegistryTest::RunTest(const FString& Parameters)
 	TWITCH_CHECK(!FCommandRegistry::ExistsCommand("Test"), "Command doesn't exists ! (3)"); // Global
 
 	// Add commands
-	registry.Register(new FTwitchTestCommand("Test"));
+	registry.Register(cmd);
 	TWITCH_CHECK(registry.IsCommand("Test"), "Command should exists !");
 	TWITCH_CHECK(registry.Get("Test") != NULL, "Command should exists ! (2)");
 	TWITCH_CHECK(FCommandRegistry::ExistsCommand("Test"), "Command should exists ! (3)"); // Global
+
+	// Execute command
+	registry.Execute(parser);
+	TWITCH_CHECK(cmd->SomeValue == 86, "Execute failed !");
 
 	return true;
 }

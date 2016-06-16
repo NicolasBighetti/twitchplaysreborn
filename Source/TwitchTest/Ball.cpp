@@ -61,7 +61,6 @@ void ABall::Tick( float DeltaTime )
 
 void ABall::onHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector v, const FHitResult& Hit)
 {
-	UE_LOG(LogTemp, Warning, TEXT("vector %d %d %d"), v.X, v.Y,v.Z);
 	this->GetOurVisibleComponent()->AddImpulse(v *= FVector(10, 10, 10));
 }
 void ABall::BeginDestroy()

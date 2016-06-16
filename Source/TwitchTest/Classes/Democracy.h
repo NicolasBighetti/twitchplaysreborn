@@ -6,7 +6,7 @@
 /**
  * 
  */
-class TWITCHTEST_API Democracy : public Strategy
+class Democracy : public Strategy
 {
 private:
 	TMap<FString, int> commands;

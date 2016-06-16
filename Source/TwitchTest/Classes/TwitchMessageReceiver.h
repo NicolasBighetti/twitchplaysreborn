@@ -12,7 +12,7 @@
 /**
  * 
  */
-class TWITCHTEST_API FTwitchMessageReceiver : public FRunnable
+class FTwitchMessageReceiver : public FRunnable
 {
 private:
 	Config* Conf;

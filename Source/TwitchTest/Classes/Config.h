@@ -5,7 +5,7 @@
 /**
  * 
  */
-class TWITCHTEST_API Config
+class Config
 {
 private:
 	// Loaded configuration
