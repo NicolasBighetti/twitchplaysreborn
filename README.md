@@ -1,9 +1,7 @@
 #Twitch Play API
+PNS Innov 2016 - Twitch'Play project
 
-Projet twitch plays pnsinnov 2016
-
-
-TwitchPlay is a Plug in for Unreal Engine it allows developper to quickly link their pawns and actors to a Twitch Channel.
+TwitchPlay is a plug-in for Unreal Engine, allowing developpers to quickly link their pawns and actors to a Twitch Channel.
 We offers:
 
 * binding Keywords to your pawn's method from your c++ code
@@ -11,27 +9,27 @@ We offers:
 * use of custom TwitchEvent like Spamming and CloudWord to interact with your viewers
 * dynamic management of camps, your viewers can join the different side based of the number of Pawn you dropped in your game
 
+
 ### Getting Started
 
-Download te latest version from github
-Launch Unreal Engine
-
-Create a new C++ Basic Code project, call it TwitchTest
-It's very important to call it TwitchTest cause all the file belongs to this module
+Download the latest version from GitHub.
+Launch Unreal Engine.
+Create a new C++ Basic Code project, call it MyProject (or however you want).
 
 ![start](https://github.com/Paltoquet/UnrealTutoRessource/blob/master/Start1.PNG)
 
-Go to your Source folder (UnrealProjects/TwitchPlaysProject/Source)
-Insert the content of Source/TwitchTest/private and Source/TwitchTest/classes you get from the git repository in to your Source folder
-(Classes got all the .h files, private all the .cpp, the files from root are just samples)
+Go to your Source folder (**UnrealProjects/MyProject/Source**).
+Insert the content of **Source/TwitchTest/Private** and **Source/TwitchTest/Classes** you get from the Git repository in to your Source folder
+(Classes got all the .h files, Private all the .cpp, the files from root are just samples).
 
-Add the TwitchPlaysAPI.conf and bannedWords.txt in your Config folder (UnrealProjects/TwitchPlaysProject/Config)
-Open the TwitchPlaysAPI.conf from notepad supply it with the appropriate info
-channel: the channel you wish to connect
-botNickname: the pseudo of a valid Twitch acount
-oAuth : a crypted key you got from http://www.twitchapps.com/tmi/ linked to your account
-strategy: basic (each word one command), anarchy (a random command during lap time), democracy (an elected command during lap time)
-tick: lap time for anarchy or democracy in second
+Add the *TwitchPlaysAPI.conf* and *bannedWords.txt* in your Config folder (**UnrealProjects/TwitchPlaysProject/Config**).
+Open the *TwitchPlaysAPI.conf* and supply it with the appropriate configuration.
+
+* channel: the channel you wish to connect
+* botNickname : the pseudo of a valid Twitch account
+* oAuth : a crypted key you got from http://www.twitchapps.com/tmi/ linked to your account
+* strategy : basic (each word one command), anarchy (a random command during lap time), democracy (an elected command during lap time)
+* tick : lap time for anarchy or democracy in second
 
 ```
 oAuth : xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -42,9 +40,9 @@ tick : 1
 bannedWordsFile : Config/bannedWords.txt
 ```
 
-Open Visual Studio if not opened (File/Open Visual Studio)
-Open TwitchTestGameMode.h
-make inherit your class from ATwitchGameMode and add the appropriate include
+Open Visual Studio if not opened (File/Open Visual Studio).
+Open *TwitchTestGameMode.h*.
+Make inherits your class from *ATwitchGameMode* and add the appropriate include.
 
 ```C++
 #include "TwitchPlaysAPI.h"
@@ -66,7 +64,7 @@ public:
 
 ```
 
-your TwitchTestGameMoede.cpp shoul look like that
+Your *TwitchTestGameMoede.cpp* should looks like that.
 
 ```C++
 #include "TwitchTestGameMode.h"
@@ -83,20 +81,21 @@ void ATwitchTestGameMode::BeginDestroy()
 
 ```
 
-ATwitchGameMode connect to the IRC chat supplied in the config file
-It will bind each of your TwitchPawnActor to a different camp and notify them when a command has arrived
-
+ATwitchGameMode connect to the IRC chat supplied in the config file.
+It will bind each of your TwitchPawnActor to a different camp and notify them when a command has arrived.
 
 
 ###Create a custom Pawn
 
-go to the Unreal Editor and create a new Pawn, call it MyTwitchPawn
+Go to the Unreal Editor and create a new Pawn, call it MyTwitchPawn.
 ![Pawn](https://github.com/Paltoquet/UnrealTutoRessource/blob/master/Pawn.PNG)
 
 
-go to MyTwitchPawn.h
-make it inherit ATwitchPawn, include the file too.
-add a mesheComponent with a uproperty tag to make it editable from editor
+Go to *MyTwitchPawn.h*.
+Make it inherit ATwitchPawn, include the file too.
+Add a MesheComponent with a **UPROPERTY** tag to make it editable from editor.
+
+#### The header file
 
 ```C++
 #pragma once
@@ -111,12 +110,11 @@ class TWITCHTEST_API AMyTwitchPawn : public ATwitchPawn
 {
 	GENERATED_BODY()
 
-
-
+private:
+    UPROPERTY(EditAnywhere)
+    UStaticMeshComponent* OurVisibleComponent;
+    
 public:
-
-	UPROPERTY(EditAnywhere)
-		UStaticMeshComponent* OurVisibleComponent;
 	// Sets default values for this pawn's properties
 	AMyTwitchPawn();
 
@@ -126,16 +124,15 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
-	UStaticMeshComponent* GetOurVisibleComponent() { return OurVisibleComponent; }
-
-	
-	
+	UStaticMeshComponent* GetOurVisibleComponent() { return OurVisibleComponent; }	
 };
 
 ```
 
-the cpp file
-we add a camera to our component and we enable physics
+#### The C++ implementation
+
+We add a camera to our component and we enable physics.
+
 
 ```C++
 #include "TwitchPlaysAPI.h"
@@ -177,13 +174,13 @@ void AMyTwitchPawn::Tick( float DeltaTime )
 }
 ```
 
-now click build solution on visual studio or compile form the game editor
-if everything is fine you should be able to drag and drop a MyTwitchPawn in to the world and set its mesh and material
+Now build solution on Visual Studio or compile from the game editor.
+If everything is fine you should be able to drag and drop a MyTwitchPawn into the world and set its mesh and material.
 ![custom](https://github.com/Paltoquet/UnrealTutoRessource/blob/master/TwitchPawn.PNG)
 
 ###Bind action to the Pawn
 
-Go to the Editor and click on add new c++ class and then none parent class
+Go to the Editor and click on add new C++ class and then none parent class
 Call it MyTwitchPawnCommand
 
 ![start](https://github.com/Paltoquet/UnrealTutoRessource/blob/master/PawnCommand.PNG)
@@ -262,8 +259,8 @@ AMyTwitchPawn inherit from ATwitchPawn a attribute called CommandsRegistry.
 we will register the new instance of our command in it.
 It's used to call the appropriate method when our Actor receive a message from our differents Threads.
 
-go to MyTwitchPawn.cpp
-the constructor now should like this, don't forget to add the new include "MyTwitchPawnCommand.h"
+Go to MyTwitchPawn.cpp.
+The constructor now should like this, don't forget to add the new include "MyTwitchPawnCommand.h".
 
 ```C++
 #include "TwitchPlaysAPI.h"
@@ -295,27 +292,25 @@ AMyTwitchPawn::AMyTwitchPawn()
 }
 ```
 
-compile again
-And run 
-You should be able to move your Pawn from the chat after  "Bot activated !" have been prompt in the chat
-See the output log for more details (window/developer tool/outputlog).
+Compile and run.
+You should be able to move your Pawn from the chat after "Bot activated !" have been prompt in the chat.
+See the output log for more details (**Window/Developer tools/Outputlog**).
 
 ![nic](https://github.com/Paltoquet/UnrealTutoRessource/blob/master/movement.PNG)
 
 
-You have full access to the source files
-Check TwitchGameMode.cpp for more information or a TwitchPawn.cpp
-You can try to move your ball left and right by adding commands too, good exercise
+You have full access to the source files.
+Check TwitchGameMode.cpp for more information or a TwitchPawn.cpp.
+You can try to move your ball left and right by adding commands too, good exercise.
 
 You can drag and drop more AMyTwitchPawn in to your level but you will need to type join [0-9]* to select a team and then type your command.
 
 ###Create Custom Event
 
-Not fill for the moment go see TwitchGameMode constructor
-and ActorTwitchEventListener for the implementation of the listener
+Not fill for the moment, see TwitchGameMode constructor and ActorTwitchEventListener for the implementation of the listener.
 
 You need to implement TwitchEventListener on one of your class (actor,gamemode,everything you want)
-Then bind it to your event at creation, care you need to notify the TwitchMessageReceiver with the setEvent method.
+Then bind it to your event at creation, care you need to notify the TwitchMessageReceiver with the SetEvent method.
 
 
 ```C++
