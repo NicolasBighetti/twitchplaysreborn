@@ -11,10 +11,6 @@
 void FBallLeftCommand::Execute(FCommandParser parser)
 {
 	// Move ball to the left
-	//FVector velocity = Ball->GetCurrentVelocity();
-	//velocity.X = FMath::Clamp(-1.0f, -1.0f, 1.0f) * 100.0f;
-	//Ball->SetCurrentVelocity(velocity);
-
 	const FVector Torque = FVector(-1.f * Val * 500000.0f, 0.f, 0.f);
 	(Ball->GetOurVisibleComponent())->AddTorque(Torque);
 }
@@ -25,17 +21,13 @@ void FBallLeftCommand::Execute(FCommandParser parser)
 void FBallRightCommand::Execute(FCommandParser parser)
 {
 	// Move ball to the right
-	//FVector velocity = Ball->GetCurrentVelocity();
-	//velocity.X = FMath::Clamp(1.0f, -1.0f, 1.0f) * 100.0f;
-	//Ball->SetCurrentVelocity(velocity);
-
 	const FVector Torque = FVector(1.f * Val * 500000.0f, 0.f, 0.f);
 	(Ball->GetOurVisibleComponent())->AddTorque(Torque);
 }
 
 /**
-* Command moving ball to Forward.
-*/
+  * Command moving ball to Forward.
+  */
 void FBallForwardCommand::Execute(FCommandParser parser)
 {
 	// Move ball to Forward
@@ -44,8 +36,8 @@ void FBallForwardCommand::Execute(FCommandParser parser)
 }
 
 /**
-* Command moving ball to Backward.
-*/
+  * Command moving ball to Backward.
+  */
 void FBallBackwardCommand::Execute(FCommandParser parser)
 {
 	// Move ball to Backward
@@ -54,8 +46,8 @@ void FBallBackwardCommand::Execute(FCommandParser parser)
 }
 
 /**
-* Command jump.
-*/
+  * Command jump.
+  */
 void FBallJumpCommand::Execute(FCommandParser parser)
 {
 	//jump

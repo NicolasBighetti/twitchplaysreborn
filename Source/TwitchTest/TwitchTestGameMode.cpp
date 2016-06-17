@@ -23,8 +23,8 @@ void ATwitchTestGameMode::RegisterWorldCommands()
 	Super::RegisterWorldCommands();
 
 	// TODO : Add custom ball world commands
-	//FWorldCommandRegistry::GetInstance()->Register(new FJoinWorldCommand(GetWorld(), Context));
-	//FWorldCommandRegistry::GetInstance()->Register(new FChangeStrategyWorldCommand(GetWorld(), Context));
+	// FWorldCommandRegistry::GetInstance()->Register(new FJoinWorldCommand(GetWorld(), Context));
+	// FWorldCommandRegistry::GetInstance()->Register(new FChangeStrategyWorldCommand(GetWorld(), Context));
 	// FWorldCommandRegistry::GetInstance()->Register(new FMyBallCommand(GetWorld(), Context));
 }
 

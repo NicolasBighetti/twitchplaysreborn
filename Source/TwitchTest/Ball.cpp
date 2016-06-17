@@ -47,7 +47,6 @@ void ABall::BeginPlay()
 // Called every frame
 void ABall::Tick( float DeltaTime )
 {
-
 	Super::Tick(DeltaTime);
 	// Velocity computing
 	if (!CurrentVelocity.IsZero())
@@ -63,6 +62,7 @@ void ABall::onHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector v,
 {
 	this->GetOurVisibleComponent()->AddImpulse(v *= FVector(10, 10, 10));
 }
+
 void ABall::BeginDestroy()
 {
 	Super::BeginDestroy();

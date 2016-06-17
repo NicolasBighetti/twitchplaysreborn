@@ -9,9 +9,8 @@ UCLASS()
 class ACameraDirector : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
 
+public:
 	UPROPERTY(EditAnywhere)
 	AActor* CameraOne;
 	// Sets default values for this actor's properties
@@ -22,7 +21,4 @@ public:
 	
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
-
-	
-	
 };
