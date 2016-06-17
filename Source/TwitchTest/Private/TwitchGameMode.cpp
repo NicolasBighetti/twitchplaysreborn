@@ -64,7 +64,6 @@ void ATwitchGameMode::BeginPlay()
 
 	Context->SetReceiver(TwitchRunnable);
 	this->RegisterWorldCommands();
-	
 }
 
 void ATwitchGameMode::BeginDestroy()

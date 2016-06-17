@@ -5,30 +5,31 @@
 
 void CloudWordEvent::notify()
 {
-	
 	TArray<FString> result;
-	//sort int by max
+	
+	// Sort int by max
 	count.ValueSort([](int32 A, int32 B) {
 		return A > B; 
 	});
+	
 	int i = 0;
 	for (auto It = count.CreateConstIterator(); It && i < nb_word; ++It,i++)
-	{
 		result.Add(It.Key());
-	}
+	
+	// Notify listener
 	listener->updateCloudWord(result);
 	running = false;
 }
 
 void CloudWordEvent::receiveMessage(FString userName, FString message)
 {
-	if (!message.Contains(TEXT(" "))) {
-		//if message equal word
-		if (!count.Contains(message)) {
+	// Check if it is a single world (not spaces)
+	if (!message.Contains(TEXT(" ")))
+	{
+		// Check if message equals word
+		if (!count.Contains(message))
 			count.Add(message, 1);
-		}
-		else {
+		else
 			count[message]++;
-		}
 	}
 }

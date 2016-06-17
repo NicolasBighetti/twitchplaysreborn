@@ -1,17 +1,18 @@
 #include "TwitchPlaysAPI.h"
 #include "CampsManager.h"
 
-
+// Team auto-balancing possibilities.
 const int CampsManager::AUTO_STRICT = 0;
 const int CampsManager::AUTO_LAX = 1;
 const int CampsManager::MANUAL = 2;
-
 const int CampsManager::LAX_THRESHOLD = 2;
 
-
-uint32 CampsManager::AddCamps(Camps* cmp) {
+uint32 CampsManager::AddCamps(Camps* cmp)
+{
+	// Add camp to the list
 	uint32 res = CampsList.Add(cmp);
 
+	// Increase camp counter
 	nb_camps++;
 
 	return res;
@@ -19,14 +20,17 @@ uint32 CampsManager::AddCamps(Camps* cmp) {
 
 bool CampsManager::AddPlayer(FString pseudo, int AUTOTEAM_POLICY, int team)
 {
+	// Check if player is not already in the team
 	if (team <= 0 || IsAlreadyInATeam(pseudo))
 		return false;
 
+	// Manual dispatching
 	if (AUTOTEAM_POLICY == CampsManager::MANUAL)
 	{
 		return AddPlayerToTeam(pseudo, team);
 	}
 
+	// Auto lax dispatching
 	if (AUTOTEAM_POLICY == CampsManager::AUTO_LAX)
 	{
 		if ((ComputeAverage() - LowestTeam()) < CampsManager::LAX_THRESHOLD)
@@ -37,52 +41,53 @@ bool CampsManager::AddPlayer(FString pseudo, int AUTOTEAM_POLICY, int team)
 			AUTOTEAM_POLICY = CampsManager::AUTO_STRICT;
 	}
 
+	// Auto strict dispatching
 	if (AUTOTEAM_POLICY == CampsManager::AUTO_STRICT)
 	{
-		int cmp;
-			try {
-				cmp = GetByPopulation(LowestTeam());
-				return AddPlayerToTeam(pseudo, cmp);
-				
-			}
-			catch (exception e)
-			{
-				return false;
-			}
+		try {
+			int cmp = GetByPopulation(LowestTeam());
+			return AddPlayerToTeam(pseudo, cmp);
+		}
+		catch (exception e)
+		{
+			return false;
+		}
 	}
+
 	return false;
 }
 
 int CampsManager::RemovePlayer(FString pseudo, int team)
 {
+	// Check if player is in the team
 	if (!IsAlreadyInATeam(pseudo))
 		return 0;
 
+	// Try to find the player team
 	if (team < 1)
-		return CampsList[GetCampByPseudo(pseudo)-1]->RemovePlayer(pseudo);
-
-	return CampsList[team-1]->RemovePlayer(pseudo);
+		return CampsList[GetCampByPseudo(pseudo) - 1]->RemovePlayer(pseudo);
+	
+	return CampsList[team - 1]->RemovePlayer(pseudo);
 }
-
 
 bool CampsManager::AddPlayerToTeam(FString pseudo, int team)
 {
+	// Check if player is in the team
 	if (team > CampsList.Num() || team == 0 || IsAlreadyInATeam(pseudo))
 		return false;
 
-	return CampsList[team-1]->AddPlayer(pseudo);
+	return CampsList[team - 1]->AddPlayer(pseudo);
 }
 
 uint32 CampsManager::ComputeAverage()
 {
 	uint32 average = 0;
-	int i = 0;
-	for (Camps* cpm : CampsList)
-	{
-		i++;
-		average += cpm->GetTotalPlayer();
-	}
 
+	// Sum number of players in every teams
+	for (Camps* cpm : CampsList)
+		average += cpm->GetTotalPlayer();
+
+	// Compute average
 	return FMath::CeilToInt(average / CampsList.Num());
 
 }
@@ -90,13 +95,12 @@ uint32 CampsManager::ComputeAverage()
 uint32 CampsManager::LowestTeam() {
 	TArray<uint32> min;
 
+	// Get number of players in every team
 	for (Camps* cpm : CampsList)
-	{
 		min.Add(cpm->GetTotalPlayer());
-	}
 
+	// Find the lowest
 	min.Sort();
-
 	return min[0];
 }
 
@@ -109,7 +113,7 @@ int CampsManager::GetCampByPseudo(FString pseudo)
 		for (FString member : cmp->GetPlayerList())
 		{
 			if (member.Equals(pseudo))
-				return team+1;
+				return team + 1;
 		}
 		team++;
 	}
@@ -123,17 +127,14 @@ int CampsManager::GetByPopulation(uint32 pop){
 	for (Camps* cmp : CampsList)
 	{
 		if (cmp->GetTotalPlayer() == pop)
-			return i+1;
+			return i + 1;
 		else
 			i++;
 	}
 	throw 42;
 }
 
-void CampsManager::BalanceTeam()
-{
-
-}
+void CampsManager::BalanceTeam() {}
 
 bool CampsManager::IsAlreadyInATeam(FString pseudo)
 {
@@ -163,5 +164,6 @@ BlockingQueue<FCommandParser>* CampsManager::getQueueInit()
 			return bq;
 		}
 	}
+	
 	return NULL;
 }

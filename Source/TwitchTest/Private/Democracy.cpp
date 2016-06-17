@@ -52,12 +52,9 @@ void Democracy::OnTick() {
 			commands.Empty();
 		}
 	}
-
 }
 
-
 void Democracy::Receive(FCommandParser parser) {
-
 	int cmp = 1;
 	//We check if there are more than one camp
 	if (multicamps) {

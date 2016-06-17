@@ -3,7 +3,6 @@
 #include "TwitchPlaysAPI.h"
 #include "SpamEvent.h"
 
-
 void SpamEvent::notify()
 {
 	int32 max = 0;
@@ -37,7 +36,5 @@ void SpamEvent::receiveMessage(FString userName, FString message)
 		if (camps > 0) {
 			count[--camps]++;
 		}
-			
 	}
 }
-

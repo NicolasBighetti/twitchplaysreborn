@@ -3,35 +3,28 @@
 #include "TwitchPlaysAPI.h"
 #include "Anarchy.h"
 
-void Anarchy::OnTick() {
-
+void Anarchy::OnTick()
+{
 	UE_LOG(LogTemp, Warning, TEXT("Anarchy OnTick"));
 	int i;
-	//on push la premiere commande présente dans les différentes maps
+	
+	// Push first command of the map, for every camp
 	for (i = 0 ; i < Context->GetCamps()->GetNbCamps(); i++) {
 		auto It = Messages[i].CreateConstIterator();
 
+		// Check if there is something to push
 		if (It) {
 			Context->GetCamps()->getCamps(i+1)->GetQueue()->push(It.Value());
 			Messages[i].Empty();
 		}
 	}
-	
-	/*
-	auto It = Messages->CreateConstIterator();
-
-	if (It) {
-		queue->push(*It.Value());
-		Messages->Empty();
-	}
-	*/
 }
 
-
-void Anarchy::Receive(FCommandParser parser) {
-
+void Anarchy::Receive(FCommandParser parser)
+{
 	int cmp = 1;
-	//We check if there are more than one camp
+	
+	// Check if there are more than one camp
 	if (multicamps) {
 		cmp = Context->GetCamps()->GetCampByPseudo(parser.GetUserName());
 	}

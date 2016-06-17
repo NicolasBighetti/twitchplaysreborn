@@ -20,6 +20,9 @@ protected:
 	BlockingQueue<FCommandParser>* queue;
 	TArray<TMap<FString, FCommandParser>> Messages;
 	static TMap<FString, int32> StrategyMap;
+	
+	// Multicamps enabled by default
+	bool multicamps = true;
 
 public:
 	Strategy(BlockingQueue<FCommandParser>* _queue, GameContext* _context);

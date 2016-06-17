@@ -4,7 +4,6 @@
 #include "Camps.h"
 #include "CoreMisc.h"
 
-
 Camps::Camps(FString CampsName) {
 	MessagesQueue = new TQueue<FString>();
 	Queue = new BlockingQueue<FCommandParser>();
@@ -12,6 +11,7 @@ Camps::Camps(FString CampsName) {
 }
 
 bool Camps::AddPlayer(FString pseudo) {
+	// Check if player is not already in this camp
 	if (!Pseudo.Contains(pseudo)) {
 		Pseudo.Add(pseudo);
 		TotalPlayer++;
@@ -23,15 +23,12 @@ bool Camps::AddPlayer(FString pseudo) {
 
 int Camps::RemovePlayer(FString pseudo)
 {
-
-	DisplayTeam();
-
+	// Remove player from list
 	int res = Pseudo.Remove(pseudo);
 
+	// Check result
 	if (res != 0)
 		TotalPlayer--;
-
-	DisplayTeam();
 
 	return res;
 }
@@ -42,33 +39,9 @@ bool Camps::IsInTeam(FString pseudo) {
 
 void Camps::DisplayTeam()
 {
+	// Display every pseudos
 	for (FString pseudo : Pseudo) {
 		if (!pseudo.IsEmpty())
 			UE_LOG(LogTemp, Warning, TEXT("%s"), *pseudo);
 	}
 }
-
-/*
-void Camps::SetKeyword(Commande keyword) {
-Keyword.Add(keyword);
-}
-
-void Camps::SetCommande(Commande cmd) {
-commande = cmd;
-}
-Commande Camps::GetCommandByKeyword(FString keyword)
-{
-	for (Commande c : this->Keyword)
-	{
-		if (c.GetKeyword().Equals(keyword, ESearchCase::IgnoreCase))
-			return c;
-	}
-
-	return Commande("null", NULL);
-}
-
-void Camps::ExecuteCommand(FString keyword)
-{
-	(this->GetCommandByKeyword(keyword)).execute();
-}
-*/

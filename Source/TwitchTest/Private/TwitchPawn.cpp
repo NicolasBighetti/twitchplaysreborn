@@ -19,11 +19,6 @@ void ATwitchPawn::BeginPlay()
 
 	// Register commands
 	RegisterCommands();
-
-	/*
-	_run = new ThreadRead(&CommandsRegistry);
-	_thread = FRunnableThread::Create(_run, TEXT("FThreadRead"), 0, TPri_BelowNormal);
-	*/
 }
 
 // Called every frame
@@ -58,6 +53,7 @@ void ATwitchPawn::setCamps(Camps* c)
 	_run = new ThreadRead(&CommandsRegistry);
 	_run->SetQueue(c->GetQueue());
 }
+
 void ATwitchPawn::launch()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Twitch Read: Launch"));

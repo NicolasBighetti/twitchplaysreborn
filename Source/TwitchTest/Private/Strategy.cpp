@@ -35,9 +35,4 @@ void Strategy::Receive(FCommandParser parser) {
 
 void Strategy::OnTick() {}
 
-void FChangeStrategyWorldCommand::Execute(FCommandParser parser)
-{
-	//FString strg = parser.Get(1);
-
-	//Context->SetStrategy(FCString::Atoi(dd));
-}
+void FChangeStrategyWorldCommand::Execute(FCommandParser parser) {}

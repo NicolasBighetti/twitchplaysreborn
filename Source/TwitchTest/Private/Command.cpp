@@ -17,7 +17,6 @@ FString FCommandParser::GetUserName()
 	return UserName;
 }
 
-
 FString FCommandParser::GetName()
 {
 	return Get(0).ToLower();
