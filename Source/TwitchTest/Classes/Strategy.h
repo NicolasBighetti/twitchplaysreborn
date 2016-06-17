@@ -19,13 +19,12 @@ protected:
 	GameContext* Context;
 	BlockingQueue<FCommandParser>* queue;
 	TArray<TMap<FString, FCommandParser>> Messages;
-	bool multicamps = true;
-
 	static TMap<FString, int32> StrategyMap;
 
 public:
 	Strategy(BlockingQueue<FCommandParser>* _queue, GameContext* _context);
 
+	// Functions to override
 	virtual void Receive(FCommandParser parser);
 	virtual void OnTick();
 
@@ -51,6 +50,9 @@ public:
 	}
 };
 
+/**
+  * World command to change the strategy.
+  */
 class FChangeStrategyWorldCommand : public FWorldCommand {
 
 public:

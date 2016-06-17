@@ -7,20 +7,33 @@
 #include <semaphore.h> 
 #include <deque>
 
+/**
+  * Blocking queue.
+  */
 template <typename T>
 class BlockingQueue
 {
 private:
+	// Mutex to push/pop
 	std::mutex d_mutex;
+	
+	// Semaphore to handle when queue is empty
 	Semaphore empty;
+	
+	// Queue containing elements
 	TQueue<T> Queue;
 public:
-
+	/**
+      *	Check if queue is empty.
+	  */
 	bool IsEmpty()
 	{
 		return Queue.IsEmpty();
 	}
 
+	/**
+      *	Push new element in the queue.
+	  */
 	void push(T const& value) {
 
 		d_mutex.lock();
@@ -29,25 +42,21 @@ public:
 		d_mutex.unlock();
 	}
 
+	/**
+      *	Pop an element from the queue (blocking method, until there is anything to pop).
+	  */
 	T pop() {
-
 		T cmd;
 		empty.wait();
 		d_mutex.lock();
 		Queue.Dequeue(cmd);
 		d_mutex.unlock();
 		return cmd;
-
-
-		/*
-		std::unique_lock<std::mutex> lock(this->d_mutex);
-		this->d_condition.wait(lock, [=] { return !this->d_queue.empty(); });
-		T rc(std::move(this->d_queue.back()));
-		this->d_queue.pop_back();
-		return rc;
-		*/
 	}
 
+	/**
+      *	Clear the queue.
+	  */
 	void clear() {
 		d_mutex.lock();
 		while (!Queue.IsEmpty()) {

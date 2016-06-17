@@ -14,8 +14,7 @@ class ATwitchPawn : public APawn
 	GENERATED_BODY()
 
 protected:
-	// Twitch messages queue
-	//TQueue<FString>& CommandsQueue = FTwitchMessageReceiver::MessagesQueue;
+	// Thread and runnable
 	ThreadRead* _run = NULL;
 	FRunnableThread* _thread = NULL;
 

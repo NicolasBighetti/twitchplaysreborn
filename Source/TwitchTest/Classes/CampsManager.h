@@ -7,7 +7,7 @@
 class CampsManager {
 
 public:
-
+	// Team auto-balancing possibilities.
 	static const int AUTO_STRICT;
 	static const int AUTO_LAX;
 	static const int MANUAL;

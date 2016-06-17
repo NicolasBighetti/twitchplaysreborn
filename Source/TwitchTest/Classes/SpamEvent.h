@@ -14,34 +14,40 @@ private:
 	TArray<int32> count;
 	FTimerDelegate del;
 public:
-	SpamEvent() {
-
-	}
-	SpamEvent(int32 _delay, GameContext* _context, AActorTwitchEventListener* _listener, UWorld* _world,FString _word) : TwitchEvent(_delay, _context, _listener, _world) {
-		word = _word;
-		UE_LOG(LogTemp, Warning, TEXT("Starting spam event : %s %d"), *word, Context->GetCamps()->GetNbCamps());
+	SpamEvent() {}
+	
+	SpamEvent(int32 _delay, GameContext* _context, AActorTwitchEventListener* _listener, UWorld* _world,FString _word) 
+		: TwitchEvent(_delay, _context, _listener, _world), word(_word)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Starting Spam event : %s %d"), *word, Context->GetCamps()->GetNbCamps());
 		count.Init(0, Context->GetCamps()->GetNbCamps());
-		//notify();
+		
+		// Declare listener
 		AActorTwitchEventListener* listen = listener;
 		SpamEvent* copy = this;
+		
+		// Declare function to call on timer tick
 		del.BindLambda([listen,copy] {
 			int32 max = 0;
 			int32 i;
 
-			//iterate and get the max occurency
+			// Iterate and get the max occurency
 			for (i = 0; i < copy->count.Num(); ++i) {
 				if (copy->count[i] > max) {
 					max = i;
 				}
 			}
+			
 			copy->running = false;
+			
+			// Call the listener
 			if (listen != NULL) {
 				int32 strenght = copy->count[max];
-				listen->updateSpam(++max,strenght);
+				listen->updateSpam(++max, strenght);
 			}
 		});
 
-
+		// Notify the listener
 		if(world!=NULL)
 			world->GetTimerManager().SetTimer(Timer, del, delay, false);
 	};

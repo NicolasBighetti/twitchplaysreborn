@@ -9,43 +9,71 @@
 using namespace std;
 
 /**
- * 
+ * Camps.
  */
 class Camps
 {
-public:
+private:
+	TArray<FString> Pseudo;
+	uint32 TotalPlayer = 0;
+	FString Name;
 
+	TQueue<FString> *MessagesQueue;
+	BlockingQueue<FCommandParser> *Queue;
+	//ATwitchPawn CampsPawn;
+
+	bool IsAssigned = false;
+public:
 	Camps(FString CampsName);
 
+	/**
+      *	Adds a player to the camp.
+	  */
 	bool AddPlayer(FString pseudo);
 
+	/**
+      *	Removes a player from the camp.
+	  */
 	int RemovePlayer(FString pseudo);
+	
+	/**
+      *	Checks if player is in the team.
+	  */
 	bool IsInTeam(FString pseudo);
 
+	/**
+      *	Gets total number of players.
+	  */
 	uint32 GetTotalPlayer() {
 		return TotalPlayer;
 	}
+	
+	/**
+      *	Gets list of players.
+	  */
 	TArray<FString> GetPlayerList() {
 		return Pseudo;
 	}
 
+	/**
+      *	Sets the queue for this camp.
+	  */
 	void SetQueue(BlockingQueue<FCommandParser> *q){
 		Queue = q;
 	}
 
 	BlockingQueue<FCommandParser>* GetQueueInit()
 	{
-		if (isAssigned())
+		if (IsAssigned)
 			return NULL;
-
 		else {
 			IsAssigned = true;
 			return Queue;
 		}
 	}
+	
 	BlockingQueue<FCommandParser>* GetQueue()
 	{
-
 		return Queue;
 	}
 
@@ -70,22 +98,5 @@ public:
 	}
 
 	void DisplayTeam();
-
-private:
-
-	TArray<FString> Pseudo;
-	uint32 TotalPlayer = 0;
-	FString Name;
-
-	TQueue<FString> *MessagesQueue;
-	BlockingQueue<FCommandParser> *Queue;
-	//ATwitchPawn CampsPawn;
-
-	bool IsAssigned = false;
-
-	bool isAssigned()
-	{
-		return IsAssigned;
-	}
 };
 

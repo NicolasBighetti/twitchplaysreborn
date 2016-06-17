@@ -7,13 +7,11 @@
 #include "ActorTwitchEventListener.h"
 #include "TwitchEventListener.h"
 /**
- * 
+ * Twitch event.
  */
 class TwitchEvent
 {
-
 protected:
-
 	int32 delay;
 	GameContext* Context;
 	AActorTwitchEventListener* listener = NULL;
@@ -22,11 +20,9 @@ protected:
 	bool running = true;
 
 public:
-
-
 	TwitchEvent() {}
-	TwitchEvent(int32 _delay, GameContext* _context, AActorTwitchEventListener* _listener, UWorld* _world) :delay(_delay), Context(_context),
-		listener(_listener), world(_world) {};
+	TwitchEvent(int32 _delay, GameContext* _context, AActorTwitchEventListener* _listener, UWorld* _world) 
+		: delay(_delay), Context(_context), listener(_listener), world(_world) {};
 
 	virtual void notify() = 0;
 	virtual void receiveMessage(FString userName, FString message) = 0;

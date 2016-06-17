@@ -18,11 +18,7 @@ private:
 	bool ready = false;
 
 public:
-	Semaphore()
-		: count(0)
-	{
-	
-	}
+	Semaphore(unsigned long _count = 0) : count(_count) {}
 
 	void post()
 	{

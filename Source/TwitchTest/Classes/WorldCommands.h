@@ -16,7 +16,9 @@ public:
 	virtual void Execute(FCommandParser parser);
 };
 
-
+/**
+* Spam event command.
+*/
 class FSpamWorldCommand : public FWorldCommand
 {
 public:
@@ -26,6 +28,9 @@ public:
 	virtual void Execute(FCommandParser parser);
 };
 
+/**
+* Cloud word event command.
+*/
 class FCloudWordCommand : public FWorldCommand
 {
 public:

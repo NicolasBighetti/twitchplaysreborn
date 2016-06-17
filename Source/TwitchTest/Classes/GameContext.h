@@ -17,7 +17,7 @@ private:
 
 public:
 	CampsManager* GetCamps() { return &Camps; }
-	int32 GetStrategy() { return strategy;  }
+	int32 GetStrategy() { return strategy; }
 	void SetStrategy(int32 strat) {
 		strategy = strat;
 	}

@@ -5,8 +5,9 @@
 #include "BlockingQueue.h"
 #include "TwitchMessageReceiver.h"
 #include "CommandRegistry.h"
+
 /**
- * 
+ * Thread receiving messages from the Twitch message receiver.
  */
 class ThreadRead : public FRunnable
 {
