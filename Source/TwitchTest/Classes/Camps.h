@@ -83,7 +83,7 @@ public:
 
 	TQueue<FString>* GetTQueue()
 	{
-		if (isAssigned())
+		if (IsAssigned)
 			return NULL;
 
 		else {
