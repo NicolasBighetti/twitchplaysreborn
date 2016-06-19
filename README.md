@@ -64,7 +64,7 @@ public:
 
 ```
 
-Your *TwitchTestGameMoede.cpp* should looks like that.
+Your *TwitchTestGameMode.cpp* should looks like that.
 
 ```C++
 #include "TwitchTestGameMode.h"
@@ -304,6 +304,75 @@ Check TwitchGameMode.cpp for more information or a TwitchPawn.cpp.
 You can try to move your ball left and right by adding commands too, good exercise.
 
 You can drag and drop more AMyTwitchPawn in to your level but you will need to type join [0-9]* to select a team and then type your command.
+
+
+###Create WorldCommand
+
+We offer you the possibility of creating WorldCommand, thoose ones don't interact on a specific actor, for example changing the level of your scene or launch a TwitchEvent from chat
+
+First you need to create your Command the same wat that before except you need to inherit from WorldCommand:
+
+Create a new file called MyWorldCommand.h and declare its attribute and execute method
+
+```C++
+class TWITCHTEST_API FJoinWorldCommand : public FWorldCommand
+{
+public:
+	FJoinWorldCommand(UWorld* _world, GameContext* _context) 
+		: FWorldCommand(TEXT("join"), _world, _context) {}
+
+	virtual void Execute(FCommandParser parser);
+};
+
+```
+
+World command take a pointer on an instance of Context, Context got a reference to the TwitchThread wich connect to IRC and parse the chat and also a reference to our CampsManager wich divide the players in different camps. You can add any attribute you want like the Actor you want to modify etc ...
+
+this is what SpamWorldCommand execute method looks like 
+
+```C++
+void FSpamWorldCommand::Execute(FCommandParser parser)
+{
+	FString user = parser.GetUserName();
+	UE_LOG(LogTemp, Warning,TEXT("utilisateur de spam: %s"), *user);
+	if (World != NULL && user.Equals(superuser)) {
+		FString word = parser.Next();
+		if (!word.Equals("")) {
+			//executed in GameThread
+			FFunctionGraphTask::CreateAndDispatchWhenReady([this, word]() {
+				AActorTwitchEventListener* ActorListener = NULL;
+				for (TActorIterator<AActorTwitchEventListener> ActorItr(World); ActorItr; ++ActorItr)
+				{
+					ActorListener = *ActorItr;
+				}
+				SpamEvent* events = new SpamEvent(15, Context, ActorListener, World, word);
+				((FTwitchMessageReceiver*)Context->getReceiver())->setEvent(events);
+			}
+			, TStatId(), nullptr, ENamedThreads::GameThread);
+		}
+	}
+}
+```
+FCommand Parser allows to get the different parameter of your command for examples, wich word you want to spam (see Command.h for the implementation of FCommandParser with NextInt(), NextString() etc ...)
+
+see WorldCommand.cpp for more samples of execute method
+
+Now to register the Command go on your *TwitchTestGameMode.cpp*
+and override the *virtual void RegisterWorldCommands()*
+
+in our example we add the JoinWorldCommand, SpamWorldCommand and the CloudWorldCommand
+
+this is what your method should like
+
+```C++
+virtual void RegisterWorldCommands() { 
+		FCommandRegistry::World()->Register(new FJoinWorldCommand(GetWorld(), Context));
+		FCommandRegistry::World()->Register(new FSpamWorldCommand(GetWorld(), Context));
+		FCommandRegistry::World()->Register(new FCloudWordCommand(GetWorld(), Context));
+	};
+```
+We add the keyworld to a WorldCommandRegistry wich register the command, we pass them a pointer to the world for manipulate our actors
+go on the TwitchGameMode.h for more information
 
 ###Create Custom Event
 
