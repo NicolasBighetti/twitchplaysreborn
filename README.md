@@ -310,15 +310,15 @@ You can drag and drop more AMyTwitchPawn in to your level but you will need to t
 
 We offer you the possibility of creating WorldCommand, thoose ones don't interact on a specific actor, for example changing the level of your scene or launch a TwitchEvent from chat
 
-First you need to create your Command the same wat that before except you need to inherit from WorldCommand:
+First you need to create your Command the same way than before except you need to inherit from WorldCommand:
 
 Create a new file called MyWorldCommand.h and declare its attribute and execute method
 
 ```C++
-class TWITCHTEST_API FJoinWorldCommand : public FWorldCommand
+class TWITCHTEST_API MyWorldCommand : public FWorldCommand
 {
 public:
-	FJoinWorldCommand(UWorld* _world, GameContext* _context) 
+	MyWorldCommand(UWorld* _world, GameContext* _context) 
 		: FWorldCommand(TEXT("join"), _world, _context) {}
 
 	virtual void Execute(FCommandParser parser);
@@ -326,7 +326,7 @@ public:
 
 ```
 
-World command take a pointer on an instance of Context, Context got a reference to the TwitchThread wich connect to IRC and parse the chat and also a reference to our CampsManager wich divide the players in different camps. You can add any attribute you want like the Actor you want to modify etc ...
+World command take a pointer on an instance of Context, Context got a reference to the TwitchThread wich connect to IRC and parse the chat and also a reference to our CampsManager wich divide the players in different camps. You can add any attribute you want, like the Actor you want to modify etc ...
 
 this is what SpamWorldCommand execute method looks like 
 
@@ -353,7 +353,7 @@ void FSpamWorldCommand::Execute(FCommandParser parser)
 	}
 }
 ```
-FCommand Parser allows to get the different parameter of your command for examples, wich word you want to spam (see Command.h for the implementation of FCommandParser with NextInt(), NextString() etc ...)
+FCommand Parser allows you to get the different parameters of your command for examples, wich word you want to spam (see Command.h for the implementation of FCommandParser with NextInt(), NextString() etc ...)
 
 see WorldCommand.cpp for more samples of execute method
 
@@ -362,7 +362,7 @@ and override the *virtual void RegisterWorldCommands()*
 
 in our example we add the JoinWorldCommand, SpamWorldCommand and the CloudWorldCommand
 
-this is what your method should like
+this is what your method should like don't forget to call TwitchGameMode::RegisterWorldCommands()
 
 ```C++
 virtual void RegisterWorldCommands() { 
@@ -371,8 +371,7 @@ virtual void RegisterWorldCommands() {
 		FCommandRegistry::World()->Register(new FCloudWordCommand(GetWorld(), Context));
 	};
 ```
-We add the keyworld to a WorldCommandRegistry wich register the command, we pass them a pointer to the world for manipulate our actors
-go on the TwitchGameMode.h for more information
+We add the keyword to a WorldCommandRegistry wich register the command, we pass them a pointer to the world for manipulating our actors
 
 ###Create Custom Event
 
